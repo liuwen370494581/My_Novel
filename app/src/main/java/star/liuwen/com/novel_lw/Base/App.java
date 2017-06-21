@@ -18,7 +18,5 @@ public class App extends Application {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
-        context = getApplicationContext();
     }
-
 }

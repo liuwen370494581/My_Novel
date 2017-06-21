@@ -14,24 +14,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
+import star.liuwen.com.novel_lw.Base.BaseActivity;
 import star.liuwen.com.novel_lw.Base.Config;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int setLayoutRes() {
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        setContentView(R.layout.activity_main);
-        initView();
-        setListener();
-        initData();
+        return R.layout.activity_main;
     }
 
-    private void initView() {
+    protected void initView() {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void setListener() {
+    protected void setListener() {
         if (mToolbar != null) {
             mToolbar.setNavigationIcon(R.mipmap.list);
         }
@@ -57,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void initData() {
+
+    protected void initData() {
 
     }
 
@@ -77,11 +75,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void onDrawerOpened(View drawerView) {
-
-                    }
-
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
                         SharedPreferences sp = getSharedPreferences(Config.USER_SETTINGS, MODE_PRIVATE);
                         if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) ==
                                 Configuration.UI_MODE_NIGHT_YES) {
@@ -93,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
                         recreate();
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+
                     }
 
                     @Override
