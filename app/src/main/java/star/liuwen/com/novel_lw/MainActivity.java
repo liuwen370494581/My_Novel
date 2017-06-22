@@ -3,6 +3,7 @@ package star.liuwen.com.novel_lw;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,18 +18,22 @@ import android.view.Window;
 import star.liuwen.com.novel_lw.Base.BaseActivity;
 import star.liuwen.com.novel_lw.Base.Config;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
 
     @Override
-    protected int setLayoutRes() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        return R.layout.activity_main;
+        setContentView(R.layout.activity_main);
+        initView();
+        initData();
+        setListener();
     }
 
-    protected void initView() {
+    private void initView() {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -36,7 +41,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
-    protected void setListener() {
+    private void setListener() {
         if (mToolbar != null) {
             mToolbar.setNavigationIcon(R.mipmap.list);
         }
@@ -54,8 +59,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-
-    protected void initData() {
+    private void initData() {
 
     }
 
@@ -75,6 +79,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     @Override
                     public void onDrawerOpened(View drawerView) {
+
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
                         SharedPreferences sp = getSharedPreferences(Config.USER_SETTINGS, MODE_PRIVATE);
                         if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) ==
                                 Configuration.UI_MODE_NIGHT_YES) {
@@ -86,11 +95,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         }
                         getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
                         recreate();
-                    }
-
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-
                     }
 
                     @Override
