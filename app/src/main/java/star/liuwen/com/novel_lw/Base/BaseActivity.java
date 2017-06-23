@@ -1,11 +1,13 @@
 package star.liuwen.com.novel_lw.Base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import star.liuwen.com.novel_lw.Utils.ActivityKiller;
+import star.liuwen.com.novel_lw.Utils.ToastUtils;
 
 /**
  * Created by liuwen on 2017/6/21.
@@ -35,9 +37,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         return (T) this.findViewById(viewId);
     }
 
+    protected void openActivity(Class toActivity) {
+        Intent intent = new Intent(this, toActivity);
+        startActivity(intent);
+    }
+
+    protected void openActivity(Class toActivity, Bundle bundle) {
+        Intent intent = new Intent(this, toActivity);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    protected void closeActivity() {
+        finish();
+    }
+
+    protected void openActivity(Class toActivity, int reqCode) {
+        Intent intent = new Intent(this, toActivity);
+        startActivityForResult(intent, reqCode);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityKiller.getInstance().removeActivity(this);
+        ToastUtils.removeToast();
     }
 }

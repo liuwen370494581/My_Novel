@@ -41,9 +41,11 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:background="?attr/colorPrimary"
                     android:minHeight="60dp"
-                    android:theme="@style/AppTheme.AppBarOverlay">
+                    android:theme="@style/AppTheme.AppBarOverlay"
+                    app:title="  ">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -53,6 +55,14 @@
                         android:paddingRight="5dp"
                         android:src="@mipmap/ic_autorenew_white_24dp"/>
                 </android.support.v7.widget.Toolbar>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="首页"
+                    android:textColor="@color/text_nomarl"
+                    android:textSize="16sp"/>
             </RelativeLayout>
 
             <android.support.v4.widget.SwipeRefreshLayout

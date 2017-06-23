@@ -8,4 +8,5 @@
     <color name="viewBackground">#212a2f</color>
     <color name="homeBackground">#585759</color>
     <color name="updateTextColor">#cac9cf</color>
+    <color name="text_nomarl">#cac9cf</color>
 </resources>
