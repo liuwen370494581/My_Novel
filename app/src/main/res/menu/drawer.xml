@@ -1,41 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group
-        android:id="@+id/group_main"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@mipmap/home"
-            android:title="首页"/>
+            android:id="@+id/item_application_manager"
+            android:title="应用管理"></item>
+        <item
+            android:id="@+id/item_detection_update"
+            android:title="检测更新"></item>
+        <item
+            android:id="@+id/item_setting"
+            android:title="设置"></item>
+
+        <item
+            android:id="@+id/item_feed_back"
+            android:title="反馈"></item>
+        <item
+            android:id="@+id/item_about"
+            android:title="关于"></item>
     </group>
-
-    <group
-        android:id="@+id/group_other"
-        android:checkableBehavior="none">
-        <item
-            android:id="@+id/nav_add"
-            android:icon="@mipmap/ic_add_circle_white_36dp"
-            android:title="添加小说"/>
-        <item
-            android:id="@+id/nav_del"
-            android:icon="@mipmap/ic_remove_circle_outline_white_36dp"
-            android:title="删除小说"/>
-        <item
-            android:id="@+id/nav_change_theme"
-            android:icon="@mipmap/ic_brightness_4_white_36dp"
-            android:title="切换日夜模式"
-            />
-
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@mipmap/ic_settings_white_36dp"
-            android:title="设置"/>
-
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@mipmap/ic_info_white_36dp"
-            android:title="关于"/>
-    </group>
-
 </menu>
