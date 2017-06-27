@@ -7,6 +7,8 @@
     <color name="bg_color">#f1f1f1</color>
     <color name="utton_text_color">#ffdde3e7</color>
     <color name="present_text_color">#E65051</color>
+    <color name="updateTextColor">#997efc</color>
+    <color name="statusColor">#96c5f5</color>
 
 
 </resources>

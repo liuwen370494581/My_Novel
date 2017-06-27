@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.example.ruolan.letgo.Activity.ClassifyActivity;
+import com.example.ruolan.letgo.Activity.RankingActivity;
 import com.example.ruolan.letgo.Base.BaseFragment;
-import com.example.ruolan.letgo.MyToolbar;
 import com.example.ruolan.letgo.R;
 
 /**
@@ -26,13 +27,13 @@ public class SelectFragment extends BaseFragment {
         reRanking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openActivity(RankingActivity.class);
             }
         });
         reClassify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openActivity(ClassifyActivity.class);
             }
         });
         return view;

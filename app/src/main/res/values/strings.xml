@@ -13,5 +13,7 @@
     <string name="setting_titile">设置</string>
     <string name="profile_history">游览历史</string>
     <string name="add_failed">添加失败</string>
-
+    <string name="ranking">排行榜</string>
+    <string name="classify">分类</string>
+    <string name="Being_loaded">正在加载</string>
 </resources>

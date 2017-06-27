@@ -63,6 +63,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         reCollect.setOnClickListener(this);
         reNightMode.setOnClickListener(this);
         reSetting.setOnClickListener(this);
+
+        mToolbar.setRightIcon(getResources().getDrawable(R.mipmap.ic_menu_search));
+        //搜索
+        mToolbar.setRightButtonOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "你好", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mToolbar.setLeftIcon(getResources().getDrawable(R.mipmap.drawer_menu_icon));
+        mToolbar.setLeftButtonOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     /**
@@ -84,24 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
-
         mToolbar.setTitle("首页");
-        mToolbar.setRightIcon(getResources().getDrawable(R.mipmap.ic_menu_search));
-        //搜索
-        mToolbar.setRightButtonOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "你好", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        mToolbar.setLeftIcon(getResources().getDrawable(R.mipmap.drawer_menu_icon));
-        mToolbar.setLeftButtonOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDrawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
     }
 
     private void initTab() {
