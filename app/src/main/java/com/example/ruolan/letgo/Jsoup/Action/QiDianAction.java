@@ -2,6 +2,7 @@ package com.example.ruolan.letgo.Jsoup.Action;
 
 import android.content.Context;
 
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
@@ -14,9 +15,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
-import io.reactivex.internal.schedulers.IoScheduler;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -24,17 +23,34 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class QiDianAction {
 
-
-    public static void searchQiDianRanking(final Context context, final ActionCallBack callBack) {
+    public static void searchQiDianRanking(final Context context, final String webUrl, final int indexPage, final ActionCallBack callBack) {
         Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchQiDianRanking());
-                //e.onNext(HtmlParserUtil.searchQiDianRankingPic());
+                e.onNext(HtmlParserUtil.searchQiDianRanking(webUrl, indexPage));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
             @Override
             public void accept(@NonNull List<BookModel> models) throws Exception {
+                if (models != null) {
+                    callBack.ok(models);
+                } else {
+                    ToastUtils.showToast(context, context.getResources().getString(R.string.add_failed));
+                }
+            }
+        });
+    }
+
+
+    public static void searchQiDianPicRanking(final Context context, final String webUrl, final int indexPage, final ActionCallBack callBack) {
+        Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
+                e.onNext(HtmlParserUtil.searchQiDianRankingPic(webUrl, indexPage));
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
+            @Override
+            public void accept(@NonNull List<String> models) throws Exception {
                 if (models != null) {
                     callBack.ok(models);
                 } else {

@@ -18,12 +18,6 @@ import java.util.List;
  */
 public class HtmlParserUtil {
 
-
-    /**
-     * 获取书籍 增加书籍
-     *
-     * @return
-     */
     public static List<Dish> searchBook() {
         List<Dish> list = new ArrayList<>();
         try {
@@ -42,13 +36,12 @@ public class HtmlParserUtil {
         return list;
     }
 
-
-    public static List<BookModel> searchQiDianRanking() {
+    //获取起点数据info
+    public static List<BookModel> searchQiDianRanking(String url, int indexPage) {
         List<BookModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(Config.QIDIANURL).get();
+            Document document = Jsoup.connect(url + indexPage).get();
             Elements elements = document.select("div.book-mid-info");
-            Elements elements1 = document.select("div.book-img-box");
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 Log.e("MainActivity", "DetailUrl: " + elements.get(i).select("a").attr("href") +
@@ -69,35 +62,27 @@ public class HtmlParserUtil {
                 String[] updateTime = elements.get(i).getElementsByTag("intro").text().split("·");
                 model.setBookUpdateTime(updateTime[1]);
                 list.add(model);
-
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
-
-    public static List<BookModel> searchQiDianRankingPic() {
-        List<BookModel> list = new ArrayList<>();
-        BookModel model = null;
+    //获取起点图书的img
+    public static List<String> searchQiDianRankingPic(String url, int indexPage) {
+        List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(Config.QIDIANURL).get();
+            Document document = Jsoup.connect(url + indexPage).get();
             Elements elements1 = document.select("div.book-img-box");
             for (int j = 0; j < elements1.size(); j++) {
-                model.setBookUrl(elements1.get(j).select("a").select("img").attr("src"));
-                list.add(model);
+                list.add(elements1.get(j).select("a").select("img").attr("src"));
                 Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
-
 
 }

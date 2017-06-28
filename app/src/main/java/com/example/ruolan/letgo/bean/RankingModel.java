@@ -19,6 +19,20 @@ public class RankingModel implements Serializable {
         this.name = name;
     }
 
+    public RankingModel(int url, String name, String webUrl) {
+        this.url = url;
+        this.name = name;
+        WebUrl = webUrl;
+    }
+
+    public String getWebUrl() {
+        return WebUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        WebUrl = webUrl;
+    }
+
     public int getUrl() {
         return url;
     }
