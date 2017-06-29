@@ -63,6 +63,7 @@ public class HtmlParserUtil {
                 model.setBookUpdateTime(updateTime[1]);
                 list.add(model);
             }
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,10 +80,42 @@ public class HtmlParserUtil {
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
                 Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
             }
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
+
+    public static List<ClassifyModel> searchQIDianClassify(int page) {
+        List<ClassifyModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect("http://a.qidian.com/?size=-1&sign=-1&tag=-1&chanId=-1&subCateId=-1&orderId=&update=-1&page=1&month=-1&style=1&action=-1&vip=-1").get();
+            Elements elements1 = document.select("ul.row-" + page);
+            Log.e("MyTag", elements1.size() + "" + elements1.text());
+            String[] content = elements1.text().split(" ");
+            list.add(new ClassifyModel(content[0]));
+            list.add(new ClassifyModel(content[1]));
+            list.add(new ClassifyModel(content[2]));
+            list.add(new ClassifyModel(content[3]));
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static String searchQIDIANClassifyCount(String url) {
+        try {
+            Document document = Jsoup.connect(url).get();
+            Elements elements1 = document.select("div.count-text");
+            Log.e("MyTag", elements1.size() + "count" + elements1.select("span").text());
+            return elements1.select("span").text();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //解析错误返回一个默认值 不然老是报错
+        return "625412";
+    }
 }

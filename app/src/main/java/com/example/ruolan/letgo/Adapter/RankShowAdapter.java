@@ -73,9 +73,10 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
         holder.tvBookDesc.setText(model.getBookDesc());
         holder.tvBookUpdateContent.setText(model.getBookUpdateContent());
         holder.tvBookUpdateTime.setText(model.getBookUpdateTime());
-        if (mPicList.size() != 0) {
+        if (mPicList.size() != 0 && mPicList.size() == mList.size()) {
             GlideUtils.loadImage(holder.imgBookUrl, "http:" + mPicList.get(position), R.mipmap.bookimg, R.mipmap.bookimg);
         }
+
     }
 
     @Override

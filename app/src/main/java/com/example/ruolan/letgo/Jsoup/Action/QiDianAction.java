@@ -2,7 +2,6 @@ package com.example.ruolan.letgo.Jsoup.Action;
 
 import android.content.Context;
 
-import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
@@ -27,7 +26,9 @@ public class QiDianAction {
         Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchQiDianRanking(webUrl, indexPage));
+                if (webUrl != null || indexPage != 0) {
+                    e.onNext(HtmlParserUtil.searchQiDianRanking(webUrl, indexPage));
+                }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
             @Override
@@ -46,7 +47,9 @@ public class QiDianAction {
         Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchQiDianRankingPic(webUrl, indexPage));
+                if (webUrl != null || indexPage != 0) {
+                    e.onNext(HtmlParserUtil.searchQiDianRankingPic(webUrl, indexPage));
+                }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
             @Override
@@ -59,6 +62,7 @@ public class QiDianAction {
             }
         });
     }
+
 
 
 }
