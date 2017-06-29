@@ -76,7 +76,6 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
         if (mPicList.size() != 0) {
             GlideUtils.loadImage(holder.imgBookUrl, "http:" + mPicList.get(position), R.mipmap.bookimg, R.mipmap.bookimg);
         }
-
     }
 
     @Override

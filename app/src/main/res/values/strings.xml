@@ -16,4 +16,12 @@
     <string name="ranking">排行榜</string>
     <string name="classify">分类</string>
     <string name="Being_loaded">正在加载</string>
+
+
+    <string-array name="tab_titles">
+        <item>最新</item>
+        <item>活动</item>
+        <item>娱乐</item>
+    </string-array>
+
 </resources>

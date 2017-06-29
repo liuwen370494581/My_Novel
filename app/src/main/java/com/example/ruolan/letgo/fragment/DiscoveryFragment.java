@@ -20,4 +20,10 @@ public class DiscoveryFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_cart, container,false);
         return view;
     }
+
+    @Override
+    public void initData() {
+
+    }
+
 }

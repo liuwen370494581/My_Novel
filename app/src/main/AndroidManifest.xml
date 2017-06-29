@@ -26,6 +26,8 @@
         <activity android:name=".Activity.ClassifyActivity"/>
         <!--排行显示数据页面-->
         <activity android:name=".Activity.RankingShowActivity"/>
+        <!--排行周榜 月榜 年榜-->
+        <activity android:name=".Activity.RankingDetailActivity"/>
     </application>
 
 </manifest>

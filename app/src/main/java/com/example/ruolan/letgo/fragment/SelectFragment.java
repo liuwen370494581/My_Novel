@@ -38,4 +38,10 @@ public class SelectFragment extends BaseFragment {
         });
         return view;
     }
+
+    @Override
+    public void initData() {
+
+    }
+
 }

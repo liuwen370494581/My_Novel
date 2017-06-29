@@ -19,4 +19,10 @@ public class StackFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         return view;
     }
+
+    @Override
+    public void initData() {
+
+    }
+
 }
