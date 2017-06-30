@@ -118,4 +118,58 @@ public class HtmlParserUtil {
         //解析错误返回一个默认值 不然老是报错
         return "625412";
     }
+
+
+    //获取起点分類排行數據info
+    public static List<BookModel> searchQiDianClassify(String url, int indexPage) {
+        List<BookModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(String.format(url, indexPage)).get();
+            Elements elements = document.select("div.book-mid-info");
+            Log.e("MainActivity", elements.size() + "");
+            for (int i = 0; i < elements.size(); i++) {
+                BookModel model = new BookModel();
+                Log.e("MainActivity", "DetailUrl: " + elements.get(i).select("a").attr("href") +
+                                " BookName: " + elements.get(i).select("a").first().text() +
+                                " AuthorUrl" + elements.get(i).select("p").select("a").attr("href") +
+                                " UpdateContent: " + elements.get(i).select("p").select("a").last().text() +
+                                " UpdateTime:" + elements.get(i).select("p").select("span").last().text() +
+                                " BookAuthor:" + elements.get(i).select("p").tagName("intro").first().text()
+//                        " BookDesc:" + elements.get(i).getElementsByTag("intro").text()
+                );
+                Log.e("MainActivity", elements.size() + "");
+                model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
+                model.setBooKName(elements.get(i).select("a").first().text());
+                model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href"));
+                String[] desc = elements.get(i).getElementsByTag("intro").text().split(" ");
+                model.setBookDesc(desc[1]);
+                model.setBookAuthor(desc[0]);
+                model.setBookUpdateContent(desc[2]);
+//                String[] updateTime = elements.get(i).getElementsByTag("intro").text().split("·");
+//                model.setBookUpdateTime(updateTime[1]);
+                list.add(model);
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //获取起点分類排行的img
+    public static List<String> searchQiDianClassifyPic(String url, int indexPage) {
+        List<String> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(String.format(url, indexPage)).get();
+            Elements elements1 = document.select("div.book-img-box");
+            for (int j = 0; j < elements1.size(); j++) {
+                list.add(elements1.get(j).select("a").select("img").attr("src"));
+                Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

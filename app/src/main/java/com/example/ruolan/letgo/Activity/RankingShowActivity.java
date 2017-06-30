@@ -1,7 +1,5 @@
 package com.example.ruolan.letgo.Activity;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -11,6 +9,7 @@ import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.QiDianAction;
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.Utils.NetworkUtils;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.RankingModel;
@@ -29,16 +28,17 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
 
     private RankingModel model;
     private List<BookModel> mList = new ArrayList<>();
+    private List<String> mPicList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RankShowAdapter mAdapter;
-    private List<String> mPicList = new ArrayList<>();
+
 
     //下拉刷新控件
     private DefineBAGRefreshWithLoadView mDefineBAGRefreshWithLoadView = null;
     private BGARefreshLayout mBGARefreshLayout;
 
     private int page = 1;//先从第一页开始查询
-    private int totalpage = 25; //数据只有3页 所以请求三次 一次加载20条数据
+    private int totalpage = 28; //数据28页 所以请求三次 一次加载20条数据 起点有bug 加载到25之后还是有数据
     private String webUrl;
 
     @Override
@@ -80,35 +80,47 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
     }
 
     private void LoadData(String webUrl, int indexPage) {
+
         showLoadingDialog(getString(R.string.Being_loaded), false, null);
-        QiDianAction.searchQiDianPicRanking(RankingShowActivity.this, webUrl, indexPage, new ActionCallBack() {
+        if (!NetworkUtils.isConnected(this)) {
+            hideLoadingDialog();
+            ToastUtils.showToast(this, "网络有问题");
+            //会做一个显示网络错误的图 然后点击在加载
+            return;
+        }
+        QiDianAction.searchQiDianPicRanking(this, webUrl, indexPage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mPicList.addAll((Collection<? extends String>) object);
                 mAdapter.updateDataPic(mPicList);
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
                 mBGARefreshLayout.endLoadingMore();
-                hideLoadingDialog();
             }
 
             @Override
             public void failed(Object object) {
-                ToastUtils.showToast(RankingShowActivity.this, "加载失败,请刷新");
+                /** 设置文字 **/
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+                mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
         });
 
-        QiDianAction.searchQiDianRanking(RankingShowActivity.this, webUrl, indexPage, new ActionCallBack() {
+        QiDianAction.searchQiDianRanking(this, webUrl, indexPage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
                 mAdapter.updateData(mList);
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
                 mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
 
             @Override
             public void failed(Object object) {
-                ToastUtils.showToast(RankingShowActivity.this, "加载失败,请刷新");
+                /** 设置文字 **/
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+                mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
         });

@@ -5,6 +5,7 @@ import com.example.ruolan.letgo.Jsoup.Action.ClassifyAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.bean.ClassifyModel;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
+import com.example.ruolan.letgo.bean.IndexModel;
 import com.example.ruolan.letgo.bean.RankingModel;
 
 import java.util.ArrayList;
@@ -63,6 +64,17 @@ public class DataEnage {
         list.add(new ClassifyModel(Config.ORIGIN_WOMAN_KEHHUAN, "科幻空间", "6562"));
         list.add(new ClassifyModel(Config.ORIGIN_WOMAN_YOUXI, "游戏竞技", "2308"));
         list.add(new ClassifyModel(Config.ORIGIN_WOMAN_NCI, "N次元", "9809"));
+        return list;
+    }
+
+
+    public static List<IndexModel> getClassifyDetailHeadData() {
+        List<IndexModel> list = new ArrayList<>();
+        list.add(new IndexModel("全部"));
+        list.add(new IndexModel("东方玄幻"));
+        list.add(new IndexModel("异世大陆"));
+        list.add(new IndexModel("王朝争霸"));
+        list.add(new IndexModel("高武世界"));
         return list;
     }
 }

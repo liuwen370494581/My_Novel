@@ -4,17 +4,9 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <include layout="@layout/common_bar"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/classify_detail_recycler_view"
+        android:id="@+id/head_classify_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/yellow"/>
-
-    <ListView
-        android:id="@+id/classify_detail_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

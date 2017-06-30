@@ -1,24 +1,17 @@
 package com.example.ruolan.letgo.Activity;
 
-import android.os.Handler;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ruolan.letgo.Base.BaseActivity;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Enage.DataEnage;
-import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
-import com.example.ruolan.letgo.Jsoup.Action.ClassifyAction;
-import com.example.ruolan.letgo.Jsoup.Action.QiDianAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.bean.ClassifyModel;
-import com.example.ruolan.letgo.bean.HtmlParserUtil;
 import com.example.ruolan.letgo.widget.DividerGridItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
@@ -62,24 +55,29 @@ public class ClassifyActivity extends BaseActivity {
     @Override
     protected void initData() {
 
+
+    }
+
+    @Override
+    protected void setListener() {
+
         mAdapterHead.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
             @Override
             public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-
+                Intent intent = new Intent(ClassifyActivity.this, ClassifyDetailActivity.class);
+                intent.putExtra(Config.INTENT_CLASSIFY, mAdapterHead.getItem(position));
+                startActivity(intent);
             }
         });
 
         mAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
             @Override
             public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-
+                Intent intent = new Intent(ClassifyActivity.this, ClassifyDetailActivity.class);
+                intent.putExtra(Config.INTENT_CLASSIFY, mAdapter.getItem(position));
+                startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void setListener() {
-
     }
 
     @Override

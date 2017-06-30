@@ -1,9 +1,10 @@
 package com.example.ruolan.letgo.Jsoup.Action;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.Utils.ToastUtils;
+import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.ClassifyModel;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
 
@@ -58,4 +59,47 @@ public class ClassifyAction {
         });
         return count[0];
     }
+
+
+    public static void searchQiDianClassify(final Context context, final String webUrl, final int indexPage, final ActionCallBack callBack) {
+        Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                if (webUrl != null || indexPage != 0) {
+                    e.onNext(HtmlParserUtil.searchQiDianClassify(webUrl, indexPage));
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
+            @Override
+            public void accept(@NonNull List<BookModel> models) throws Exception {
+                if (models != null && models.size() != 0) {
+                    callBack.ok(models);
+                } else {
+                    ToastUtils.showToast(context, context.getResources().getString(R.string.add_failed));
+                }
+            }
+        });
+    }
+
+
+    public static void searchQiDianPicClassify(final Context context, final String webUrl, final int indexPage, final ActionCallBack callBack) {
+        Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
+                if (webUrl != null || indexPage != 0) {
+                    e.onNext(HtmlParserUtil.searchQiDianClassifyPic(webUrl, indexPage));
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
+            @Override
+            public void accept(@NonNull List<String> models) throws Exception {
+                if (models != null) {
+                    callBack.ok(models);
+                } else {
+                    ToastUtils.showToast(context, context.getResources().getString(R.string.add_failed));
+                }
+            }
+        });
+    }
+
 }

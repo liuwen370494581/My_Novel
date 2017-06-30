@@ -26,6 +26,4 @@
             android:textColor="#777"
             android:textSize="12sp"/>
     </FrameLayout>
-
-
 </LinearLayout>
