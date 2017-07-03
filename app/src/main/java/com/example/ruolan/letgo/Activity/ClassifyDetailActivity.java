@@ -1,21 +1,15 @@
 package com.example.ruolan.letgo.Activity;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.example.ruolan.letgo.Adapter.ClassifyDetailListAdapter;
-import com.example.ruolan.letgo.Adapter.RankShowAdapter;
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.Config;
-import com.example.ruolan.letgo.Enage.DataEnage;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.ClassifyAction;
-import com.example.ruolan.letgo.Jsoup.Action.QiDianAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.NetworkUtils;
 import com.example.ruolan.letgo.Utils.ToastUtils;
@@ -36,8 +30,6 @@ import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 public class ClassifyDetailActivity extends BaseActivity {
     private ClassifyModel model;
     private RecyclerView mRecyclerView;
-    private RecyclerView headRecyclerView;
-    private RankShowAdapter mAdapter;
     private HeadAdapter mHeadAdapter;
     private ListView mListView;
     private ClassifyDetailListAdapter mListAdapter;
@@ -47,20 +39,19 @@ public class ClassifyDetailActivity extends BaseActivity {
     private View mfootView;
     private int page = 1;
     private int totalPage = 20; //一次加载20条数据
+    private int servicePage;//服务器返回的数据
+    private List<BookModel> serviceList = new ArrayList<>();
 
 
     @Override
     protected void initView() {
         showLeftView();
         mRecyclerView = getView(R.id.classify_detail_recycler_view);
-        View headView = View.inflate(this, R.layout.head_classify_detail, null);
-        headRecyclerView = (RecyclerView) headView.findViewById(R.id.classify_recycler_view_head);
         mListView = getView(R.id.classify_detail_list_view);
         mListAdapter = new ClassifyDetailListAdapter(this, mList, mPicList);
         mfootView = View.inflate(this, R.layout.footer_bga_dodo, null);
         mfootView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
-
-
+        mListView.setAdapter(mListAdapter);
     }
 
     @Override
@@ -85,12 +76,15 @@ public class ClassifyDetailActivity extends BaseActivity {
         ClassifyAction.searchQiDianClassify(this, webUrl, indexPage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
+                serviceList.clear();
+                serviceList.addAll((Collection<? extends BookModel>) object);
+                servicePage = serviceList.size();
                 mList.addAll((Collection<? extends BookModel>) object);
-                mListView.addFooterView(mfootView);
-                mListView.setAdapter(mListAdapter);
+                dealListFooter();
                 mListAdapter.updateData(mList);
                 hideLoadingDialog();
             }
+
 
             @Override
             public void failed(Object object) {
@@ -124,14 +118,22 @@ public class ClassifyDetailActivity extends BaseActivity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem + visibleItemCount == totalItemCount) {
-//                    if (page > 1) {
-//                        LoadData(page);
-//                    }
-//                    page++;
+                    if (page > 1) {
+                        LoadData(page);
+                    }
+                    page++;
                 }
             }
         });
     }
+
+    private void dealListFooter() {
+       // mListView.removeView(mfootView);
+        if(servicePage==totalPage){
+            mListView.addFooterView(mfootView);
+        }
+    }
+
 
     @Override
     protected int setLayoutRes() {

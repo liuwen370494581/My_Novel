@@ -43,4 +43,6 @@ dependencies {
     compile 'cn.bingoogolapple:bga-refreshlayout:1.0.7@aar'
     //动画库
     compile 'com.nineoldandroids:library:2.4.0'
+    //banner
+    compile 'cn.bingoogolapple:bga-banner:2.1.0@aar'
 }

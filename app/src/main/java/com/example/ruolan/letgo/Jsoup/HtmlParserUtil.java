@@ -120,7 +120,7 @@ public class HtmlParserUtil {
     }
 
 
-    //获取起点分類排行數據info
+    //获取起点分類排行數據info 分类排行榜没有更新时间和更新内容 所以只显示了字数
     public static List<BookModel> searchQiDianClassify(String url, int indexPage) {
         List<BookModel> list = new ArrayList<>();
         try {
@@ -145,8 +145,6 @@ public class HtmlParserUtil {
                 model.setBookDesc(desc[1]);
                 model.setBookAuthor(desc[0]);
                 model.setBookUpdateContent(desc[2]);
-//                String[] updateTime = elements.get(i).getElementsByTag("intro").text().split("·");
-//                model.setBookUpdateTime(updateTime[1]);
                 list.add(model);
             }
             return list;
@@ -165,6 +163,60 @@ public class HtmlParserUtil {
             for (int j = 0; j < elements1.size(); j++) {
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
                 Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //获取起点封面图片
+    public static List<String> searchQiDianCoverPic() {
+        List<String> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
+            Elements elements1 = document.select("div.focus-img");
+            for (int j = 0; j < 5; j++) {
+                Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
+                list.add(elements1.get(j).select("a").select("img").attr("src"));
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //获取起点封面图片
+    public static List<IndexModel> searchQiDianCover() {
+        List<IndexModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
+            Elements elements1 = document.select("div.info");
+            for (int j = 0; j < 5; j++) {
+                IndexModel model = new IndexModel();
+                Log.e("MainActivity", "bookName:" + elements1.get(j).select("a").attr("title"));
+                // list.add(elements1.get(j).select("a").select("img").attr("src"));
+                Log.e("MainActivity", "booUrl:" + elements1.get(j).select("a").attr("href"));
+                model.setBookUrl(elements1.get(j).select("a").attr("href"));
+                model.setName(elements1.get(j).select("a").attr("title"));
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static List<String> searchQiDianHot(){
+        List<String> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
+            Elements elements1 = document.select("div.focus-img");
+            for (int j = 0; j < 5; j++) {
+                Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
+                list.add(elements1.get(j).select("a").select("img").attr("src"));
             }
             return list;
         } catch (Exception e) {

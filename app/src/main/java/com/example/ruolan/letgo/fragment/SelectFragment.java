@@ -14,6 +14,7 @@ import com.example.ruolan.letgo.R;
 
 /**
  * Created by ruolan on 2015/11/29.
+ * 精选
  */
 public class SelectFragment extends BaseFragment {
     private RelativeLayout reRanking, reClassify;

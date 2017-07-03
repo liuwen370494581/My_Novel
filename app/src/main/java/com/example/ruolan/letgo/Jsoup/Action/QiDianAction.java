@@ -57,7 +57,7 @@ public class QiDianAction {
                 if (models != null && models.size() != 0) {
                     callBack.ok(models);
                 } else {
-                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
+                  //  callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });

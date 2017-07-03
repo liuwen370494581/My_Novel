@@ -93,10 +93,10 @@ public class ClassifyAction {
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
             @Override
             public void accept(@NonNull List<String> models) throws Exception {
-                if (models != null) {
+                if (models != null && models.size() != 0) {
                     callBack.ok(models);
                 } else {
-                    ToastUtils.showToast(context, context.getResources().getString(R.string.add_failed));
+                   // ToastUtils.showToast(context, context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });

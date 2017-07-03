@@ -46,6 +46,9 @@ public class Config {
     public static final String ORIGIN_WOMAN_YOUXI = "http://a.qidian.com/mm?size=-1&sign=-1&tag=-1&chanId=88&subCateId=-1&orderId=&update=-1&page=%s&month=-1&style=1&action=-1&vip=-1";
     public static final String ORIGIN_WOMAN_NCI = "http://a.qidian.com/mm?size=-1&sign=-1&tag=-1&chanId=87&subCateId=-1&orderId=&update=-1&page=%s&month=-1&style=1&action=-1&vip=-1";
 
+    //cover
+    public static final String ORIGIN_COVER = "http://www.qidian.com/book/coverrec";
+
     //sharePreferences
     public static final String USER_SETTINGS = "USER_SETTING";
     public static final String USER_THEME = "USER_THEME";

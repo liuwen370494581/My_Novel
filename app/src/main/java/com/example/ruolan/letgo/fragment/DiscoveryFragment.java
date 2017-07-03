@@ -12,6 +12,7 @@ import com.example.ruolan.letgo.R;
 
 /**
  * Created by ruolan on 2015/11/29.
+ * 发现
  */
 public class DiscoveryFragment extends BaseFragment {
     @Nullable
