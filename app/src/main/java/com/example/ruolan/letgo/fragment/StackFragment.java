@@ -27,6 +27,8 @@ public class StackFragment extends BaseFragment {
     }
 
 
+
+
     private void initView(View view) {
     }
 

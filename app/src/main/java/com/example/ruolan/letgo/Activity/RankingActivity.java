@@ -56,7 +56,7 @@ public class RankingActivity extends BaseActivity implements BGAOnRVItemClickLis
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
         RankingModel model = mAdapter.getData().get(position);
-        Intent intent = new Intent(RankingActivity.this, RankingShowActivity.class);
+        Intent intent = new Intent(RankingActivity.this, RankingDetailActivity.class);
         intent.putExtra(Config.INTENT_RANK, model);
         startActivity(intent);
     }

@@ -18,25 +18,9 @@ import com.example.ruolan.letgo.widget.LoadingProgressDialog;
 public abstract class BaseFragment extends Fragment {
 
     private LoadingProgressDialog mLoadingDialog;
-    //Fragment and ViewPager Usage
     public Context mContext;
     protected boolean isVisible;
-    protected boolean isPrePared;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mContext = getActivity();
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        isPrePared = true;
-        lazyLoad();
-    }
+    private boolean isPrepared;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -49,11 +33,31 @@ public abstract class BaseFragment extends Fragment {
             onInvisible();
         }
     }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getActivity();
+        setHasOptionsMenu(true);
+    }
 
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        isPrepared = true;
+        lazyLoad();
+    }
+
+    /**
+     * 懒加载
+     */
     protected void lazyLoad() {
-        if (!isVisible || !isPrePared) {
+        if (!isPrepared || !isVisible) {
             return;
         }
+
         initData();
     }
 
@@ -62,7 +66,9 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+
     public abstract void initData();
+
 
 
     public void showLoadingDialog(String loadingText, boolean isCanCancel, LoadingProgressDialog.ILoadingDialogListener listener) {

@@ -18,11 +18,9 @@
     <string name="Being_loaded">正在加载</string>
     <string name="endLoadingmore">亲,已经没有多余的书籍拉...</string>
 
-
     <string-array name="tab_titles">
-        <item>最新</item>
-        <item>活动</item>
-        <item>娱乐</item>
+        <item>周榜</item>
+        <item>月榜</item>
+        <item>总榜</item>
     </string-array>
-
 </resources>

@@ -77,7 +77,7 @@ public class ClassifyDetailListAdapter extends BaseAdapter {
         viewHolder.tvBookName.setText(mList.get(i).getBooKName());
         viewHolder.tvBooKAuthor.setText(mList.get(i).getBookAuthor());
         viewHolder.tvBookDesc.setText(mList.get(i).getBookDesc());
-        //viewHolder.tvBookUpdateContent.setText(mList.get(i).getBookUpdateContent());
+        viewHolder.tvBookUpdateContent.setText(mList.get(i).getBookUpdateContent());
         viewHolder.tvBookUpdateTime.setText(mList.get(i).getBookUpdateTime());
         if (mPicList.size() != 0 && mPicList.size() == mList.size()) {
             GlideUtils.loadImage(viewHolder.imgBookUrl, "http:" + mPicList.get(i), R.mipmap.bookimg, R.mipmap.bookimg);

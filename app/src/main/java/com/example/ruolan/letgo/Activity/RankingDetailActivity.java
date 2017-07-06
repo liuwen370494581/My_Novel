@@ -8,7 +8,9 @@ import android.support.v4.view.ViewPager;
 
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.BaseFragment;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.bean.RankingModel;
 import com.example.ruolan.letgo.fragment.MonthFragment;
 import com.example.ruolan.letgo.fragment.WeekFragment;
 import com.example.ruolan.letgo.fragment.YearFragment;
@@ -17,7 +19,8 @@ import com.example.ruolan.letgo.fragment.YearFragment;
  * Created by liuwen on 2017/6/28.
  */
 public class RankingDetailActivity extends BaseActivity {
-
+    private RankingModel model;
+    private String webUrl;
     private String[] mTabTitles = new String[]{};
     private BaseFragment[] fragments = {new WeekFragment(), new MonthFragment(),
             new YearFragment()};
@@ -26,7 +29,6 @@ public class RankingDetailActivity extends BaseActivity {
     protected void initView() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-
         mTabTitles = getResources().getStringArray(R.array.tab_titles);
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
@@ -81,7 +83,12 @@ public class RankingDetailActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        model = (RankingModel) getIntent().getExtras().getSerializable(Config.INTENT_RANK);
+        if (model != null) {
+            setCenterText(model.getName());
+            webUrl = model.getWebUrl();
+            //LoadData(webUrl, page);
+        }
     }
 
     @Override
