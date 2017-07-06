@@ -40,7 +40,8 @@ public class HtmlParserUtil {
     public static List<BookModel> searchQiDianRanking(String url, int indexPage, int typePage) {
         List<BookModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(url, typePage) + indexPage).get();
+            Document document = Jsoup.connect(String.format(url, indexPage) + typePage).get();
+            Log.e("MyTag", String.format(url, typePage) + indexPage);
             Elements elements = document.select("div.book-mid-info");
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
@@ -74,7 +75,7 @@ public class HtmlParserUtil {
     public static List<String> searchQiDianRankingPic(String url, int indexPage, int typePage) {
         List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(url, typePage) + indexPage).get();
+            Document document = Jsoup.connect(String.format(url, indexPage) + typePage).get();
             Elements elements1 = document.select("div.book-img-box");
             for (int j = 0; j < elements1.size(); j++) {
                 list.add(elements1.get(j).select("a").select("img").attr("src"));

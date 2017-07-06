@@ -7,15 +7,15 @@ public class Config {
 
     //URl
     public static final String ORIGIN_ = "http://r.qidian.com/click?style=1&dateType=3";//3表示总榜 1 表示周榜 2表示月榜
-    public static final String ORIGIN_WiIND = "http://r.qidian.com/yuepiao?style=%s&page=";//原创风云榜
-    public static final String ORIGIN_24HOUR = "http://r.qidian.com/hotsales?style=%s&page=";//24小时热销榜
-    public static final String ORIGIN_VIP = "http://r.qidian.com/click?style=%s&page=";//会员点击榜
-    public static final String ORIGIN_RECOMMEND = "http://r.qidian.com/recom?style=%s&page=";//推荐票榜
-    public static final String ORIGIN_COLLECT = "http://r.qidian.com/collect?style=%s&page=";//收藏榜
-    public static final String ORIGIN_VIP_UPDATE = "http://r.qidian.com/vipup?style=%s&page=";//VIP更新榜
-    public static final String ORIGIN_VIP_COLLECT = "http://r.qidian.com/vipcollect?style=%s&page=";//vip收藏榜
-    public static final String ORIGIN_VIP_MONEY = "http://r.qidian.com/vipreward?style=%s&page=";//vip精品打赏榜
-    public static final String ORIGIN_FINISH = "http://r.qidian.com/vipreward?style=%s&page=";//完本榜
+    public static final String ORIGIN_WiIND = "http://r.qidian.com/yuepiao?style=1&page=%s&dateType=";//原创风云榜
+    public static final String ORIGIN_24HOUR = "http://r.qidian.com/hotsales?style=1&page=%s&dateType=";//24小时热销榜
+    public static final String ORIGIN_VIP = "http://r.qidian.com/click?style=1&page=%s&dateType=";//会员点击榜
+    public static final String ORIGIN_RECOMMEND = "http://r.qidian.com/recom?style=1&page=%s&dateType=";//推荐票榜
+    public static final String ORIGIN_COLLECT = "http://r.qidian.com/collect?style=1&page=%s&dateType=";//收藏榜
+    public static final String ORIGIN_VIP_UPDATE = "http://r.qidian.com/vipup?style=1&page=%s&dateType=";//VIP更新榜
+    public static final String ORIGIN_VIP_COLLECT = "http://r.qidian.com/vipcollect?style=1&page=%s&dateType=";//vip收藏榜
+    public static final String ORIGIN_VIP_MONEY = "http://r.qidian.com/vipreward?style=1&page=%s&dateType=";//vip精品打赏榜
+    public static final String ORIGIN_FINISH = "http://r.qidian.com/vipreward?style=1&page=%s&dateType=";//完本榜
 
     // man
     public static final String ORIGIN_MAN_XUNHUAN = "http://a.qidian.com/?size=-1&sign=-1&tag=-1&chanId=21&subCateId=-1&orderId=&update=-1&page=%s&month=-1&style=1&action=-1&vip=-1";
