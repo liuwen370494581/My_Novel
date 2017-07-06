@@ -37,10 +37,10 @@ public class HtmlParserUtil {
     }
 
     //获取起点数据info
-    public static List<BookModel> searchQiDianRanking(String url, int indexPage) {
+    public static List<BookModel> searchQiDianRanking(String url, int indexPage, int typePage) {
         List<BookModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(url + indexPage).get();
+            Document document = Jsoup.connect(String.format(url, typePage) + indexPage).get();
             Elements elements = document.select("div.book-mid-info");
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
@@ -71,10 +71,10 @@ public class HtmlParserUtil {
     }
 
     //获取起点图书的img
-    public static List<String> searchQiDianRankingPic(String url, int indexPage) {
+    public static List<String> searchQiDianRankingPic(String url, int indexPage, int typePage) {
         List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(url + indexPage).get();
+            Document document = Jsoup.connect(String.format(url, typePage) + indexPage).get();
             Elements elements1 = document.select("div.book-img-box");
             for (int j = 0; j < elements1.size(); j++) {
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
@@ -209,7 +209,7 @@ public class HtmlParserUtil {
         return list;
     }
 
-    public static List<String> searchQiDianHot(){
+    public static List<String> searchQiDianHot() {
         List<String> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();

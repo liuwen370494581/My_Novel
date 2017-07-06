@@ -8,6 +8,7 @@ public final class C {
     // EventBus Code
     public static final class EventCode {
         public static final int ZhiChuToHomeFragment = 0x111111;
+        public static final int RankingDetailToFragment = 1000001;
 
         // other more
     }

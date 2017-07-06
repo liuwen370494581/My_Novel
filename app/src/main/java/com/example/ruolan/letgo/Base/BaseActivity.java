@@ -8,11 +8,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ruolan.letgo.EventBus.Event;
+import com.example.ruolan.letgo.EventBus.EventBusUtil;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.ActivityKiller;
 import com.example.ruolan.letgo.Utils.StatusBarUtils;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.widget.LoadingProgressDialog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 /**
@@ -30,7 +35,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         initData();
         setListener();
-        StatusBarUtils.setWindowStatusBarColor(this,R.color.statusColor);
+        //大于android 4.4版本才有这种沉侵式状态
+        //加入EventBus
+        if (isRegisterEventBus()) {
+            EventBusUtil.register(this);
+        }
+        StatusBarUtils.setWindowStatusBarColor(this, R.color.statusColor);
         ActivityKiller.getInstance().addActivity(this);
     }
 
@@ -72,6 +82,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         ActivityKiller.getInstance().removeActivity(this);
         ToastUtils.removeToast();
+        if (isRegisterEventBus()) {
+            EventBusUtil.unregister(this);
+        }
     }
 
     protected void showLeftView() {
@@ -116,5 +129,47 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
             mLoadingDialog.closeDialog();
         }
+    }
+
+
+    /**
+     * 是否注册事件分发
+     *
+     * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
+     */
+    protected boolean isRegisterEventBus() {
+        return false;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusCome(Event event) {
+        if (event != null) {
+            receiveEvent(event);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onStickyEventBusCome(Event event) {
+        if (event != null) {
+            receiveStickyEvent(event);
+        }
+    }
+
+    /**
+     * 接收到分发到事件
+     *
+     * @param event 事件
+     */
+    protected void receiveEvent(Event event) {
+
+    }
+
+    /**
+     * 接受到分发的粘性事件
+     *
+     * @param event 粘性事件
+     */
+    protected void receiveStickyEvent(Event event) {
+
     }
 }

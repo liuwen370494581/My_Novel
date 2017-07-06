@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.example.ruolan.letgo.EventBus.Event;
+import com.example.ruolan.letgo.EventBus.EventBusUtil;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.widget.LoadingProgressDialog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by liuwen on 2017/6/21.
@@ -33,19 +35,22 @@ public abstract class BaseFragment extends Fragment {
             onInvisible();
         }
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
         setHasOptionsMenu(true);
+        //加入EventBus
+        if (isRegisterEventBus()) {
+            EventBusUtil.register(this);
+        }
     }
-
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         isPrepared = true;
         lazyLoad();
     }
@@ -68,7 +73,6 @@ public abstract class BaseFragment extends Fragment {
 
 
     public abstract void initData();
-
 
 
     public void showLoadingDialog(String loadingText, boolean isCanCancel, LoadingProgressDialog.ILoadingDialogListener listener) {
@@ -109,5 +113,46 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         ToastUtils.removeToast();
+        //取消注册
+        if (isRegisterEventBus()) {
+            EventBusUtil.unregister(this);
+        }
+    }
+
+
+    protected boolean isRegisterEventBus() {
+        return false;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusCome(Event event) {
+        if (event != null) {
+            receiveEvent(event);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onStickyEventBusCome(Event event) {
+        if (event != null) {
+            receiveStickyEvent(event);
+        }
+    }
+
+    /**
+     * 接收到分发到事件
+     *
+     * @param event 事件
+     */
+    protected void receiveEvent(Event event) {
+
+    }
+
+    /**
+     * 接受到分发的粘性事件
+     *
+     * @param event 粘性事件
+     */
+    protected void receiveStickyEvent(Event event) {
+
     }
 }

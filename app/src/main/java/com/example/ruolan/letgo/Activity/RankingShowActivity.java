@@ -40,6 +40,7 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
     private int page = 1;//先从第一页开始查询
     private int totalpage = 28; //数据28页 所以请求三次 一次加载20条数据 起点有bug 加载到25之后还是有数据
     private String webUrl;
+    private int typePage = 1;
 
     @Override
     protected void initView() {
@@ -88,7 +89,7 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
             //会做一个显示网络错误的图 然后点击在加载
             return;
         }
-        QiDianAction.searchQiDianPicRanking(this, webUrl, indexPage, new ActionCallBack() {
+        QiDianAction.searchQiDianPicRanking(this, webUrl, indexPage, typePage,new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mPicList.addAll((Collection<? extends String>) object);
@@ -106,7 +107,7 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
             }
         });
 
-        QiDianAction.searchQiDianRanking(this, webUrl, indexPage, new ActionCallBack() {
+        QiDianAction.searchQiDianRanking(this, webUrl, indexPage,typePage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);

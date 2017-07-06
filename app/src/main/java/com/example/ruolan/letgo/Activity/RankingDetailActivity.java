@@ -1,5 +1,6 @@
 package com.example.ruolan.letgo.Activity;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,9 @@ import android.support.v4.view.ViewPager;
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.BaseFragment;
 import com.example.ruolan.letgo.Base.Config;
+import com.example.ruolan.letgo.EventBus.C;
+import com.example.ruolan.letgo.EventBus.Event;
+import com.example.ruolan.letgo.EventBus.EventBusUtil;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.bean.RankingModel;
 import com.example.ruolan.letgo.fragment.MonthFragment;
@@ -20,21 +24,28 @@ import com.example.ruolan.letgo.fragment.YearFragment;
  */
 public class RankingDetailActivity extends BaseActivity {
     private RankingModel model;
-    private String webUrl;
     private String[] mTabTitles = new String[]{};
     private BaseFragment[] fragments = {new WeekFragment(), new MonthFragment(),
             new YearFragment()};
 
+
+    public RankingModel getRankingModel() {
+        return model;
+    }
+
+    public void setRankingModel(RankingModel model) {
+        this.model = model;
+    }
+
     @Override
     protected void initView() {
+        showLeftView();
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         mTabTitles = getResources().getStringArray(R.array.tab_titles);
-
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(0);
         tabLayout.setupWithViewPager(viewPager, true);
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -86,8 +97,7 @@ public class RankingDetailActivity extends BaseActivity {
         model = (RankingModel) getIntent().getExtras().getSerializable(Config.INTENT_RANK);
         if (model != null) {
             setCenterText(model.getName());
-            webUrl = model.getWebUrl();
-            //LoadData(webUrl, page);
+            setRankingModel(model);
         }
     }
 

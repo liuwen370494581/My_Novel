@@ -22,12 +22,12 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class QiDianAction {
 
-    public static void searchQiDianRanking(final Context context, final String webUrl, final int indexPage, final ActionCallBack callBack) {
+    public static void searchQiDianRanking(final Context context, final String webUrl, final int indexPage, final int typePage, final ActionCallBack callBack) {
         Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 if (webUrl != null || indexPage != 0) {
-                    e.onNext(HtmlParserUtil.searchQiDianRanking(webUrl, indexPage));
+                    e.onNext(HtmlParserUtil.searchQiDianRanking(webUrl, indexPage, typePage));
                 }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
@@ -43,12 +43,12 @@ public class QiDianAction {
     }
 
 
-    public static void searchQiDianPicRanking(final Context context, final String webUrl, final int indexPage, final ActionCallBack callBack) {
+    public static void searchQiDianPicRanking(final Context context, final String webUrl, final int indexPage, final int typePage, final ActionCallBack callBack) {
         Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
                 if (webUrl != null || indexPage != 0) {
-                    e.onNext(HtmlParserUtil.searchQiDianRankingPic(webUrl, indexPage));
+                    e.onNext(HtmlParserUtil.searchQiDianRankingPic(webUrl, indexPage, typePage));
                 }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
@@ -57,7 +57,7 @@ public class QiDianAction {
                 if (models != null && models.size() != 0) {
                     callBack.ok(models);
                 } else {
-                  //  callBack.failed(context.getResources().getString(R.string.endLoadingmore));
+                    //  callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });
