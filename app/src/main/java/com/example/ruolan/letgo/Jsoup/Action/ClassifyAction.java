@@ -43,6 +43,7 @@ public class ClassifyAction {
         });
     }
 
+    //查找起点分类总数据
     public static String searchQIDianCount(final String url) {
         final String[] count = {""};
         Observable.create(new ObservableOnSubscribe<String>() {
@@ -75,7 +76,7 @@ public class ClassifyAction {
                 if (models != null && models.size() != 0) {
                     callBack.ok(models);
                 } else {
-                    ToastUtils.showToast(context, context.getResources().getString(R.string.add_failed));
+                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });
@@ -96,7 +97,7 @@ public class ClassifyAction {
                 if (models != null && models.size() != 0) {
                     callBack.ok(models);
                 } else {
-                   // ToastUtils.showToast(context, context.getResources().getString(R.string.endLoadingmore));
+                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });

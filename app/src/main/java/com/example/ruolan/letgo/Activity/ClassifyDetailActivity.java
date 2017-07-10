@@ -1,11 +1,10 @@
 package com.example.ruolan.letgo.Activity;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ListView;
 
 import com.example.ruolan.letgo.Adapter.ClassifyDetailListAdapter;
+import com.example.ruolan.letgo.Adapter.ClassifyShowAdapter;
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
@@ -16,6 +15,7 @@ import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.ClassifyModel;
 import com.example.ruolan.letgo.bean.IndexModel;
+import com.example.ruolan.letgo.widget.DefineBAGRefreshWithLoadView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,35 +23,50 @@ import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by liuwen on 2017/6/29.
  */
-public class ClassifyDetailActivity extends BaseActivity {
+public class ClassifyDetailActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
     private ClassifyModel model;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mHeadRecyclerView;
+    private RecyclerView mBodyRecyclerView;
     private HeadAdapter mHeadAdapter;
-    private ListView mListView;
+    private ClassifyShowAdapter mBodyAdapter;
     private ClassifyDetailListAdapter mListAdapter;
+
     private String webUrl;
     private List<BookModel> mList = new ArrayList<>();
     private List<String> mPicList = new ArrayList<>();
-    private View mfootView;
     private int page = 1;
-    private int totalPage = 20; //一次加载20条数据
-    private int servicePage;//服务器返回的数据
-    private List<BookModel> serviceList = new ArrayList<>();
+    private int totalpage = 28;
+
+    //下拉刷新控件
+    private DefineBAGRefreshWithLoadView mDefineBAGRefreshWithLoadView = null;
+    private BGARefreshLayout mBGARefreshLayout;
+
+
+    @Override
+    protected int setLayoutRes() {
+        return R.layout.classify_detail_activity;
+    }
 
 
     @Override
     protected void initView() {
         showLeftView();
-        mRecyclerView = getView(R.id.classify_detail_recycler_view);
-        mListView = getView(R.id.classify_detail_list_view);
-        mListAdapter = new ClassifyDetailListAdapter(this, mList, mPicList);
-        mfootView = View.inflate(this, R.layout.footer_bga_dodo, null);
-        mfootView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
-        mListView.setAdapter(mListAdapter);
+        mHeadRecyclerView = getView(R.id.classify_detail_recycler_view_head);
+        mBodyRecyclerView = getView(R.id.classify_detail_recycler_view_body);
+
+        mBGARefreshLayout = getView(R.id.define_bga_refresh_with_load);
+
+        mBodyAdapter = new ClassifyShowAdapter(mList, mPicList, this);
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        mBodyRecyclerView.setLayoutManager(manager);
+        mBodyRecyclerView.setAdapter(mBodyAdapter);
+
     }
 
     @Override
@@ -73,71 +88,85 @@ public class ClassifyDetailActivity extends BaseActivity {
             //会做一个显示网络错误的图 然后点击在加载
             return;
         }
-        ClassifyAction.searchQiDianClassify(this, webUrl, indexPage, new ActionCallBack() {
+        ClassifyAction.searchQiDianPicClassify(this, webUrl, indexPage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
-                serviceList.clear();
-                serviceList.addAll((Collection<? extends BookModel>) object);
-                servicePage = serviceList.size();
-                mList.addAll((Collection<? extends BookModel>) object);
-                dealListFooter();
-                mListAdapter.updateData(mList);
+                mPicList.addAll((Collection<? extends String>) object);
+                mBodyAdapter.updateDataPic(mPicList);
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
+                mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
 
 
             @Override
             public void failed(Object object) {
+                /** 设置文字 **/
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+                mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
         });
 
 
-        ClassifyAction.searchQiDianPicClassify(this, Config.ORIGIN_VIP, indexPage, new ActionCallBack() {
+        ClassifyAction.searchQiDianClassify(this, webUrl, indexPage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
-                mPicList.addAll((Collection<? extends String>) object);
-                mListAdapter.updateDataPic(mPicList);
+                mList.addAll((Collection<? extends BookModel>) object);
+                mBodyAdapter.updateData(mList);
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
+                mBGARefreshLayout.endLoadingMore();
             }
 
             @Override
             public void failed(Object object) {
-
+                /** 设置文字 **/
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+                mBGARefreshLayout.endLoadingMore();
+                hideLoadingDialog();
             }
         });
     }
 
     @Override
     protected void setListener() {
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                    if (page > 1) {
-                        LoadData(page);
-                    }
-                    page++;
-                }
-            }
-        });
-    }
-
-    private void dealListFooter() {
-       // mListView.removeView(mfootView);
-        if(servicePage==totalPage){
-            mListView.addFooterView(mfootView);
-        }
+        mBGARefreshLayout.setDelegate(this);
+        mDefineBAGRefreshWithLoadView = new DefineBAGRefreshWithLoadView(this, true, true);
+        //设置刷新样式
+        mBGARefreshLayout.setRefreshViewHolder(mDefineBAGRefreshWithLoadView);
+        mDefineBAGRefreshWithLoadView.setRefreshingText("正在加载中...");
+        mDefineBAGRefreshWithLoadView.setPullDownRefreshText("正在加载中...");
+        mDefineBAGRefreshWithLoadView.setReleaseRefreshText("下拉刷新中...");
     }
 
 
     @Override
-    protected int setLayoutRes() {
-        return R.layout.classify_detail_activity;
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        mDefineBAGRefreshWithLoadView.showLoadingMoreImg();
+        page = 1;
+        mPicList.clear();
+        mList.clear();
+        LoadData(page);
+        mBGARefreshLayout.endRefreshing();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        mDefineBAGRefreshWithLoadView.showLoadingMoreImg();
+        if (page == totalpage) {
+            /** 设置文字 **/
+            mDefineBAGRefreshWithLoadView.updateLoadingMoreText("已经刷到底了");
+            /** 隐藏图片 **/
+            mDefineBAGRefreshWithLoadView.hideLoadingMoreImg();
+            //当刷新当25页的数据的时候 停止刷新;
+            mBGARefreshLayout.endLoadingMore();
+            return true;
+        }
+        page++;
+        LoadData(page);
+        mBodyAdapter.notifyDataSetChanged();
+        mBGARefreshLayout.endLoadingMore();
+        return true;
     }
 
     private class HeadAdapter extends BGARecyclerViewAdapter<IndexModel> {

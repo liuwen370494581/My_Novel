@@ -15,7 +15,7 @@ public class Config {
     public static final String ORIGIN_VIP_UPDATE = "http://r.qidian.com/vipup?style=1&page=%s&dateType=";//VIP更新榜
     public static final String ORIGIN_VIP_COLLECT = "http://r.qidian.com/vipcollect?style=1&page=%s&dateType=";//vip收藏榜
     public static final String ORIGIN_VIP_MONEY = "http://r.qidian.com/vipreward?style=1&page=%s&dateType=";//vip精品打赏榜
-    public static final String ORIGIN_FINISH = "http://r.qidian.com/vipreward?style=1&page=%s&dateType=";//完本榜
+    public static final String ORIGIN_FINISH = "http://r.qidian.com/fin?style=1&page=%s&dateType=";//完本榜
 
     // man
     public static final String ORIGIN_MAN_XUNHUAN = "http://a.qidian.com/?size=-1&sign=-1&tag=-1&chanId=21&subCateId=-1&orderId=&update=-1&page=%s&month=-1&style=1&action=-1&vip=-1";

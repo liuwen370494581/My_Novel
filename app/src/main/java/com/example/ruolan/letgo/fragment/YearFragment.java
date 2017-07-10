@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.ruolan.letgo.Activity.RankingDetailActivity;
 import com.example.ruolan.letgo.Adapter.RankShowAdapter;
@@ -30,7 +29,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 /**
  * Created by liuwen on 2017/6/28.
  */
-public class YearFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+public class YearFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private RankingModel model;
     private List<BookModel> mList = new ArrayList<>();
@@ -69,7 +68,6 @@ public class YearFragment extends BaseFragment implements BGARefreshLayout.BGARe
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new RankShowAdapter(mList, mPicList, getActivity());
         mRecyclerView.setAdapter(mAdapter);
-
         setListener();
     }
 

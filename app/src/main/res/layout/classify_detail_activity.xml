@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
     <include layout="@layout/common_bar"/>
 
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/classify_detail_recycler_view"
+        android:id="@+id/classify_detail_recycler_view_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/yellow"/>
 
-    <ListView
-        android:id="@+id/classify_detail_list_view"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/define_bga_refresh_with_load"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/classify_detail_recycler_view_body"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            tools:listitem="@layout/item_classify_detail"/>
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 </LinearLayout>
