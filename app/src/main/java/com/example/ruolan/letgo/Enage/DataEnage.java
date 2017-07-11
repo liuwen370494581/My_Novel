@@ -3,6 +3,7 @@ package com.example.ruolan.letgo.Enage;
 import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Jsoup.Action.ClassifyAction;
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.ClassifyModel;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
 import com.example.ruolan.letgo.bean.IndexModel;
@@ -75,6 +76,15 @@ public class DataEnage {
         list.add(new IndexModel("异世大陆"));
         list.add(new IndexModel("王朝争霸"));
         list.add(new IndexModel("高武世界"));
+        return list;
+    }
+
+    public static List<BookModel> getInterestingData() {
+        List<BookModel> list = new ArrayList<>();
+        list.add(new BookModel("宠物天王", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
+        list.add(new BookModel("大闸蟹", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
+        list.add(new BookModel("大闸蟹", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
+        list.add(new BookModel("大闸蟹", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
         return list;
     }
 }

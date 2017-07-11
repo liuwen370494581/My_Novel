@@ -33,6 +33,8 @@
         <activity android:name=".Activity.RankingDetailActivity"/>
         <!--分类排行榜详细页面-->
         <activity android:name=".Activity.ClassifyDetailActivity"/>
+        <!--书籍详细页面-->
+        <activity android:name=".Activity.BookDetailActivity"/>
     </application>
 
 </manifest>

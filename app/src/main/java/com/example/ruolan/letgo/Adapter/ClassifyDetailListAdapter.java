@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by liuwen on 2017/6/30.
+ * 这个适配器已经废弃
  */
 public class ClassifyDetailListAdapter extends BaseAdapter {
 

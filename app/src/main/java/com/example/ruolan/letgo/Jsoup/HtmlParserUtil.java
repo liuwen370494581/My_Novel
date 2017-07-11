@@ -179,7 +179,7 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
             Elements elements1 = document.select("div.focus-img");
             for (int j = 0; j < 5; j++) {
-                Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
+                Log.e("MainActivity", "img" + elements1.get(j).select("a").select("img").attr("src"));
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
             }
             return list;
@@ -202,6 +202,7 @@ public class HtmlParserUtil {
                 Log.e("MainActivity", "booUrl:" + elements1.get(j).select("a").attr("href"));
                 model.setBookUrl(elements1.get(j).select("a").attr("href"));
                 model.setName(elements1.get(j).select("a").attr("title"));
+                list.add(model);
             }
             return list;
         } catch (Exception e) {
@@ -210,13 +211,14 @@ public class HtmlParserUtil {
         return list;
     }
 
+
     public static List<String> searchQiDianHot() {
         List<String> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
             Elements elements1 = document.select("div.focus-img");
             for (int j = 0; j < 5; j++) {
-                Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
+                Log.e("MainActivity", "img" + elements1.get(j).select("a").select("img").attr("src"));
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
             }
             return list;

@@ -5,29 +5,30 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.example.ruolan.letgo.Adapter.BannerAdapter;
 import com.example.ruolan.letgo.Base.BaseFragment;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.CoverAction;
 import com.example.ruolan.letgo.R;
-import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.IndexModel;
+import com.hejunlin.superindicatorlibray.CircleIndicator;
+import com.hejunlin.superindicatorlibray.LoopViewPager;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import cn.bingoogolapple.bgabanner.BGABanner;
 
 /**
  * Created by ruolan on 2015/11/29.
  * 书库
  */
 public class StackFragment extends BaseFragment {
-    private List<IndexModel> mList = new ArrayList<>();
-    private List<String> mPicList = new ArrayList<>();
+    private List<IndexModel> mBannerList = new ArrayList<>();
+    private List<String> mBannerPicList = new ArrayList<>();
+    private BannerAdapter mAdapter; //头部banner
+    private LoopViewPager viewpager; //头部banner
+    private CircleIndicator indicator;//头部banner
 
     @Nullable
     @Override
@@ -41,7 +42,8 @@ public class StackFragment extends BaseFragment {
 
 
     private void initView(View view) {
-
+        viewpager = (LoopViewPager) view.findViewById(R.id.viewpager);
+        indicator = (CircleIndicator) view.findViewById(R.id.indicator);
     }
 
 
@@ -50,21 +52,25 @@ public class StackFragment extends BaseFragment {
         CoverAction.searchQiDianCover(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
-                mList.addAll((Collection<? extends IndexModel>) object);
+                mBannerList.addAll((Collection<? extends IndexModel>) object);
+
+                mAdapter = new BannerAdapter(getActivity(), mBannerList, mBannerPicList);
+                viewpager.setAdapter(mAdapter);
+                viewpager.setLooperPic(true);
+                indicator.setViewPager(viewpager);
                 hideLoadingDialog();
             }
 
             @Override
             public void failed(Object object) {
                 hideLoadingDialog();
-
             }
         });
 
         CoverAction.searchQiDianCoverPic(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
-                mPicList.addAll((Collection<? extends String>) object);
+                mBannerPicList.addAll((Collection<? extends String>) object);
             }
 
             @Override
@@ -76,6 +82,7 @@ public class StackFragment extends BaseFragment {
     }
 
     private void setListener() {
+
 
     }
 

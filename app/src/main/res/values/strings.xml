@@ -17,10 +17,13 @@
     <string name="classify">分类</string>
     <string name="Being_loaded">正在加载</string>
     <string name="endLoadingmore">亲,已经没有多余的书籍拉...</string>
+    <string name="book_detail">书籍详情</string>
 
     <string-array name="tab_titles">
         <item>周榜</item>
         <item>月榜</item>
         <item>总榜</item>
     </string-array>
+
+
 </resources>

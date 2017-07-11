@@ -1,13 +1,17 @@
 package com.example.ruolan.letgo.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ruolan.letgo.Activity.BookDetailActivity;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.GlideUtils;
 import com.example.ruolan.letgo.bean.BookModel;
@@ -66,8 +70,8 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        BookModel model = mList.get(position);
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        final BookModel model = mList.get(position);
         holder.tvBookName.setText(model.getBooKName());
         holder.tvBooKAuthor.setText(model.getBookAuthor());
         holder.tvBookDesc.setText(model.getBookDesc());
@@ -76,7 +80,17 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
         if (mPicList.size() != 0 && mPicList.size() == mList.size()) {
             GlideUtils.loadImage(holder.imgBookUrl, "http:" + mPicList.get(position), R.mipmap.bookimg, R.mipmap.bookimg);
         }
+        //在适配器写这个方法是最好的 避免多次写跳转方法
+        holder.lyBody.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intent = new Intent(mContext, BookDetailActivity.class);
+                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, model);
+                intent.putExtra(Config.INTENT_BOOK_DETAIL_PIC, mPicList.get(position));
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -91,6 +105,7 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
         TextView tvBookUpdateContent;
         TextView tvBookUpdateTime;
         ImageView imgBookUrl;
+        LinearLayout lyBody;
 
         public MyViewHolder(View view) {
             super(view);
@@ -100,6 +115,7 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
             tvBookUpdateContent = (TextView) view.findViewById(R.id.update_title);
             tvBookUpdateTime = (TextView) view.findViewById(R.id.update_time);
             imgBookUrl = (ImageView) view.findViewById(R.id.book_img);
+            lyBody = (LinearLayout) view.findViewById(R.id.ly_01);
         }
     }
 }

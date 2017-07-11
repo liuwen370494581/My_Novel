@@ -23,6 +23,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by liuwen on 2017/6/26.
+ * 这个页面已经废弃
  */
 public class RankingShowActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
@@ -89,7 +90,7 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
             //会做一个显示网络错误的图 然后点击在加载
             return;
         }
-        QiDianAction.searchQiDianPicRanking(this, webUrl, indexPage, typePage,new ActionCallBack() {
+        QiDianAction.searchQiDianPicRanking(this, webUrl, indexPage, typePage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mPicList.addAll((Collection<? extends String>) object);
@@ -107,7 +108,7 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
             }
         });
 
-        QiDianAction.searchQiDianRanking(this, webUrl, indexPage,typePage, new ActionCallBack() {
+        QiDianAction.searchQiDianRanking(this, webUrl, indexPage, typePage, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);

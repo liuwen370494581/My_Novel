@@ -13,6 +13,7 @@
     app:cardPreventCornerOverlap="true">
 
     <LinearLayout
+        android:id="@+id/ly_01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -47,11 +48,11 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:singleLine="true"
                     android:id="@+id/author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:text="辰东"/>
 
             </LinearLayout>

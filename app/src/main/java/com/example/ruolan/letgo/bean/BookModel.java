@@ -20,6 +20,11 @@ public class BookModel implements Serializable {
     public BookModel() {
     }
 
+    public BookModel(String booKName, String bookUrl) {
+        this.booKName = booKName;
+        this.bookUrl = bookUrl;
+    }
+
     public long getId() {
         return id;
     }
