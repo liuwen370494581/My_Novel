@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:maxLines="3"
+                    android:maxLines="5"
                     android:text="在破败中崛起，在寂灭中复苏。沧海成尘，雷电枯竭……
             在破败中崛起，在寂灭中复苏。沧海成尘"/>
             </LinearLayout>

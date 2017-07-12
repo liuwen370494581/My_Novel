@@ -13,6 +13,7 @@
     app:cardPreventCornerOverlap="true">
 
     <LinearLayout
+        android:id="@+id/ly_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -57,13 +58,13 @@
             </LinearLayout>
 
             <TextView
-                android:ellipsize="end"
-                android:maxLines="2"
                 android:id="@+id/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:text="在破败中崛起，在寂灭中复苏。沧海成尘，雷电枯竭……"/>
 
             <LinearLayout
