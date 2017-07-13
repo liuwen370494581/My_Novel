@@ -21,7 +21,7 @@ public class HtmlParserUtil {
     public static List<Dish> searchBook() {
         List<Dish> list = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect("http://home.meishichina.com/show-top-type-recipe.html").get();
+            Document doc = Jsoup.connect("http://home.meishichina.com/show-top-type-recipe.html").timeout(40000).get();
             Elements elements = doc.select("div.pic");
             for (int i = 0; i < elements.size(); i++) {
                 Dish dish = new Dish();
@@ -40,18 +40,18 @@ public class HtmlParserUtil {
     public static List<BookModel> searchQiDianRanking(String url, int indexPage, int typePage) {
         List<BookModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(url, indexPage) + typePage).get();
+            Document document = Jsoup.connect(String.format(url, indexPage) + typePage).timeout(40000).get();
             Log.e("MyTag", String.format(url, typePage) + indexPage);
             Elements elements = document.select("div.book-mid-info");
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 Log.e("MainActivity", "DetailUrl: " + elements.get(i).select("a").attr("href") +
-                                " BookName: " + elements.get(i).select("a").first().text() +
-                                " AuthorUrl" + elements.get(i).select("p").select("a").attr("href") +
-                                " UpdateContent: " + elements.get(i).select("p").select("a").last().text() +
-                                " UpdateTime:" + elements.get(i).select("p").select("span").last().text() +
-                                " BookAuthor:" + elements.get(i).select("p").tagName("intro").first().text()
-//                        " BookDesc:" + elements.get(i).getElementsByTag("intro").text()
+//                                " BookName: " + elements.get(i).select("a").first().text() +
+//                                " AuthorUrl" + elements.get(i).select("p").select("a").attr("href") +
+//                                " UpdateContent: " + elements.get(i).select("p").select("a").last().text() +
+//                                " UpdateTime:" + elements.get(i).select("p").select("span").last().text() +
+//                                " BookAuthor:" + elements.get(i).select("p").tagName("intro").first().text()
+                                " BookDesc:" + elements.get(i).getElementsByTag("intro").text()
                 );
                 model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
                 model.setBooKName(elements.get(i).select("a").first().text());
@@ -75,7 +75,7 @@ public class HtmlParserUtil {
     public static List<String> searchQiDianRankingPic(String url, int indexPage, int typePage) {
         List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(url, indexPage) + typePage).get();
+            Document document = Jsoup.connect(String.format(url, indexPage) + typePage).timeout(40000).get();
             Elements elements1 = document.select("div.book-img-box");
             for (int j = 0; j < elements1.size(); j++) {
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
@@ -92,7 +92,7 @@ public class HtmlParserUtil {
     public static List<ClassifyModel> searchQIDianClassify(int page) {
         List<ClassifyModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect("http://a.qidian.com/?size=-1&sign=-1&tag=-1&chanId=-1&subCateId=-1&orderId=&update=-1&page=1&month=-1&style=1&action=-1&vip=-1").get();
+            Document document = Jsoup.connect("http://a.qidian.com/?size=-1&sign=-1&tag=-1&chanId=-1&subCateId=-1&orderId=&update=-1&page=1&month=-1&style=1&action=-1&vip=-1").timeout(40000).get();
             Elements elements1 = document.select("ul.row-" + page);
             Log.e("MyTag", elements1.size() + "" + elements1.text());
             String[] content = elements1.text().split(" ");
@@ -109,7 +109,7 @@ public class HtmlParserUtil {
 
     public static String searchQIDIANClassifyCount(String url) {
         try {
-            Document document = Jsoup.connect(url).get();
+            Document document = Jsoup.connect(url).timeout(40000).get();
             Elements elements1 = document.select("div.count-text");
             Log.e("MyTag", elements1.size() + "count" + elements1.select("span").text());
             return elements1.select("span").text();
@@ -125,7 +125,7 @@ public class HtmlParserUtil {
     public static List<BookModel> searchQiDianClassify(String url, int indexPage) {
         List<BookModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(url, indexPage)).get();
+            Document document = Jsoup.connect(String.format(url, indexPage)).timeout(40000).get();
             Elements elements = document.select("div.book-mid-info");
             Log.e("MainActivity", elements.size() + "");
             for (int i = 0; i < elements.size(); i++) {
@@ -159,7 +159,7 @@ public class HtmlParserUtil {
     public static List<String> searchQiDianClassifyPic(String url, int indexPage) {
         List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(url, indexPage)).get();
+            Document document = Jsoup.connect(String.format(url, indexPage)).timeout(40000).get();
             Elements elements1 = document.select("div.book-img-box");
             for (int j = 0; j < elements1.size(); j++) {
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
@@ -176,7 +176,7 @@ public class HtmlParserUtil {
     public static List<String> searchQiDianCoverPic() {
         List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
+            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(40000).get();
             Elements elements1 = document.select("div.focus-img");
             for (int j = 0; j < 5; j++) {
                 Log.e("MainActivity", "img" + elements1.get(j).select("a").select("img").attr("src"));
@@ -193,7 +193,7 @@ public class HtmlParserUtil {
     public static List<IndexModel> searchQiDianCover() {
         List<IndexModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
+            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(40000).get();
             Elements elements1 = document.select("div.info");
             for (int j = 0; j < 5; j++) {
                 IndexModel model = new IndexModel();
@@ -215,7 +215,7 @@ public class HtmlParserUtil {
     public static List<String> searchQiDianHot() {
         List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(6000).get();
+            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(40000).get();
             Elements elements1 = document.select("div.focus-img");
             for (int j = 0; j < 5; j++) {
                 Log.e("MainActivity", "img" + elements1.get(j).select("a").select("img").attr("src"));

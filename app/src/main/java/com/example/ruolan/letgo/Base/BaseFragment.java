@@ -119,7 +119,6 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-
     protected boolean isRegisterEventBus() {
         return false;
     }

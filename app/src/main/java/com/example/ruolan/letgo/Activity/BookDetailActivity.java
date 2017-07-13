@@ -57,7 +57,7 @@ public class BookDetailActivity extends BaseActivity {
     protected void initData() {
         model = (BookModel) getIntent().getExtras().getSerializable(Config.INTENT_BOOK_DETAIL_LIST);
         String url = getIntent().getStringExtra(Config.INTENT_BOOK_DETAIL_PIC);
-        if (model != null) {
+        if (model != null && url != null) {
             GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.bookimg, R.mipmap.bookimg);
             tvBookName.setText(model.getBooKName());
             tvBookAuthor.setText(model.getBookAuthor());
