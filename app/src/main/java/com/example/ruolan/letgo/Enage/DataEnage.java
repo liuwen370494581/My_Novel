@@ -81,10 +81,10 @@ public class DataEnage {
 
     public static List<BookModel> getInterestingData() {
         List<BookModel> list = new ArrayList<>();
-        list.add(new BookModel("宠物天王", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
-        list.add(new BookModel("大闸蟹", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
-        list.add(new BookModel("大闸蟹", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
-        list.add(new BookModel("大闸蟹", "qidian.qpic.cn/qdbimg/349573/1005399587/150"));
+        list.add(new BookModel("宠物天王", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
+        list.add(new BookModel("大闸蟹", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
+        list.add(new BookModel("大闸蟹", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
+        list.add(new BookModel("大闸蟹", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
         return list;
     }
 }

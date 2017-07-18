@@ -80,13 +80,14 @@ public class BannerAdapter extends PagerAdapter {
             textView.setText(model.getName());
             if(mPicList.size() != 0 && mPicList.size() == mList.size()){
                 GlideUtils.loadImage(imageView, "http:" + mPicList.get(position), R.mipmap.bookimg, R.mipmap.bookimg);
+                Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                Bitmap newimage = getRoundCornerImage(image, 50);
+                ImageView imageView2 = new ImageView(view.getContext());
+                imageView2.setImageBitmap(newimage);
+                container.addView(view);
+                return view;
             }
-            Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-            Bitmap newimage = getRoundCornerImage(image, 50);
-            ImageView imageView2 = new ImageView(view.getContext());
-            imageView2.setImageBitmap(newimage);
-            container.addView(view);
-            return view;
+
         }
         return view;
     }

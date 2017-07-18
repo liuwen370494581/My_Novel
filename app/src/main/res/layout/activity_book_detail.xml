@@ -16,6 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:orientation="vertical">
 
 
@@ -109,7 +110,7 @@
                     android:background="@drawable/book_btn_empty"
                     android:text="+ 追更新"
                     android:textColor="@color/statusColor"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <Button
                     android:id="@+id/btn_start_read"
@@ -121,7 +122,7 @@
                     android:background="@drawable/book_btn_full"
                     android:text="开始阅读"
                     android:textColor="@color/white"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
             </LinearLayout>
 
             <View
@@ -140,17 +141,17 @@
                 <Button
                     android:id="@+id/type_01"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_marginLeft="20dp"
-                    android:background="@drawable/book_btn_empty"
-                    android:text="+ 仙侠"
-                    android:textColor="@color/statusColor"
+                    android:background="@drawable/book_btn_full"
+                    android:text="仙侠"
+                    android:textColor="@color/white"
                     android:textSize="14sp"/>
 
                 <Button
                     android:id="@+id/type_02"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/book_btn_full"
                     android:text="奇幻漂流"

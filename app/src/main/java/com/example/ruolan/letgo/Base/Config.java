@@ -59,5 +59,6 @@ public class Config {
     public static final String INTENT_CLASSIFY = "INTENT_CLASSIFY";
     public static final String INTENT_BOOK_DETAIL_LIST = "INTENT_BOOK_DETAIL_lIST";
     public static final String INTENT_BOOK_DETAIL_PIC = "INTENT_BOOK_DETAIL_PIC";
+    public static final String INTENT_AUTHOR_URL = "INTENT_AUTHOR_URL";
 
 }

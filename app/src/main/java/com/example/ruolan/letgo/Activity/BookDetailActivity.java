@@ -1,5 +1,6 @@
 package com.example.ruolan.letgo.Activity;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,13 +63,31 @@ public class BookDetailActivity extends BaseActivity {
             tvBookName.setText(model.getBooKName());
             tvBookAuthor.setText(model.getBookAuthor());
             tvBookDesc.setText(model.getBookDesc());
-            tvBookUpdateTime.setText(model.getBookUpdateContent());
+            tvBookUpdateTime.setText(model.getBookUpdateTime());
+            String[] type = model.getBookAuthor().split("\\|");
+            if (type[1].contains("·")) {
+                String[] typeOne = type[1].split("·");
+                btnTypeOne.setText(typeOne[0]);
+                btnTypeTwo.setText(typeOne[1]);
+            } else {
+                btnTypeOne.setText(type[1]);
+                btnTypeTwo.setVisibility(View.GONE);
+            }
+
         }
     }
 
     @Override
     protected void setListener() {
-
+        //作者点击页面
+        tvBookAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BookDetailActivity.this, RankingShowActivity.class);
+                intent.putExtra(Config.INTENT_AUTHOR_URL,model);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -85,7 +104,7 @@ public class BookDetailActivity extends BaseActivity {
 
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
-            GlideUtils.loadImage(helper.getImageView(R.id.book_img), "http:" + model.getBookUrl(), R.mipmap.bookimg, R.mipmap.bookimg);
+            GlideUtils.loadImage(helper.getImageView(R.id.book_img), model.getBookUrl(), R.mipmap.bookimg, R.mipmap.bookimg);
             helper.setText(R.id.book_name, model.getBooKName());
         }
     }

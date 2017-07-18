@@ -46,12 +46,12 @@ public class HtmlParserUtil {
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 Log.e("MainActivity", "DetailUrl: " + elements.get(i).select("a").attr("href") +
-//                                " BookName: " + elements.get(i).select("a").first().text() +
-//                                " AuthorUrl" + elements.get(i).select("p").select("a").attr("href") +
-//                                " UpdateContent: " + elements.get(i).select("p").select("a").last().text() +
-//                                " UpdateTime:" + elements.get(i).select("p").select("span").last().text() +
-//                                " BookAuthor:" + elements.get(i).select("p").tagName("intro").first().text()
-                                " BookDesc:" + elements.get(i).getElementsByTag("intro").text()
+                                " BookName: " + elements.get(i).select("a").first().text() +
+                                " AuthorUrl" + elements.get(i).select("p").select("a").attr("href") +
+                                " UpdateContent: " + elements.get(i).select("p").select("a").last().text() +
+                                " UpdateTime:" + elements.get(i).select("p").select("span").last().text() +
+                                " BookAuthor:" + elements.get(i).select("p").tagName("intro").first().text()
+                                //" BookDesc:" + elements.get(i).getElementsByTag("intro").text()
                 );
                 model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
                 model.setBooKName(elements.get(i).select("a").first().text());

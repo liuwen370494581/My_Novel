@@ -27,7 +27,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  */
 public class RankingShowActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
-    private RankingModel model;
+    private BookModel model;
     private List<BookModel> mList = new ArrayList<>();
     private List<String> mPicList = new ArrayList<>();
     private RecyclerView mRecyclerView;
@@ -57,10 +57,10 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
 
     @Override
     protected void initData() {
-        model = (RankingModel) getIntent().getExtras().getSerializable(Config.INTENT_RANK);
+        model = (BookModel) getIntent().getExtras().getSerializable(Config.INTENT_AUTHOR_URL);
         if (model != null) {
-            setCenterText(model.getName());
-            webUrl = model.getWebUrl();
+            setCenterText(model.getBookAuthor());
+            webUrl = model.getBookAuthorUrl();
             LoadData(webUrl, page);
         }
     }
