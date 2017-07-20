@@ -10,6 +10,7 @@ import com.example.ruolan.letgo.Adapter.BannerAdapter;
 import com.example.ruolan.letgo.Base.BaseFragment;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.CoverAction;
+import com.example.ruolan.letgo.Jsoup.Action.QiDianAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.bean.IndexModel;
 import com.hejunlin.superindicatorlibray.CircleIndicator;
@@ -53,7 +54,6 @@ public class StackFragment extends BaseFragment {
             @Override
             public void ok(Object object) {
                 mBannerList.addAll((Collection<? extends IndexModel>) object);
-
                 mAdapter = new BannerAdapter(getActivity(), mBannerList, mBannerPicList);
                 viewpager.setAdapter(mAdapter);
                 viewpager.setLooperPic(true);
@@ -83,7 +83,17 @@ public class StackFragment extends BaseFragment {
 
     private void setListener() {
 
+        QiDianAction.searchQiDianType(getActivity(), new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
 
+            }
+
+            @Override
+            public void failed(Object object) {
+
+            }
+        });
     }
 
     @Override

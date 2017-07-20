@@ -49,6 +49,8 @@ public class Config {
     //cover
     public static final String ORIGIN_COVER = "http://www.qidian.com/book/coverrec";
 
+    public static final String QI_DIAN = "http://www.qidian.com";
+
     //sharePreferences
     public static final String USER_SETTINGS = "USER_SETTING";
     public static final String USER_THEME = "USER_THEME";
@@ -60,5 +62,8 @@ public class Config {
     public static final String INTENT_BOOK_DETAIL_LIST = "INTENT_BOOK_DETAIL_lIST";
     public static final String INTENT_BOOK_DETAIL_PIC = "INTENT_BOOK_DETAIL_PIC";
     public static final String INTENT_AUTHOR_URL = "INTENT_AUTHOR_URL";
+
+    //TAG
+    public static final String TAG = "MyTag";
 
 }

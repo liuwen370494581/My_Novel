@@ -51,7 +51,7 @@ public class HtmlParserUtil {
                                 " UpdateContent: " + elements.get(i).select("p").select("a").last().text() +
                                 " UpdateTime:" + elements.get(i).select("p").select("span").last().text() +
                                 " BookAuthor:" + elements.get(i).select("p").tagName("intro").first().text()
-                                //" BookDesc:" + elements.get(i).getElementsByTag("intro").text()
+                        //" BookDesc:" + elements.get(i).getElementsByTag("intro").text()
                 );
                 model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
                 model.setBooKName(elements.get(i).select("a").first().text());
@@ -189,7 +189,7 @@ public class HtmlParserUtil {
         return list;
     }
 
-    //获取起点封面图片
+    //获取起点封面图片 轮播图
     public static List<IndexModel> searchQiDianCover() {
         List<IndexModel> list = new ArrayList<>();
         try {
@@ -227,4 +227,25 @@ public class HtmlParserUtil {
         }
         return list;
     }
+
+    //获取起点的首页推荐
+    public static List<String> searchQIDianType() {
+        List<String> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
+            Elements elements = document.select("ul.roundabout");
+            for (int i = 0; i < elements.size(); i++) {
+                // Log.e(Config.TAG, elements.get(i).childNodes().size() + "");
+                Log.e(Config.TAG, elements.size() + "");
+                for (int j = 0; j < elements.get(i).childNodeSize(); j++) {
+                    Log.e(Config.TAG, elements.get(i).childNodes().get(j).toString());
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }
