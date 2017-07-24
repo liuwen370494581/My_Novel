@@ -228,20 +228,90 @@ public class HtmlParserUtil {
         return list;
     }
 
-    //获取起点的首页推荐
-    public static List<String> searchQIDianType() {
-        List<String> list = new ArrayList<>();
+    //获取起点的首页编辑推荐
+    public static List<Dish> searchQIDianType() {
+        List<Dish> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
-            Elements elements = document.select("ul.roundabout");
+            //Elements elements = document.select("ul.roundabout");
+            Elements elements = document.select("div.slideItem");
             for (int i = 0; i < elements.size(); i++) {
-                // Log.e(Config.TAG, elements.get(i).childNodes().size() + "");
-                Log.e(Config.TAG, elements.size() + "");
-                for (int j = 0; j < elements.get(i).childNodeSize(); j++) {
-                    Log.e(Config.TAG, elements.get(i).childNodes().get(j).toString());
-                }
+                Log.e(Config.TAG, elements.get(i).toString());
+                Log.e(Config.TAG, "title===" + elements.get(i).select("a").select("img").attr("title"));
+                Log.e(Config.TAG, "url====" + elements.get(i).select("a").select("img").attr("src"));
+                Dish dish = new Dish();
+                dish.setTitle(elements.get(i).select("a").select("img").attr("title"));
+                dish.setUrl(elements.get(i).select("a").select("img").attr("src"));
+                list.add(dish);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    //获取起点的首页限时免费
+    public static List<Dish> searchQIDianAppsFree() {
+        List<Dish> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
+            //Elements elements = document.select("ul.roundabout");
+            Elements elements = document.select("div.book-img");
+            Elements elements1 = document.select("div.slide-box");
+            for (int i = 0; i < elements1.size(); i++) {
+                Log.e(Config.TAG, elements1.get(i).toString());
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //获取起点首页最新更新
+    public static List<BookModel> searchQIDianNewUpdate() {
+        List<BookModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
+            Elements elements1 = document.select("div.update-rec-list").select("ul").select("li");
+            for (int i = 0; i < elements1.size(); i++) {
+                //  Log.e(Config.TAG, elements1.get(i).toString());
+                Log.e(Config.TAG, "url====" + elements1.get(i).select("a").attr("href"));
+                Log.e(Config.TAG, "bookName===" + elements1.get(i).select("h4").text());
+                Log.e(Config.TAG, "bookAuthor===" + elements1.get(i).select("p.author").select("a").text());
+                Log.e(Config.TAG, "bookImg=====" + elements1.get(i).select("div.book-cover").select("a").select("img").attr("src"));
+                Log.e(Config.TAG, "bookDesc====" + elements1.get(i).select("p.intro").text());
+                String number[] = elements1.get(i).select("p.digital").select("span").text().split(" ");
+                Log.e(Config.TAG, "bookNumberWords===" + number[0]);
+                Log.e(Config.TAG, "bookMark===" + number[1]);
+                BookModel model = new BookModel();
+                model.setBookDetailUrl(elements1.get(i).select("a").attr("href"));
+                model.setBooKName(elements1.get(i).select("h4").text());
+                model.setBookAuthor(elements1.get(i).select("p.author").select("a").text());
+                model.setBookUpdateContent(elements1.get(i).select("div.book-cover").select("a").select("img").attr("src"));
+                model.setBookDesc(elements1.get(i).select("p.intro").text());
+                model.setBookUpdateTime(number[0]);
+                model.setBookAuthorUrl(number[1]);
+                list.add(model);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //获取起点首页新书推荐
+    public static List<BookModel> searchQIDianNewBookReComm() {
+        List<BookModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
+            Elements elements1 = document.select("div.update-rec-list");
+            for (int i = 0; i < elements1.size(); i++) {
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -93,7 +93,7 @@ public class ClassifyDetailActivity extends BaseActivity implements BGARefreshLa
             public void ok(Object object) {
                 mPicList.addAll((Collection<? extends String>) object);
                 mBodyAdapter.updateDataPic(mPicList);
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
                 mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
@@ -114,7 +114,7 @@ public class ClassifyDetailActivity extends BaseActivity implements BGARefreshLa
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
                 mBodyAdapter.updateData(mList);
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
+                 mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
                 mBGARefreshLayout.endLoadingMore();
             }
 

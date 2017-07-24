@@ -18,7 +18,7 @@
             android:layout_height="80dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:src="@mipmap/bookimg"/>
+            android:src="@mipmap/default_book"/>
 
         <TextView
             android:id="@+id/book_name"

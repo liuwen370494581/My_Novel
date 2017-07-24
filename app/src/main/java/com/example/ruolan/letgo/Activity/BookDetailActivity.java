@@ -59,7 +59,7 @@ public class BookDetailActivity extends BaseActivity {
         model = (BookModel) getIntent().getExtras().getSerializable(Config.INTENT_BOOK_DETAIL_LIST);
         String url = getIntent().getStringExtra(Config.INTENT_BOOK_DETAIL_PIC);
         if (model != null && url != null) {
-            GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.bookimg, R.mipmap.bookimg);
+            GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
             tvBookName.setText(model.getBooKName());
             tvBookAuthor.setText(model.getBookAuthor());
             tvBookDesc.setText(model.getBookDesc());
@@ -104,7 +104,7 @@ public class BookDetailActivity extends BaseActivity {
 
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
-            GlideUtils.loadImage(helper.getImageView(R.id.book_img), model.getBookUrl(), R.mipmap.bookimg, R.mipmap.bookimg);
+            GlideUtils.loadImage(helper.getImageView(R.id.book_img), model.getBookUrl(), R.mipmap.default_book, R.mipmap.default_book);
             helper.setText(R.id.book_name, model.getBooKName());
         }
     }

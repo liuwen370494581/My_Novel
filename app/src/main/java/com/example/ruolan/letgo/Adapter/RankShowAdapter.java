@@ -78,13 +78,12 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
         holder.tvBookUpdateContent.setText(model.getBookUpdateContent());
         holder.tvBookUpdateTime.setText(model.getBookUpdateTime());
         if (mPicList.size() != 0 && mPicList.size() == mList.size()) {
-            GlideUtils.loadImage(holder.imgBookUrl, "http:" + mPicList.get(position), R.mipmap.bookimg, R.mipmap.bookimg);
+            GlideUtils.loadImage(holder.imgBookUrl, "http:" + mPicList.get(position), R.mipmap.default_book, R.mipmap.default_book);
         }
         //在适配器写这个方法是最好的 避免多次写跳转方法
         holder.lyBody.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(mContext, BookDetailActivity.class);
                 intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, model);
                 intent.putExtra(Config.INTENT_BOOK_DETAIL_PIC, mPicList.get(position));

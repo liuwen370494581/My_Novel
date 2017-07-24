@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
+import com.example.ruolan.letgo.bean.Dish;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
 
 import java.util.List;
@@ -58,25 +59,6 @@ public class QiDianAction {
                     callBack.ok(models);
                 } else {
                     //  callBack.failed(context.getResources().getString(R.string.endLoadingmore));
-                }
-            }
-        });
-    }
-
-
-    public static void searchQiDianType(final Context context, final ActionCallBack callBack) {
-        Observable.create(new ObservableOnSubscribe<List<String>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchQIDianType());
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
-            @Override
-            public void accept(@NonNull List<String> list) throws Exception {
-                if (list != null && list.size() != 0) {
-                    callBack.ok(list);
-                } else {
-                    callBack.failed(context.getResources().getString(R.string.add_failed));
                 }
             }
         });

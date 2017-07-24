@@ -108,7 +108,7 @@ public class MonthFragment extends BaseFragment implements BGARefreshLayout.BGAR
             public void ok(Object object) {
                 mPicList.addAll((Collection<? extends String>) object);
                 mAdapter.updateDataPic(mPicList);
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
                 mBGARefreshLayout.endLoadingMore();
             }
 
@@ -126,7 +126,7 @@ public class MonthFragment extends BaseFragment implements BGARefreshLayout.BGAR
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
                 mAdapter.updateData(mList);
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载中");
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
                 mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }

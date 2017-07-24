@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import com.example.ruolan.letgo.Adapter.BannerAdapter;
 import com.example.ruolan.letgo.Base.BaseFragment;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
-import com.example.ruolan.letgo.Jsoup.Action.CoverAction;
-import com.example.ruolan.letgo.Jsoup.Action.QiDianAction;
+import com.example.ruolan.letgo.Jsoup.Action.HomePageAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.bean.IndexModel;
 import com.hejunlin.superindicatorlibray.CircleIndicator;
@@ -50,7 +49,7 @@ public class StackFragment extends BaseFragment {
 
     private void initDate() {
         showLoadingDialog(getString(R.string.Being_loaded), false, null);
-        CoverAction.searchQiDianCover(getActivity(), new ActionCallBack() {
+        HomePageAction.searchQiDianCover(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mBannerList.addAll((Collection<? extends IndexModel>) object);
@@ -67,7 +66,7 @@ public class StackFragment extends BaseFragment {
             }
         });
 
-        CoverAction.searchQiDianCoverPic(getActivity(), new ActionCallBack() {
+        HomePageAction.searchQiDianCoverPic(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mBannerPicList.addAll((Collection<? extends String>) object);
@@ -83,7 +82,7 @@ public class StackFragment extends BaseFragment {
 
     private void setListener() {
 
-        QiDianAction.searchQiDianType(getActivity(), new ActionCallBack() {
+        HomePageAction.searchQiDianAppsFree(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
 
