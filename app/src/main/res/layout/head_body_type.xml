@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/head_body_type"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="horizontal">
+              android:orientation="horizontal"
+              android:background="@color/white"
+              android:visibility="gone">
 
 
     <LinearLayout
@@ -18,9 +21,9 @@
             android:src="@mipmap/book_stack"/>
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="排行榜"/>
     </LinearLayout>
@@ -41,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="排行榜"/>
+            android:text="分类"/>
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="排行榜"/>
+            android:text="三江榜"/>
     </LinearLayout>
 
     <LinearLayout
@@ -79,6 +82,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="排行榜"/>
+            android:text="专题"/>
     </LinearLayout>
 </LinearLayout>

@@ -2,11 +2,13 @@ package com.example.ruolan.letgo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.ruolan.letgo.Adapter.BannerAdapter;
 import com.example.ruolan.letgo.Base.BaseFragment;
@@ -15,6 +17,7 @@ import com.example.ruolan.letgo.Jsoup.Action.HomePageAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.GlideUtils;
 import com.example.ruolan.letgo.bean.BookModel;
+import com.example.ruolan.letgo.bean.Dish;
 import com.example.ruolan.letgo.bean.IndexModel;
 import com.hejunlin.superindicatorlibray.CircleIndicator;
 import com.hejunlin.superindicatorlibray.LoopViewPager;
@@ -37,10 +40,18 @@ public class StackFragment extends BaseFragment {
     private LoopViewPager viewpager; //头部banner
     private CircleIndicator indicator;//头部banner
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView, editRecyclerView, newUpdateRecyclerView, newBookRecommendRecyclerView;
     private View headView;
-    private StackAdapter mAdapter;
+    private FreeTimeAdapter mFreeTimeAdapter;
+    private EditAdapter mEditAdapter;
+    private NewUpdateAdapter mNewUpdateAdapter;
+    private NewBookRecommendAdapter mNewBookRecommendAdapter;
     private List<BookModel> mList = new ArrayList<>();
+    private List<Dish> editList = new ArrayList<>();
+    private List<BookModel> newUpdateList = new ArrayList<>();
+    private List<BookModel> newBookRecommendList = new ArrayList<>();
+    private LinearLayout lyType, lyEdit, lyNewUpdate, lyNewBookRecomm;
+
 
     @Nullable
     @Override
@@ -58,14 +69,59 @@ public class StackFragment extends BaseFragment {
         headView = View.inflate(getActivity(), R.layout.head_banner, null);
         viewpager = (LoopViewPager) headView.findViewById(R.id.viewpager);
         indicator = (CircleIndicator) headView.findViewById(R.id.indicator);
-        mAdapter = new StackAdapter(mRecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter.addHeaderView(headView);
-        mAdapter.setData(mList);
-        mRecyclerView.setAdapter(mAdapter.getHeaderAndFooterAdapter());
-
+        //分类模块
+        typeModule();
+        //编辑模块
+        EditModule();
+        //最新更新模块
+        NewUpdateTimeModule();
+        //新书推荐模块
+        NewBookRecommend();
+        //限时免费模块
+        FreeTimeModule();
     }
 
+    private void FreeTimeModule() {
+        mFreeTimeAdapter = new FreeTimeAdapter(mRecyclerView);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(manager);
+        mFreeTimeAdapter.addHeaderView(headView);
+        mFreeTimeAdapter.setData(mList);
+        mRecyclerView.setAdapter(mFreeTimeAdapter.getHeaderAndFooterAdapter());
+    }
+
+    private void NewBookRecommend() {
+        newBookRecommendRecyclerView = (RecyclerView) headView.findViewById(R.id.head_body_new_book_recomm_recyclerView);
+        lyNewBookRecomm = (LinearLayout) headView.findViewById(R.id.head_body_new_book);
+        mNewBookRecommendAdapter = new NewBookRecommendAdapter(newBookRecommendRecyclerView);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, LinearLayoutManager.VERTICAL, false);
+        newBookRecommendRecyclerView.setLayoutManager(manager);
+        mNewBookRecommendAdapter.setData(newBookRecommendList);
+        newBookRecommendRecyclerView.setAdapter(mNewBookRecommendAdapter);
+    }
+
+    private void NewUpdateTimeModule() {
+        lyNewUpdate = (LinearLayout) headView.findViewById(R.id.head_body_new_update);
+        newUpdateRecyclerView = (RecyclerView) headView.findViewById(R.id.head_body_new_update_recyclerView);
+        mNewUpdateAdapter = new NewUpdateAdapter(newUpdateRecyclerView);
+        newUpdateRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mNewUpdateAdapter.setData(newUpdateList);
+        newUpdateRecyclerView.setAdapter(mNewUpdateAdapter);
+    }
+
+    private void typeModule() {
+        lyType = (LinearLayout) headView.findViewById(R.id.head_body_type);
+    }
+
+    private void EditModule() {
+        editRecyclerView = (RecyclerView) headView.findViewById(R.id.head_body_edit_recyclerView);
+        lyEdit = (LinearLayout) headView.findViewById(R.id.head_body_edit);
+        mEditAdapter = new EditAdapter(editRecyclerView);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, LinearLayoutManager.VERTICAL, false);
+        editRecyclerView.setLayoutManager(manager);
+        mEditAdapter.setData(editList);
+        editRecyclerView.setAdapter(mEditAdapter);
+    }
 
     private void initDate() {
         showLoadingDialog(getString(R.string.Being_loaded), false, null);
@@ -77,7 +133,7 @@ public class StackFragment extends BaseFragment {
                 viewpager.setAdapter(mBannerAdapter);
                 viewpager.setLooperPic(true);
                 indicator.setViewPager(viewpager);
-                hideLoadingDialog();
+
             }
 
             @Override
@@ -98,11 +154,55 @@ public class StackFragment extends BaseFragment {
             }
         });
 
-        HomePageAction.searchQiDianNewUpdate(getActivity(), new ActionCallBack() {
+        HomePageAction.searchQiDianAppsFree(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
-                mAdapter.setData(mList);
+                mFreeTimeAdapter.setData(mList);
+                lyType.setVisibility(View.VISIBLE);
+                lyEdit.setVisibility(View.VISIBLE);
+                lyNewUpdate.setVisibility(View.VISIBLE);
+                lyNewBookRecomm.setVisibility(View.VISIBLE);
+                hideLoadingDialog();
+            }
+
+            @Override
+            public void failed(Object object) {
+
+            }
+        });
+
+        HomePageAction.searchQiDianEditRecommendation(getActivity(), new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
+                editList.addAll((Collection<? extends Dish>) object);
+                mEditAdapter.setData(editList);
+            }
+
+            @Override
+            public void failed(Object object) {
+
+            }
+        });
+
+        HomePageAction.searchQiDianNewUpdate(getActivity(), new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
+                newUpdateList.addAll((Collection<? extends BookModel>) object);
+                mNewUpdateAdapter.setData(newUpdateList);
+            }
+
+            @Override
+            public void failed(Object object) {
+
+            }
+        });
+
+        HomePageAction.searchQiDianNewBookReComm(getActivity(), new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
+                newBookRecommendList.addAll((Collection<? extends BookModel>) object);
+                mNewBookRecommendAdapter.setData(newBookRecommendList);
             }
 
             @Override
@@ -123,10 +223,53 @@ public class StackFragment extends BaseFragment {
 
     }
 
-    private class StackAdapter extends BGARecyclerViewAdapter<BookModel> {
+    private class FreeTimeAdapter extends BGARecyclerViewAdapter<BookModel> {
 
-        public StackAdapter(RecyclerView recyclerView) {
-            super(recyclerView, R.layout.item_book_ranking);
+
+        public FreeTimeAdapter(RecyclerView recyclerView) {
+            super(recyclerView, R.layout.item_edit_recycler_view);
+        }
+
+        @Override
+        protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
+            helper.setText(R.id.item_edit_tv, model.getBooKName());
+            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookDesc(), R.mipmap.default_book, R.mipmap.default_book);
+        }
+    }
+
+    private class NewBookRecommendAdapter extends BGARecyclerViewAdapter<BookModel> {
+
+        public NewBookRecommendAdapter(RecyclerView recyclerView) {
+            super(recyclerView, R.layout.item_edit_recycler_view);
+        }
+
+        @Override
+        protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
+            helper.setText(R.id.item_edit_tv, model.getBooKName());
+            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookDesc(), R.mipmap.default_book, R.mipmap.default_book);
+        }
+    }
+
+
+    private class EditAdapter extends BGARecyclerViewAdapter<Dish> {
+
+        public EditAdapter(RecyclerView recyclerView) {
+            super(recyclerView, R.layout.item_edit_recycler_view);
+        }
+
+        @Override
+        protected void fillData(BGAViewHolderHelper helper, int position, Dish model) {
+            helper.setText(R.id.item_edit_tv, model.getTitle());
+            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getUrl(), R.mipmap.default_book, R.mipmap.default_book);
+
+        }
+    }
+
+
+    private class NewUpdateAdapter extends BGARecyclerViewAdapter<BookModel> {
+
+        public NewUpdateAdapter(RecyclerView recyclerView) {
+            super(recyclerView, R.layout.item_head_new_update);
         }
 
         @Override
