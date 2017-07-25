@@ -3,6 +3,7 @@ package com.example.ruolan.letgo.Jsoup.Action;
 import android.content.Context;
 
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.Dish;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
 import com.example.ruolan.letgo.bean.IndexModel;
@@ -85,16 +86,56 @@ public class HomePageAction {
     }
 
 
+    // 获取首页最新更新
+    public static void searchQiDianNewUpdate(final Context context, final ActionCallBack callBack) {
+        Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                e.onNext(HtmlParserUtil.searchQIDianNewUpdate());
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
+            @Override
+            public void accept(@NonNull List<BookModel> list) throws Exception {
+                if (list != null && list.size() != 0) {
+                    callBack.ok(list);
+                } else {
+                    callBack.failed(context.getResources().getString(R.string.add_failed));
+                }
+            }
+        });
+    }
+
+
+    // 获取起点首页新书推荐和已完结作品
+    public static void searchQiDianNewBookReComm(final Context context, final ActionCallBack callBack) {
+        Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                e.onNext(HtmlParserUtil.searchQIDianNewBookReComm());
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
+            @Override
+            public void accept(@NonNull List<BookModel> list) throws Exception {
+                if (list != null && list.size() != 0) {
+                    callBack.ok(list);
+                } else {
+                    callBack.failed(context.getResources().getString(R.string.add_failed));
+                }
+            }
+        });
+    }
+
+
     // 获取首页限时免费
     public static void searchQiDianAppsFree(final Context context, final ActionCallBack callBack) {
-        Observable.create(new ObservableOnSubscribe<List<Dish>>() {
+        Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<Dish>> e) throws Exception {
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 e.onNext(HtmlParserUtil.searchQIDianAppsFree());
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Dish>>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
             @Override
-            public void accept(@NonNull List<Dish> list) throws Exception {
+            public void accept(@NonNull List<BookModel> list) throws Exception {
                 if (list != null && list.size() != 0) {
                     callBack.ok(list);
                 } else {

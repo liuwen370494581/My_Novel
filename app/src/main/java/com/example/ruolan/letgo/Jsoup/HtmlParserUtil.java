@@ -253,16 +253,21 @@ public class HtmlParserUtil {
 
 
     //获取起点的首页限时免费
-    public static List<Dish> searchQIDianAppsFree() {
-        List<Dish> list = new ArrayList<>();
+    public static List<BookModel> searchQIDianAppsFree() {
+        List<BookModel> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
-            //Elements elements = document.select("ul.roundabout");
             Elements elements = document.select("div.book-img");
-            Elements elements1 = document.select("div.slide-box");
-            for (int i = 0; i < elements1.size(); i++) {
-                Log.e(Config.TAG, elements1.get(i).toString());
-
+            for (int i = 0; i < elements.size(); i++) {
+                //Log.e(Config.TAG, elements1.get(i).toString());
+                Log.e(Config.TAG, "bookUrl===" + elements.get(i).select("a").attr("href"));
+                Log.e(Config.TAG, "bookImg===" + elements.get(i).select("a").select("img").attr("data-original"));
+                Log.e(Config.TAG, "bookName===" + elements.get(i).select("a").select("img").attr("alt"));
+                BookModel model = new BookModel();
+                model.setBooKName(elements.get(i).select("a").select("img").attr("alt"));
+                model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
+                model.setBookDesc(elements.get(i).select("a").select("img").attr("data-original"));
+                list.add(model);
             }
 
         } catch (Exception e) {
@@ -303,15 +308,24 @@ public class HtmlParserUtil {
         return list;
     }
 
-    //获取起点首页新书推荐
+    //获取起点首页新书推荐和已完结作品
     public static List<BookModel> searchQIDianNewBookReComm() {
         List<BookModel> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
-            Elements elements1 = document.select("div.update-rec-list");
+            Elements elements1 = document.select("div.slide-box").select("ul").select("li");
             for (int i = 0; i < elements1.size(); i++) {
-
+                //Log.e(Config.TAG, elements1.get(i).toString());
+                Log.e(Config.TAG, "bookUrl===" + elements1.get(i).select("li").select("a").attr("href"));
+                Log.e(Config.TAG, "bookImg===" + elements1.get(i).select("li").select("a").select("img").attr("data-original"));
+                Log.e(Config.TAG, "bookName===" + elements1.get(i).select("li").select("a").select("img").attr("alt"));
+                BookModel model = new BookModel();
+                model.setBooKName(elements1.get(i).select("li").select("a").select("img").attr("alt"));
+                model.setBookDetailUrl(elements1.get(i).select("li").select("a").attr("href"));
+                model.setBookDesc(elements1.get(i).select("li").select("a").select("img").attr("data-original"));
+                list.add(model);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
