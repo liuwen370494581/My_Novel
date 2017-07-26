@@ -233,6 +233,7 @@ public class StackFragment extends BaseFragment {
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
             helper.setText(R.id.item_edit_tv, model.getBooKName());
+            helper.getView(R.id.label).setVisibility(View.VISIBLE);
             GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookDesc(), R.mipmap.default_book, R.mipmap.default_book);
         }
     }

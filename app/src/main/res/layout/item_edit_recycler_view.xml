@@ -14,27 +14,41 @@
 
 
     <LinearLayout
-        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="5dp">
 
-
-        <ImageView
-            android:id="@+id/item_edit_img"
+        <FrameLayout
             android:layout_width="90dp"
             android:layout_height="100dp"
-            android:src="@mipmap/bookimg"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/item_edit_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/default_book"/>
+
+            <com.example.ruolan.letgo.widget.CornerLabelView
+                android:id="@+id/label"
+                style="@style/CornerLabelView.Default"
+                android:visibility="gone"
+                app:clvFillColor="@android:color/holo_red_light"
+                app:clvText1="限时免费"/>
+        </FrameLayout>
 
         <TextView
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="12sp"
             android:id="@+id/item_edit_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="神域"/>
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="神域"
+            android:textSize="12sp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

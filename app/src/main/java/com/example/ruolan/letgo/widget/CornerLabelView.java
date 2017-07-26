@@ -37,6 +37,9 @@ import android.view.View;
 
 import com.example.ruolan.letgo.R;
 
+/**
+ * 标签自定义图
+ */
 
 public class CornerLabelView extends View {
 

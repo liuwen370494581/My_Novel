@@ -8,7 +8,7 @@
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="6dp"
     app:cardElevation="1dp"
     app:cardPreventCornerOverlap="true">
 
@@ -20,13 +20,26 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
 
-        <ImageView
-            android:id="@+id/book_img"
+
+        <FrameLayout
             android:layout_width="80dp"
             android:layout_height="100dp"
+            android:layout_gravity="center"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@mipmap/default_book"/>
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/book_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/default_book"/>
+
+            <com.example.ruolan.letgo.widget.CornerLabelView
+                android:id="@+id/label"
+                style="@style/CornerLabelView.Default"
+                app:clvFillColor="#FFC107"
+                app:clvText1="最新更新"/>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

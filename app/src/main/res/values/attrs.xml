@@ -43,7 +43,7 @@
         <item name="android:layout_height">wrap_content</item>
 
         <item name="clvPaddingTop">10dp</item>
-        <item name="clvPaddingCenter">3dp</item>
-        <item name="clvPaddingBottom">3dp</item>
+        <item name="clvPaddingCenter">2dp</item>
+        <item name="clvPaddingBottom">2dp</item>
     </style>
 </resources>
