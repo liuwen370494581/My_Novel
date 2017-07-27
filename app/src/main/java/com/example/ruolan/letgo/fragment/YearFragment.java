@@ -93,7 +93,7 @@ public class YearFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     private void LoadData(String webUrl, int indexPage) {
 
-        showLoadingDialog(getString(R.string.Being_loaded), false, null);
+        showLoadingDialog(getString(R.string.Being_loaded), true, null);
         if (!NetworkUtils.isConnected(getActivity())) {
             hideLoadingDialog();
             ToastUtils.showToast(getActivity(), "网络有问题");

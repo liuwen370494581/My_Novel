@@ -124,7 +124,7 @@ public class StackFragment extends BaseFragment {
     }
 
     private void initDate() {
-        showLoadingDialog(getString(R.string.Being_loaded), false, null);
+        showLoadingDialog(getString(R.string.Being_loaded), true, null);
         HomePageAction.searchQiDianCover(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
