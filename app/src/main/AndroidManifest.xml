@@ -35,6 +35,8 @@
         <activity android:name=".Activity.ClassifyDetailActivity"/>
         <!--书籍详细页面-->
         <activity android:name=".Activity.BookDetailActivity"/>
+        <!--搜索页面-->
+        <activity android:name=".Activity.SearchBookActivity"/>
     </application>
 
 </manifest>

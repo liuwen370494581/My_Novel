@@ -21,6 +21,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ruolan.letgo.Activity.SearchBookActivity;
 import com.example.ruolan.letgo.Activity.SettingActivity;
 import com.example.ruolan.letgo.bean.Tab;
 import com.example.ruolan.letgo.fragment.DiscoveryFragment;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mToolbar.setRightButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "你好", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, SearchBookActivity.class));
             }
         });
 
