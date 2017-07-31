@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.example.ruolan.letgo.Dao.DaoManager;
+
 /**
  * Created by liuwen on 2017/6/20.
  */
@@ -18,5 +20,8 @@ public class App extends Application {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
+
+        DaoManager.init(this);
     }
+
 }

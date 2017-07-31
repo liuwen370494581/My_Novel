@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
+        android:name=".Base.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,7 +37,8 @@
         <!--书籍详细页面-->
         <activity android:name=".Activity.BookDetailActivity"/>
         <!--搜索页面-->
-        <activity android:name=".Activity.SearchBookActivity"/>
+        <activity android:name=".Activity.SearchBookActivity"
+                  android:windowSoftInputMode="stateHidden|stateUnchanged"/>
     </application>
 
 </manifest>

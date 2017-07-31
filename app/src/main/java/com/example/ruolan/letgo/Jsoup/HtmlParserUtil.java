@@ -332,4 +332,40 @@ public class HtmlParserUtil {
         return list;
     }
 
+    //获取起点搜索的书籍封面
+    public static List<String> searchBookPic(String bookName) {
+        List<String> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(String.format(Config.QI_DIAN_SEARCH, bookName) + 2).timeout(40000).get();
+            Elements elements = document.select("div.book-img-text").select("div.book-img-box");
+            Log.e(Config.TAG, elements.size() + "");
+            for (int i = 0; i < elements.size(); i++) {
+                list.add(elements.get(i).select("a").select("img").attr("src"));
+                //  Log.e(Config.TAG, elements.get(i).select("a").select("img").attr("src"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+
+    //获取起点搜索的书籍详细内容
+    public static List<BookModel> searchBook(String bookName) {
+        List<BookModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(String.format(Config.QI_DIAN_SEARCH, bookName) + 1).timeout(40000).get();
+            Elements elements = document.select("div.book-img-text").select("div.book-mid-info");
+            Log.e(Config.TAG, String.format(Config.QI_DIAN_SEARCH, bookName) + 2);
+            for (int i = 0; i < elements.size(); i++) {
+                BookModel model = new BookModel();
+                Log.e(Config.TAG, "bookAuthor====" + elements.get(i).select("h4").text());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

@@ -57,7 +57,7 @@
             android:layout_centerVertical="true"
             android:text="大家都在搜"
             android:textColor="@color/text_color_33"
-            android:textSize="18sp"/>
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/activity_search_book_reflash"
@@ -76,7 +76,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_search_book_reflash_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -93,7 +94,7 @@
             android:layout_centerVertical="true"
             android:text="搜索历史"
             android:textColor="@color/text_color_33"
-            android:textSize="18sp"/>
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/activity_search_book_clear"
@@ -111,7 +112,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_search_book_history_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp">
 
     </android.support.v7.widget.RecyclerView>
 

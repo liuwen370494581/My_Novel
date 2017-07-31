@@ -51,6 +51,9 @@ public class Config {
 
     public static final String QI_DIAN = "http://www.qidian.com";
 
+    //searchBook
+    public static final String QI_DIAN_SEARCH = "http://se.qidian.com/?kw=%s&page=";
+
     //sharePreferences
     public static final String USER_SETTINGS = "USER_SETTING";
     public static final String USER_THEME = "USER_THEME";
