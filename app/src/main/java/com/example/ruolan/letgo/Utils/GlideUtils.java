@@ -1,7 +1,7 @@
 package com.example.ruolan.letgo.Utils;
 
 /**
- * Created by ZhiHaoZhong on 2016.10.30
+ * Created by liuwen on 2017/6/22.
  */
 
 import android.widget.ImageView;

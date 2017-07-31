@@ -37,7 +37,7 @@ public class HomePageAction {
                 if (models != null && models.size() != 0) {
                     callback.ok(models);
                 } else {
-                    //callback.failed(context.getResources().getString(R.string.add_failed));
+                    callback.failed(context.getResources().getString(R.string.add_failed));
                 }
             }
         });

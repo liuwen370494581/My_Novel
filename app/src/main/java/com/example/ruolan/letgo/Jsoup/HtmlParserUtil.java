@@ -3,14 +3,19 @@ package com.example.ruolan.letgo.bean;
 import android.util.Log;
 
 import com.example.ruolan.letgo.Base.Config;
-import com.example.ruolan.letgo.bean.Dish;
+import com.example.ruolan.letgo.Utils.URLDecoderToUTF8;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -333,10 +338,10 @@ public class HtmlParserUtil {
     }
 
     //获取起点搜索的书籍封面
-    public static List<String> searchBookPic(String bookName) {
+    public static List<String> searchBookPic(String bookName, int page) {
         List<String> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(Config.QI_DIAN_SEARCH, bookName) + 2).timeout(40000).get();
+            Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_SEARCH, bookName) + page)).timeout(40000).get();
             Elements elements = document.select("div.book-img-text").select("div.book-img-box");
             Log.e(Config.TAG, elements.size() + "");
             for (int i = 0; i < elements.size(); i++) {
@@ -352,12 +357,14 @@ public class HtmlParserUtil {
 
 
     //获取起点搜索的书籍详细内容
-    public static List<BookModel> searchBook(String bookName) {
+    public static List<BookModel> searchBook(String bookName, int page) {
         List<BookModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(String.format(Config.QI_DIAN_SEARCH, bookName) + 1).timeout(40000).get();
+            Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_SEARCH, bookName) + page)).timeout(40000).get();
             Elements elements = document.select("div.book-img-text").select("div.book-mid-info");
-            Log.e(Config.TAG, String.format(Config.QI_DIAN_SEARCH, bookName) + 2);
+//            Log.e(Config.TAG, URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_SEARCH, bookName) + page));
+            Log.e(Config.TAG, elements.toString());
+
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 Log.e(Config.TAG, "bookAuthor====" + elements.get(i).select("h4").text());

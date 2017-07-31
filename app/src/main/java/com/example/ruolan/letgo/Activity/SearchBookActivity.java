@@ -5,8 +5,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.ruolan.letgo.Base.BaseActivity;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Dao.DaoBookHistory;
 import com.example.ruolan.letgo.Enage.DataEnage;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
@@ -25,7 +26,9 @@ import com.example.ruolan.letgo.Utils.KeyboardUtil;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.Dish;
 
-import java.lang.reflect.Method;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
@@ -44,6 +47,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     private ReflashAdapter mReflashAdapter;
     private int reflashIndex = 2;
     private SearchHistoryAdapter mSearchHistoryAdapter;
+    private Dish dish;
 
 
     @Override
@@ -89,10 +93,11 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     }
 
+
     @Override
     protected void initData() {
         showLoadingDialog(getString(R.string.Being_loaded), true, null);
-        SearchBookAction.searchBookPic(this, "", new ActionCallBack() {
+        SearchBookAction.searchBookPic(this, "大主宰", 1, new ActionCallBack() {
             @Override
             public void ok(Object object) {
 
@@ -103,7 +108,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        SearchBookAction.searchBook(this, "", new ActionCallBack() {
+        SearchBookAction.searchBook(this, "大主宰", 1, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 hideLoadingDialog();
@@ -130,7 +135,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                         ToastUtils.showToast(SearchBookActivity.this, "请输入书名或者作者名称");
                     } else {
                         ToastUtils.showToast(SearchBookActivity.this, editSearchBook.getText().toString());
-                        Dish dish = new Dish(DaoBookHistory.getCount(), editSearchBook.getText().toString(), DateTimeUtils.getCurrentTime_Today());
+                        dish = new Dish(DaoBookHistory.getCount(), editSearchBook.getText().toString(), DateTimeUtils.getCurrentTime_Today());
                         DaoBookHistory.insert(dish);
                     }
                     return false;

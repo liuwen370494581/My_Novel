@@ -1,5 +1,8 @@
 package com.example.ruolan.letgo.Utils;
+
+import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -21,6 +24,20 @@ public class ToastUtils {
     public static void removeToast() {
         if (mToast != null) {
             mToast = null;
+        }
+    }
+
+    public static void showCenterToast(Context context, String msg) {
+        if (null != msg && !msg.equals("")) {
+            if (mToast == null) {
+                mToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+            } else {
+                mToast.setText(msg);
+                mToast.setDuration(Toast.LENGTH_SHORT);
+            }
+            mToast.setGravity(Gravity.CENTER, 0, 0);
+            if (context instanceof Activity && !((Activity) context).isFinishing())
+                mToast.show();
         }
     }
 }

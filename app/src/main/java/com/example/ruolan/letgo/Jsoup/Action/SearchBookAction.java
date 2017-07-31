@@ -21,11 +21,11 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class SearchBookAction {
 
-    public static void searchBookPic(final Context context, final String bookName, final ActionCallBack callBack) {
+    public static void searchBookPic(final Context context, final String bookName, final int page, final ActionCallBack callBack) {
         Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchBookPic(bookName));
+                e.onNext(HtmlParserUtil.searchBookPic(bookName,page));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
             @Override
@@ -40,11 +40,11 @@ public class SearchBookAction {
     }
 
   //获取详细内容
-    public static void searchBook(final Context context, final String bookName, final ActionCallBack callBack) {
+    public static void searchBook(final Context context, final String bookName,final int page, final ActionCallBack callBack) {
         Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchBook(bookName));
+                e.onNext(HtmlParserUtil.searchBook(bookName,page));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
             @Override
