@@ -44,7 +44,7 @@ public class MonthFragment extends BaseFragment implements BGARefreshLayout.BGAR
     private BGARefreshLayout mBGARefreshLayout;
 
     private int page = 1;//先从第一页开始查询
-    private int totalpage = 28; //数据28页 所以请求三次 一次加载20条数据 起点有bug 加载到25之后还是有数据
+    private int totalpage = 100;
     private int typePage = 2;
     private String webUrl;
 

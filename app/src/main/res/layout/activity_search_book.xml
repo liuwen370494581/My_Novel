@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
               android:background="@color/white"
               android:orientation="vertical">
 
@@ -118,9 +119,18 @@
     </android.support.v7.widget.RecyclerView>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_search_book_recycler_view"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/define_bga_refresh_with_load"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_search_book_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            tools:listitem="@layout/item_book_ranking">
+        </android.support.v7.widget.RecyclerView>
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 </LinearLayout>

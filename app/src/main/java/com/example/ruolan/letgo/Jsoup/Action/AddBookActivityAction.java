@@ -34,7 +34,7 @@ public class AddBookActivityAction {
                 if (dishs != null) {
                     callBack.ok(dishs);
                 } else {
-                    ToastUtils.showToast(context, context.getResources().getString(R.string.add_failed));
+                    ToastUtils.showToast(context, context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });

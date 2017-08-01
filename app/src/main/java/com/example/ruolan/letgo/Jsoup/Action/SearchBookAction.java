@@ -33,7 +33,7 @@ public class SearchBookAction {
                 if (list != null && list.size() != 0) {
                     callBack.ok(list);
                 } else {
-                    callBack.failed(context.getResources().getString(R.string.add_failed));
+                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });
@@ -52,7 +52,7 @@ public class SearchBookAction {
                 if (list != null && list.size() != 0) {
                     callBack.ok(list);
                 } else {
-                    callBack.failed(context.getResources().getString(R.string.add_failed));
+                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.ruolan.letgo.Adapter.RankShowAdapter;
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Dao.DaoBookHistory;
@@ -24,31 +25,50 @@ import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.DateTimeUtils;
 import com.example.ruolan.letgo.Utils.KeyboardUtil;
 import com.example.ruolan.letgo.Utils.ToastUtils;
+import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.Dish;
+import com.example.ruolan.letgo.widget.DefineBAGRefreshWithLoadView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by liuwen on 2017/7/27.
  */
-public class SearchBookActivity extends BaseActivity implements View.OnClickListener, BGAOnRVItemClickListener {
+public class SearchBookActivity extends BaseActivity implements View.OnClickListener, BGAOnRVItemClickListener, BGARefreshLayout.BGARefreshLayoutDelegate {
     private EditText editSearchBook;
     private TextView tvCancel, tvReflash, tvClear;
     private RelativeLayout reCommonBar, reReflash, reHistory;
     private boolean isShowCommonBar = true;
-    private RecyclerView reflashRecyclerView, searchHistoryRecyclerView;
+    private RecyclerView reflashRecyclerView, searchHistoryRecyclerView, searchResultRecyclerView;
     private ReflashAdapter mReflashAdapter;
     private int reflashIndex = 2;
     private SearchHistoryAdapter mSearchHistoryAdapter;
     private Dish dish;
 
+    private RankShowAdapter mAdapter;
+
+    //下拉刷新控件
+    private DefineBAGRefreshWithLoadView mDefineBAGRefreshWithLoadView = null;
+    private BGARefreshLayout mBGARefreshLayout;
+
+    //数据
+    private List<String> mPicList = new ArrayList<>();
+    private List<BookModel> mList = new ArrayList<>();
+
+
+    private int page = 1;//先从第一页开始查询
+    private int totalpage = 100; //数据28页 所以请求三次 一次加载20条数据 起点有bug 加载到25之后还是有数据
+    private String bookName = "";
 
     @Override
 
@@ -66,6 +86,26 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         ReflashModule();
         //搜索历史模块
         SearchHistory();
+        //搜索结果模块
+        SearchResult();
+    }
+
+    private void SearchResult() {
+        searchResultRecyclerView = getView(R.id.activity_search_book_recycler_view);
+        mBGARefreshLayout = getView(R.id.define_bga_refresh_with_load);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        searchResultRecyclerView.setLayoutManager(manager);
+        mAdapter = new RankShowAdapter(mList, mPicList, this);
+        searchResultRecyclerView.setAdapter(mAdapter);
+
+        mBGARefreshLayout.setDelegate(this);
+        mDefineBAGRefreshWithLoadView = new DefineBAGRefreshWithLoadView(this, true, true);
+        //设置刷新样式
+        mBGARefreshLayout.setRefreshViewHolder(mDefineBAGRefreshWithLoadView);
+        mDefineBAGRefreshWithLoadView.setRefreshingText("正在加载中...");
+        mDefineBAGRefreshWithLoadView.setPullDownRefreshText("正在加载中...");
+        mDefineBAGRefreshWithLoadView.setReleaseRefreshText("下拉刷新中...");
+
     }
 
 
@@ -96,26 +136,44 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
+
+    }
+
+    private void LoadData(String bookName, int page) {
         showLoadingDialog(getString(R.string.Being_loaded), true, null);
-        SearchBookAction.searchBookPic(this, "大主宰", 1, new ActionCallBack() {
+        SearchBookAction.searchBookPic(this, bookName, page, new ActionCallBack() {
             @Override
             public void ok(Object object) {
-
+                mPicList.addAll((Collection<? extends String>) object);
+                mAdapter.updateDataPic(mPicList);
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
+                mBGARefreshLayout.endLoadingMore();
             }
 
             @Override
             public void failed(Object object) {
+                /** 设置文字 **/
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+                mBGARefreshLayout.endLoadingMore();
+                hideLoadingDialog();
             }
         });
 
-        SearchBookAction.searchBook(this, "大主宰", 1, new ActionCallBack() {
+        SearchBookAction.searchBook(this, bookName, page, new ActionCallBack() {
             @Override
             public void ok(Object object) {
+                mList.addAll((Collection<? extends BookModel>) object);
+                mAdapter.updateData(mList);
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
+                mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
 
             @Override
             public void failed(Object object) {
+                /** 设置文字 **/
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+                mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
         });
@@ -134,9 +192,15 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                     if (TextUtils.isEmpty(editSearchBook.getText().toString())) {
                         ToastUtils.showToast(SearchBookActivity.this, "请输入书名或者作者名称");
                     } else {
-                        ToastUtils.showToast(SearchBookActivity.this, editSearchBook.getText().toString());
                         dish = new Dish(DaoBookHistory.getCount(), editSearchBook.getText().toString(), DateTimeUtils.getCurrentTime_Today());
                         DaoBookHistory.insert(dish);
+                        bookName = editSearchBook.getText().toString();
+                        LoadData(bookName, page);
+                        reHistory.setVisibility(View.GONE);
+                        reReflash.setVisibility(View.GONE);
+                        searchHistoryRecyclerView.setVisibility(View.GONE);
+                        reflashRecyclerView.setVisibility(View.GONE);
+
                     }
                     return false;
                 }
@@ -216,7 +280,40 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         Dish dish = new Dish(DaoBookHistory.getCount(), mReflashAdapter.getItem(position).getTitle(), DateTimeUtils.getCurrentTime_Today());
         DaoBookHistory.insert(dish);
         editSearchBook.setText(mReflashAdapter.getItem(position).getTitle());
+        bookName = mReflashAdapter.getItem(position).getTitle();
+        LoadData(mReflashAdapter.getItem(position).getTitle(), page);
+        reHistory.setVisibility(View.GONE);
+        reReflash.setVisibility(View.GONE);
+        searchHistoryRecyclerView.setVisibility(View.GONE);
+        reflashRecyclerView.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        mDefineBAGRefreshWithLoadView.showLoadingMoreImg();
+        page = 1;
+        mPicList.clear();
+        mList.clear();
+        LoadData(bookName, page);
+        mBGARefreshLayout.endRefreshing();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        mDefineBAGRefreshWithLoadView.showLoadingMoreImg();
+        if (page == totalpage) {
+            /** 设置文字 **/
+            mDefineBAGRefreshWithLoadView.updateLoadingMoreText("已经刷到底了");
+            /** 隐藏图片 **/
+            mDefineBAGRefreshWithLoadView.hideLoadingMoreImg();
+            mBGARefreshLayout.endLoadingMore();
+            return true;
+        }
+        page++;
+        LoadData(bookName, page);
+        mAdapter.notifyDataSetChanged();
+        mBGARefreshLayout.endLoadingMore();
+        return true;
     }
 
 

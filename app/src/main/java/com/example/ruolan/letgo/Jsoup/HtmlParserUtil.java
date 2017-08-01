@@ -50,23 +50,20 @@ public class HtmlParserUtil {
             Elements elements = document.select("div.book-mid-info");
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
-                Log.e("MainActivity", "DetailUrl: " + elements.get(i).select("a").attr("href") +
-                                " BookName: " + elements.get(i).select("a").first().text() +
-                                " AuthorUrl" + elements.get(i).select("p").select("a").attr("href") +
-                                " UpdateContent: " + elements.get(i).select("p").select("a").last().text() +
-                                " UpdateTime:" + elements.get(i).select("p").select("span").last().text() +
-                                " BookAuthor:" + elements.get(i).select("p").tagName("intro").first().text()
-                        //" BookDesc:" + elements.get(i).getElementsByTag("intro").text()
-                );
+                Log.e(Config.TAG, "bookName====" + elements.get(i).select("h4").text());
+                Log.e(Config.TAG, "bookAuthor===" + elements.get(i).select("p").first().text());
+                Log.e(Config.TAG, "bookAuthorUrl===" + elements.get(i).select("p").select("a").attr("href"));
+                Log.e(Config.TAG, "bookUpdateContent===" + elements.get(i).select("p").select("a").last().text());
+                Log.e(Config.TAG, "bookDesc======" + elements.get(i).select("p.intro").text());
+                Log.e(Config.TAG, "bookUpdateTime====" + elements.get(i).select("p").select("span").last().text());
                 model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
-                model.setBooKName(elements.get(i).select("a").first().text());
+                model.setBooKName(elements.get(i).select("h4").text());
                 model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href"));
-                String[] desc = elements.get(i).getElementsByTag("intro").text().split(" ");
-                model.setBookDesc(desc[1]);
-                model.setBookAuthor(desc[0]);
-                model.setBookUpdateContent(desc[3]);
-                String[] updateTime = elements.get(i).getElementsByTag("intro").text().split("·");
-                model.setBookUpdateTime(updateTime[1]);
+                String updateContent = elements.get(i).select("p").select("a").last().text().replace("最新更新", "");
+                model.setBookDesc(elements.get(i).select("p.intro").text());
+                model.setBookAuthor(elements.get(i).select("p").first().text());
+                model.setBookUpdateContent(updateContent);
+                model.setBookUpdateTime(elements.get(i).select("p").select("span").last().text());
                 list.add(model);
             }
             return list;
@@ -362,12 +359,25 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_SEARCH, bookName) + page)).timeout(40000).get();
             Elements elements = document.select("div.book-img-text").select("div.book-mid-info");
-//            Log.e(Config.TAG, URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_SEARCH, bookName) + page));
-            Log.e(Config.TAG, elements.toString());
-
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
-                Log.e(Config.TAG, "bookAuthor====" + elements.get(i).select("h4").text());
+                Log.e(Config.TAG, elements.toString());
+                Log.e(Config.TAG, "bookName====" + elements.get(i).select("h4").text());
+                Log.e(Config.TAG, "bookAuthor===" + elements.get(i).select("p").first().text());
+                Log.e(Config.TAG, "bookAuthorUrl===" + elements.get(i).select("p").select("a").attr("href"));
+                Log.e(Config.TAG, "bookUpdateContent===" + elements.get(i).select("p").select("a").last().text());
+                Log.e(Config.TAG, "bookDesc======" + elements.get(i).select("p.intro").text());
+                Log.e(Config.TAG, "bookUpdateTime====" + elements.get(i).select("p").select("span").last().text());
+                if(!elements.get(i).select("h4").text().equals("-")){
+                    model.setBooKName(elements.get(i).select("h4").text());
+                    model.setBookAuthor(elements.get(i).select("p").first().text());
+                    model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href"));
+                    String updateContent = elements.get(i).select("p").select("a").last().text().replace("最新更新", "");
+                    model.setBookUpdateContent(updateContent);
+                    model.setBookDesc(elements.get(i).select("p.intro").text());
+                    model.setBookUpdateTime(elements.get(i).select("p").select("span").last().text());
+                    list.add(model);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
