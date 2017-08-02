@@ -26,7 +26,7 @@ public class BookDetailActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private BookModel model;
     private InterestingAdapter mAdapter;
-    private TextView tvBookName, tvBookAuthor, tvBookUpdateTime, tvBookMore, tvBookDesc;
+    private TextView tvBookName, tvBookAuthor, tvBookUpdateTime, tvBookMore, tvBookDesc, tvBookUpdateContent;
     private Button btnAddUpdate, btnReadBook, btnTypeOne, btnTypeTwo;
     private ImageView imgBooKUrl;
 
@@ -46,6 +46,7 @@ public class BookDetailActivity extends BaseActivity {
         btnTypeOne = getView(R.id.type_01);
         btnTypeTwo = getView(R.id.type_02);
         imgBooKUrl = getView(R.id.book_img);
+        tvBookUpdateContent = getView(R.id.update_content);
 
         mAdapter = new InterestingAdapter(mRecyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -64,6 +65,7 @@ public class BookDetailActivity extends BaseActivity {
             tvBookAuthor.setText(model.getBookAuthor());
             tvBookDesc.setText(model.getBookDesc());
             tvBookUpdateTime.setText(model.getBookUpdateTime());
+            tvBookUpdateContent.setText(model.getBookUpdateContent());
             String[] type = model.getBookAuthor().split("\\|");
             if (type[1].contains("·")) {
                 String[] typeOne = type[1].split("·");
@@ -84,7 +86,7 @@ public class BookDetailActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BookDetailActivity.this, RankingShowActivity.class);
-                intent.putExtra(Config.INTENT_AUTHOR_URL,model);
+                intent.putExtra(Config.INTENT_AUTHOR_URL, model);
                 startActivity(intent);
             }
         });

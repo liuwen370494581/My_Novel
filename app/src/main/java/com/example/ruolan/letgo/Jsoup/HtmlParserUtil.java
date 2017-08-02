@@ -3,9 +3,11 @@ package com.example.ruolan.letgo.bean;
 import android.util.Log;
 
 import com.example.ruolan.letgo.Base.Config;
+import com.example.ruolan.letgo.MainActivity;
 import com.example.ruolan.letgo.Utils.URLDecoderToUTF8;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -368,7 +370,7 @@ public class HtmlParserUtil {
                 Log.e(Config.TAG, "bookUpdateContent===" + elements.get(i).select("p").select("a").last().text());
                 Log.e(Config.TAG, "bookDesc======" + elements.get(i).select("p.intro").text());
                 Log.e(Config.TAG, "bookUpdateTime====" + elements.get(i).select("p").select("span").last().text());
-                if(!elements.get(i).select("h4").text().equals("-")){
+                if (!elements.get(i).select("h4").text().equals("-")) {
                     model.setBooKName(elements.get(i).select("h4").text());
                     model.setBookAuthor(elements.get(i).select("p").first().text());
                     model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href"));
@@ -378,6 +380,22 @@ public class HtmlParserUtil {
                     model.setBookUpdateTime(elements.get(i).select("p").select("span").last().text());
                     list.add(model);
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static List<BookModel> searchAuthorWork(String webUrl) {
+        List<BookModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect("http:" + webUrl).timeout(40000).get();
+            Elements elements = document.select("li.author-item");
+            Log.e(Config.TAG, elements.toString());
+            for (int i = 0; i < elements.size(); i++) {
+                Log.e(Config.TAG, "AuthorTime====" + elements.get(i).select("div.author-item-time"));
+
             }
         } catch (Exception e) {
             e.printStackTrace();

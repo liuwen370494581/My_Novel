@@ -2,6 +2,7 @@ package com.example.ruolan.letgo.Activity;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -146,14 +147,14 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             public void ok(Object object) {
                 mPicList.addAll((Collection<? extends String>) object);
                 mAdapter.updateDataPic(mPicList);
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
+//                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
                 mBGARefreshLayout.endLoadingMore();
             }
 
             @Override
             public void failed(Object object) {
                 /** 设置文字 **/
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+    //            mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
                 mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
@@ -171,7 +172,6 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
             @Override
             public void failed(Object object) {
-                /** 设置文字 **/
                 mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
                 mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
@@ -195,12 +195,13 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                         dish = new Dish(DaoBookHistory.getCount(), editSearchBook.getText().toString(), DateTimeUtils.getCurrentTime_Today());
                         DaoBookHistory.insert(dish);
                         bookName = editSearchBook.getText().toString();
+                        mList.clear();
+                        mPicList.clear();
                         LoadData(bookName, page);
                         reHistory.setVisibility(View.GONE);
                         reReflash.setVisibility(View.GONE);
                         searchHistoryRecyclerView.setVisibility(View.GONE);
                         reflashRecyclerView.setVisibility(View.GONE);
-
                     }
                     return false;
                 }
@@ -227,6 +228,21 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                     tvCancel.setVisibility(View.GONE);
                     isShowCommonBar = true;
                 }
+            }
+        });
+
+        mSearchHistoryAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
+            @Override
+            public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+                editSearchBook.setText(mSearchHistoryAdapter.getItem(position).getTitle());
+                bookName = mSearchHistoryAdapter.getItem(position).getTitle();
+                LoadData(mSearchHistoryAdapter.getItem(position).getTitle(), page);
+                reHistory.setVisibility(View.GONE);
+                reReflash.setVisibility(View.GONE);
+                searchHistoryRecyclerView.setVisibility(View.GONE);
+                reflashRecyclerView.setVisibility(View.GONE);
+                reCommonBar.setVisibility(View.GONE);
+                tvCancel.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -286,6 +302,8 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         reReflash.setVisibility(View.GONE);
         searchHistoryRecyclerView.setVisibility(View.GONE);
         reflashRecyclerView.setVisibility(View.GONE);
+        reCommonBar.setVisibility(View.GONE);
+        tvCancel.setVisibility(View.VISIBLE);
     }
 
     @Override

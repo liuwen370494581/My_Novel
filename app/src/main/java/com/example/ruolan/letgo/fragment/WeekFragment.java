@@ -115,14 +115,14 @@ public class WeekFragment extends BaseFragment implements BGARefreshLayout.BGARe
             public void ok(Object object) {
                 mPicList.addAll((Collection<? extends String>) object);
                 mAdapter.updateDataPic(mPicList);
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
+  //              mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
                 mBGARefreshLayout.endLoadingMore();
             }
 
             @Override
             public void failed(Object object) {
                 /** 设置文字 **/
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+  //              mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
                 mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }

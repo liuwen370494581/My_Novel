@@ -7,12 +7,11 @@ import com.example.ruolan.letgo.Adapter.RankShowAdapter;
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
-import com.example.ruolan.letgo.Jsoup.Action.QiDianAction;
+import com.example.ruolan.letgo.Jsoup.Action.AuthorWorkAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.NetworkUtils;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
-import com.example.ruolan.letgo.bean.RankingModel;
 import com.example.ruolan.letgo.widget.DefineBAGRefreshWithLoadView;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by liuwen on 2017/6/26.
- * 这个页面已经废弃
+ * 是作者作品页面
  */
 public class RankingShowActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
@@ -90,25 +89,8 @@ public class RankingShowActivity extends BaseActivity implements BGARefreshLayou
             //会做一个显示网络错误的图 然后点击在加载
             return;
         }
-        QiDianAction.searchQiDianPicRanking(this, webUrl, indexPage, typePage, new ActionCallBack() {
-            @Override
-            public void ok(Object object) {
-                mPicList.addAll((Collection<? extends String>) object);
-                mAdapter.updateDataPic(mPicList);
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
-                mBGARefreshLayout.endLoadingMore();
-            }
 
-            @Override
-            public void failed(Object object) {
-                /** 设置文字 **/
-                mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
-                mBGARefreshLayout.endLoadingMore();
-                hideLoadingDialog();
-            }
-        });
-
-        QiDianAction.searchQiDianRanking(this, webUrl, indexPage, typePage, new ActionCallBack() {
+        AuthorWorkAction.searchAuthorWork(this, webUrl, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
