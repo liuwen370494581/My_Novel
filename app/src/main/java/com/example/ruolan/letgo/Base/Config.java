@@ -65,6 +65,7 @@ public class Config {
     public static final String INTENT_BOOK_DETAIL_LIST = "INTENT_BOOK_DETAIL_lIST";
     public static final String INTENT_BOOK_DETAIL_PIC = "INTENT_BOOK_DETAIL_PIC";
     public static final String INTENT_AUTHOR_URL = "INTENT_AUTHOR_URL";
+    public static final String INTENT_BOOK_TYPE = "INTENT_BOOK_TYPE";
 
     //TAG
     public static final String TAG = "MyTag";

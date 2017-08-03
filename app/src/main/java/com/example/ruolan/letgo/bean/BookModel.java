@@ -8,14 +8,17 @@ import java.io.Serializable;
 public class BookModel implements Serializable {
 
     private long id;
-    private String booKName;
+    private String booKName;//书名
     private String bookUrl; //url
     private String bookAuthor;//作者
     private String bookDetailUrl;//详情页面
-    private String bookAuthorUrl;//作者书籍集合
+    private String bookAuthorUrl;//作者书籍url
     private String bookDesc; //描述
     private String bookUpdateTime;//更新时间
     private String bookUpdateContent;//更新内容
+    private String bookPic;//作品封面
+    private String bookAuthorWriteTime;//作者出道时间
+    private String bookType;//书籍类型
 
     public BookModel() {
     }
@@ -95,5 +98,29 @@ public class BookModel implements Serializable {
 
     public void setBookUpdateContent(String bookUpdateContent) {
         this.bookUpdateContent = bookUpdateContent;
+    }
+
+    public String getBookPic() {
+        return bookPic;
+    }
+
+    public void setBookPic(String bookPic) {
+        this.bookPic = bookPic;
+    }
+
+    public String getBookAuthorWriteTime() {
+        return bookAuthorWriteTime;
+    }
+
+    public void setBookAuthorWriteTime(String bookAuthorWriteTime) {
+        this.bookAuthorWriteTime = bookAuthorWriteTime;
+    }
+
+    public String getBookType() {
+        return bookType;
+    }
+
+    public void setBookType(String bookType) {
+        this.bookType = bookType;
     }
 }

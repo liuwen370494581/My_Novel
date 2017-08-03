@@ -84,9 +84,13 @@ public class ClassifyShowAdapter extends RecyclerView.Adapter<ClassifyShowAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, BookDetailActivity.class);
-                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, model);
-                intent.putExtra(Config.INTENT_BOOK_DETAIL_PIC, mPicList.get(position));
-                mContext.startActivity(intent);
+                if (mPicList.size() != 0) {
+                    intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, model);
+                    intent.putExtra(Config.INTENT_BOOK_DETAIL_PIC, mPicList.get(position));
+                    intent.putExtra(Config.INTENT_BOOK_TYPE, "ClassifyUi");
+                    mContext.startActivity(intent);
+                }
+
             }
         });
 

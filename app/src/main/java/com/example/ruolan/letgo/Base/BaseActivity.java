@@ -44,13 +44,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActivityKiller.getInstance().addActivity(this);
     }
 
+    protected abstract int setLayoutRes();
+
     protected abstract void initView();
 
     protected abstract void initData();
 
     protected abstract void setListener();
-
-    protected abstract int setLayoutRes();
 
 
     public <T extends View> T getView(int viewId) {

@@ -87,6 +87,7 @@ public class RankShowAdapter extends RecyclerView.Adapter<RankShowAdapter.MyView
                 Intent intent = new Intent(mContext, BookDetailActivity.class);
                 intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, model);
                 intent.putExtra(Config.INTENT_BOOK_DETAIL_PIC, mPicList.get(position));
+                intent.putExtra(Config.INTENT_BOOK_TYPE, "RankUi");
                 mContext.startActivity(intent);
             }
         });

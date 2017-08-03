@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ruolan.letgo.Base.BaseActivity;
@@ -26,10 +27,10 @@ public class BookDetailActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private BookModel model;
     private InterestingAdapter mAdapter;
-    private TextView tvBookName, tvBookAuthor, tvBookUpdateTime, tvBookMore, tvBookDesc, tvBookUpdateContent;
+    private TextView tvBookName, tvBookAuthor, tvBookUpdateTime, tvBookMore, tvBookDesc, tvBookUpdateContent, tvBookUpdateTimeTitle;
     private Button btnAddUpdate, btnReadBook, btnTypeOne, btnTypeTwo;
     private ImageView imgBooKUrl;
-
+    private LinearLayout lyBookUpdateContent;
 
     @Override
     protected void initView() {
@@ -46,7 +47,9 @@ public class BookDetailActivity extends BaseActivity {
         btnTypeOne = getView(R.id.type_01);
         btnTypeTwo = getView(R.id.type_02);
         imgBooKUrl = getView(R.id.book_img);
+        tvBookUpdateTimeTitle = getView(R.id.tv_update_time);
         tvBookUpdateContent = getView(R.id.update_content);
+        lyBookUpdateContent = getView(R.id.ly_update_content);
 
         mAdapter = new InterestingAdapter(mRecyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -59,21 +62,49 @@ public class BookDetailActivity extends BaseActivity {
     protected void initData() {
         model = (BookModel) getIntent().getExtras().getSerializable(Config.INTENT_BOOK_DETAIL_LIST);
         String url = getIntent().getStringExtra(Config.INTENT_BOOK_DETAIL_PIC);
-        if (model != null && url != null) {
-            GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
-            tvBookName.setText(model.getBooKName());
-            tvBookAuthor.setText(model.getBookAuthor());
-            tvBookDesc.setText(model.getBookDesc());
-            tvBookUpdateTime.setText(model.getBookUpdateTime());
-            tvBookUpdateContent.setText(model.getBookUpdateContent());
-            String[] type = model.getBookAuthor().split("\\|");
-            if (type[1].contains("·")) {
-                String[] typeOne = type[1].split("·");
-                btnTypeOne.setText(typeOne[0]);
-                btnTypeTwo.setText(typeOne[1]);
-            } else {
-                btnTypeOne.setText(type[1]);
-                btnTypeTwo.setVisibility(View.GONE);
+        BookModel bookModel = (BookModel) getIntent().getExtras().getSerializable("BookModel");
+        if (model != null) {
+            String typeStr = getIntent().getStringExtra(Config.INTENT_BOOK_TYPE);
+            if (typeStr.equals("RankUi")) {
+                GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
+                tvBookName.setText(model.getBooKName());
+                tvBookAuthor.setText(model.getBookAuthor());
+                tvBookDesc.setText(model.getBookDesc());
+                tvBookUpdateTime.setText(model.getBookUpdateTime());
+                tvBookUpdateContent.setText(model.getBookUpdateContent());
+                String[] type = model.getBookAuthor().split("\\|");
+                if (type[1].contains("·")) {
+                    String[] typeOne = type[1].split("·");
+                    btnTypeOne.setText(typeOne[0]);
+                    btnTypeTwo.setText(typeOne[1]);
+                } else {
+                    btnTypeOne.setText(type[1]);
+                    btnTypeTwo.setVisibility(View.GONE);
+                }
+            } else if (typeStr.equals("ClassifyUi")) {
+                GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
+                lyBookUpdateContent.setVisibility(View.GONE);
+                tvBookUpdateTimeTitle.setText("字数:");
+                tvBookName.setText(model.getBooKName());
+                tvBookAuthor.setText(model.getBookAuthor());
+                tvBookDesc.setText(model.getBookDesc());
+                tvBookUpdateTime.setText(model.getBookUpdateContent());
+                String[] type = model.getBookAuthor().split("\\|");
+                if (type[1].contains("·")) {
+                    String[] typeOne = type[1].split("·");
+                    btnTypeOne.setText(typeOne[0]);
+                    btnTypeTwo.setText(typeOne[1]);
+                } else {
+                    btnTypeOne.setText(type[1]);
+                    btnTypeTwo.setVisibility(View.GONE);
+                }
+            } else if (typeStr.equals("AuthorUi")) {
+                GlideUtils.loadImage(imgBooKUrl, "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
+                tvBookName.setText(model.getBooKName());
+                tvBookAuthor.setText(bookModel.getBookAuthor());
+                tvBookDesc.setText(model.getBookDesc());
+                tvBookUpdateTime.setText(model.getBookUpdateTime());
+                tvBookUpdateContent.setText(model.getBookUpdateContent());
             }
 
         }

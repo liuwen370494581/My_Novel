@@ -59,23 +59,25 @@
                     </LinearLayout>
 
                     <TextView
-                        android:textColor="@color/present_text_color"
                         android:id="@+id/author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
-                        android:text="辰东|古典|260万字"/>
+                        android:text="辰东|古典|260万字"
+                        android:textColor="@color/present_text_color"/>
 
 
                     <LinearLayout
+                        android:id="@+id/ly_update_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:paddingLeft="10dp">
 
                         <TextView
+                            android:id="@+id/tv_update_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
@@ -93,6 +95,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ly_update_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"

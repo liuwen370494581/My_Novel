@@ -3,21 +3,16 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/bg_color"
               android:orientation="vertical">
 
     <include layout="@layout/common_bar"/>
 
-    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
-        android:id="@+id/define_bga_refresh_with_load"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rank_show_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollbars="none"
-            tools:listitem="@layout/item_book_ranking"/>
-    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rank_show_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        tools:listitem="@layout/item_book_ranking"/>
 </LinearLayout>
