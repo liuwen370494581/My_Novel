@@ -21,11 +21,12 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class SearchBookAction {
 
+    //搜索书籍img
     public static void searchBookPic(final Context context, final String bookName, final int page, final ActionCallBack callBack) {
         Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchBookPic(bookName,page));
+                e.onNext(HtmlParserUtil.searchBookPic(bookName, page));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
             @Override
@@ -39,18 +40,61 @@ public class SearchBookAction {
         });
     }
 
-  //获取详细内容
-    public static void searchBook(final Context context, final String bookName,final int page, final ActionCallBack callBack) {
+    //获取详细内容
+    public static void searchBook(final Context context, final String bookName, final int page, final ActionCallBack callBack) {
         Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchBook(bookName,page));
+                e.onNext(HtmlParserUtil.searchBook(bookName, page));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
             @Override
             public void accept(@NonNull List<BookModel> list) throws Exception {
                 if (list != null && list.size() != 0) {
                     callBack.ok(list);
+                } else {
+                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
+                }
+            }
+        });
+    }
+
+
+    //搜索感兴趣的图书img
+    public static void searchInterestingBookPic(final Context context, final String bookName, final ActionCallBack callBack) {
+        Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
+                if (!bookName.equals("")) {
+                    e.onNext(HtmlParserUtil.searchInterestingBookPic(bookName));
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<String>>() {
+            @Override
+            public void accept(@NonNull List<String> models) throws Exception {
+                if (models != null && models.size() != 0) {
+                    callBack.ok(models);
+                } else {
+                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
+                }
+            }
+        });
+    }
+
+    //搜索感兴趣的图书info
+    public static void searchInterestingBook(final Context context, final String bookName, final ActionCallBack callBack) {
+        Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                if (!bookName.equals("")) {
+                    e.onNext(HtmlParserUtil.searchInterestingBook(bookName));
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
+            @Override
+            public void accept(@NonNull List<BookModel> models) throws Exception {
+                if (models != null && models.size() != 0) {
+                    callBack.ok(models);
                 } else {
                     callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }

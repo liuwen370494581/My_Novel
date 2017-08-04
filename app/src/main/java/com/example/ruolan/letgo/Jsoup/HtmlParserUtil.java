@@ -234,7 +234,6 @@ public class HtmlParserUtil {
         List<Dish> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
-            //Elements elements = document.select("ul.roundabout");
             Elements elements = document.select("div.slideItem");
             for (int i = 0; i < elements.size(); i++) {
                 Log.e(Config.TAG, elements.get(i).toString());
@@ -415,5 +414,48 @@ public class HtmlParserUtil {
         }
         return list;
     }
+
+    //获取起点搜索的书籍详细内容
+    public static List<String> searchInterestingBookPic(String bookName) {
+        List<String> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_INTERESING, bookName))).timeout(40000).get();
+            Elements elements = document.select("div.img-box");
+            // Log.e(Config.TAG, elements.toString());
+            for (int i = 0; i < elements.size(); i++) {
+                Log.e(Config.TAG, "img===" + elements.get(i).select("a").select("img").attr("src"));
+                list.add(elements.get(i).select("a").select("img").attr("src"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //获取起点搜索的书籍详细内容
+    public static List<BookModel> searchInterestingBook(String bookName) {
+        List<BookModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_INTERESING, bookName))).timeout(40000).get();
+            Elements elements = document.select("div.book-info");
+            //Log.e(Config.TAG, elements.toString());
+            for (int i = 0; i < elements.size(); i++) {
+                BookModel model = new BookModel();
+                Log.e(Config.TAG, "bookName===" + elements.get(i).select("h4").text());
+                Log.e(Config.TAG, "booKAuthor===" + elements.get(i).select("p.author").select("a").text());
+                Log.e(Config.TAG, "bookAuthorUrl===" + elements.get(i).select("p.author").select("a").attr("href").replace("http:", ""));
+                Log.e(Config.TAG, "bookWriteRead===" + elements.get(i).select("p.intro").text());
+                model.setBooKName(elements.get(i).select("h4").text());
+                model.setBookAuthor(elements.get(i).select("p.author").select("a").text());
+                model.setBookAuthorUrl(elements.get(i).select("p.author").select("a").attr("href").replace("http:", ""));
+                model.setBookWriteRead(elements.get(i).select("p.intro").text());
+                list.add(model);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
 }

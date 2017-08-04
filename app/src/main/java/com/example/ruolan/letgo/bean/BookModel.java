@@ -19,6 +19,7 @@ public class BookModel implements Serializable {
     private String bookPic;//作品封面
     private String bookAuthorWriteTime;//作者出道时间
     private String bookType;//书籍类型
+    private String bookWriteRead;//多少读者阅读过
 
     public BookModel() {
     }
@@ -122,5 +123,13 @@ public class BookModel implements Serializable {
 
     public void setBookType(String bookType) {
         this.bookType = bookType;
+    }
+
+    public String getBookWriteRead() {
+        return bookWriteRead;
+    }
+
+    public void setBookWriteRead(String bookWriteRead) {
+        this.bookWriteRead = bookWriteRead;
     }
 }

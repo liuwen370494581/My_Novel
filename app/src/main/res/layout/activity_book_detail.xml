@@ -242,7 +242,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/book_detail_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"/>
             </LinearLayout>
         </LinearLayout>
     </com.example.ruolan.letgo.widget.DampView>

@@ -1,12 +1,9 @@
 package com.example.ruolan.letgo.Enage;
 
 import com.example.ruolan.letgo.Base.Config;
-import com.example.ruolan.letgo.Jsoup.Action.ClassifyAction;
 import com.example.ruolan.letgo.R;
-import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.ClassifyModel;
 import com.example.ruolan.letgo.bean.Dish;
-import com.example.ruolan.letgo.bean.HtmlParserUtil;
 import com.example.ruolan.letgo.bean.IndexModel;
 import com.example.ruolan.letgo.bean.RankingModel;
 
@@ -80,14 +77,6 @@ public class DataEnage {
         return list;
     }
 
-    public static List<BookModel> getInterestingData() {
-        List<BookModel> list = new ArrayList<>();
-        list.add(new BookModel("宠物天王", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
-        list.add(new BookModel("大闸蟹", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
-        list.add(new BookModel("大闸蟹", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
-        list.add(new BookModel("大闸蟹", "http://qidian.qpic.cn/qdbimg/349573/1005399587/150"));
-        return list;
-    }
 
     public static List<Dish> getReflashData() {
         List<Dish> list = new ArrayList<>();

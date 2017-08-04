@@ -1,7 +1,6 @@
 package com.example.ruolan.letgo.Activity;
 
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,15 +9,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ruolan.letgo.Adapter.InterestingAdapter;
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Enage.DataEnage;
+import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
+import com.example.ruolan.letgo.Jsoup.Action.SearchBookAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.GlideUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 
-import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
-import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by liuwen on 2017/7/11.
@@ -31,6 +34,9 @@ public class BookDetailActivity extends BaseActivity {
     private Button btnAddUpdate, btnReadBook, btnTypeOne, btnTypeTwo;
     private ImageView imgBooKUrl;
     private LinearLayout lyBookUpdateContent;
+    private List<String> mPicList = new ArrayList<>();
+    private List<BookModel> mList = new ArrayList<>();
+    private String bookName = "";
 
     @Override
     protected void initView() {
@@ -51,10 +57,9 @@ public class BookDetailActivity extends BaseActivity {
         tvBookUpdateContent = getView(R.id.update_content);
         lyBookUpdateContent = getView(R.id.ly_update_content);
 
-        mAdapter = new InterestingAdapter(mRecyclerView);
+        mAdapter = new InterestingAdapter(this, mPicList, mList);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter.setData(DataEnage.getInterestingData());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -64,6 +69,7 @@ public class BookDetailActivity extends BaseActivity {
         String url = getIntent().getStringExtra(Config.INTENT_BOOK_DETAIL_PIC);
         BookModel bookModel = (BookModel) getIntent().getExtras().getSerializable("BookModel");
         if (model != null) {
+            bookName = model.getBooKName();
             String typeStr = getIntent().getStringExtra(Config.INTENT_BOOK_TYPE);
             if (typeStr.equals("RankUi")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
@@ -105,9 +111,53 @@ public class BookDetailActivity extends BaseActivity {
                 tvBookDesc.setText(model.getBookDesc());
                 tvBookUpdateTime.setText(model.getBookUpdateTime());
                 tvBookUpdateContent.setText(model.getBookUpdateContent());
+                String[] type = bookModel.getBookAuthor().split("\\|");
+                if (type[1].contains("·")) {
+                    String[] typeOne = type[1].split("·");
+                    btnTypeOne.setText(typeOne[0]);
+                    btnTypeTwo.setText(typeOne[1]);
+                } else {
+                    btnTypeOne.setText(type[1]);
+                    btnTypeTwo.setVisibility(View.GONE);
+                }
+            }else if(typeStr.equals("InterestingUi")){
+                GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
+                tvBookName.setText(model.getBooKName());
+                tvBookAuthor.setText(model.getBookAuthor());
             }
 
         }
+        LoadData();
+    }
+
+    private void LoadData() {
+        showLoadingDialog(getString(R.string.Being_loaded), true, null);
+        SearchBookAction.searchInterestingBookPic(this, bookName, new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
+                mPicList.addAll((Collection<? extends String>) object);
+                mAdapter.updateDataPic(mPicList);
+            }
+
+            @Override
+            public void failed(Object object) {
+                hideLoadingDialog();
+            }
+        });
+
+        SearchBookAction.searchInterestingBook(this, bookName, new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
+                mList.addAll((Collection<? extends BookModel>) object);
+                mAdapter.updateData(mList);
+                hideLoadingDialog();
+            }
+
+            @Override
+            public void failed(Object object) {
+                hideLoadingDialog();
+            }
+        });
     }
 
     @Override
@@ -128,17 +178,4 @@ public class BookDetailActivity extends BaseActivity {
         return R.layout.activity_book_detail;
     }
 
-
-    private class InterestingAdapter extends BGARecyclerViewAdapter<BookModel> {
-
-        public InterestingAdapter(RecyclerView recyclerView) {
-            super(recyclerView, R.layout.item_interesting);
-        }
-
-        @Override
-        protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
-            GlideUtils.loadImage(helper.getImageView(R.id.book_img), model.getBookUrl(), R.mipmap.default_book, R.mipmap.default_book);
-            helper.setText(R.id.book_name, model.getBooKName());
-        }
-    }
 }

@@ -53,6 +53,7 @@ public class Config {
 
     //searchBook
     public static final String QI_DIAN_SEARCH = "http://se.qidian.com/?kw=%s&page=";
+    public static final String QI_DIAN_INTERESING = "http://se.qidian.com/?kw=%s";
 
     //sharePreferences
     public static final String USER_SETTINGS = "USER_SETTING";
