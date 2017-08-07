@@ -1,12 +1,17 @@
 package com.example.ruolan.letgo.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.io.Serializable;
 
 /**
  * Created by liuwen on 2017/6/27.
  */
+@Entity
 public class BookModel implements Serializable {
-
+    @Id(autoincrement = true)
     private long id;
     private String booKName;//书名
     private String bookUrl; //url
@@ -20,6 +25,7 @@ public class BookModel implements Serializable {
     private String bookAuthorWriteTime;//作者出道时间
     private String bookType;//书籍类型
     private String bookWriteRead;//多少读者阅读过
+    private String bookReadTime;
 
     public BookModel() {
     }
@@ -27,6 +33,28 @@ public class BookModel implements Serializable {
     public BookModel(String booKName, String bookUrl) {
         this.booKName = booKName;
         this.bookUrl = bookUrl;
+    }
+
+    @Generated(hash = 1634106150)
+    public BookModel(long id, String booKName, String bookUrl, String bookAuthor,
+            String bookDetailUrl, String bookAuthorUrl, String bookDesc,
+            String bookUpdateTime, String bookUpdateContent, String bookPic,
+            String bookAuthorWriteTime, String bookType, String bookWriteRead,
+            String bookReadTime) {
+        this.id = id;
+        this.booKName = booKName;
+        this.bookUrl = bookUrl;
+        this.bookAuthor = bookAuthor;
+        this.bookDetailUrl = bookDetailUrl;
+        this.bookAuthorUrl = bookAuthorUrl;
+        this.bookDesc = bookDesc;
+        this.bookUpdateTime = bookUpdateTime;
+        this.bookUpdateContent = bookUpdateContent;
+        this.bookPic = bookPic;
+        this.bookAuthorWriteTime = bookAuthorWriteTime;
+        this.bookType = bookType;
+        this.bookWriteRead = bookWriteRead;
+        this.bookReadTime = bookReadTime;
     }
 
     public long getId() {
@@ -131,5 +159,13 @@ public class BookModel implements Serializable {
 
     public void setBookWriteRead(String bookWriteRead) {
         this.bookWriteRead = bookWriteRead;
+    }
+
+    public String getBookReadTime() {
+        return bookReadTime;
+    }
+
+    public void setBookReadTime(String bookReadTime) {
+        this.bookReadTime = bookReadTime;
     }
 }

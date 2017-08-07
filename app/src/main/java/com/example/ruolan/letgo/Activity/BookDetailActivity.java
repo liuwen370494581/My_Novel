@@ -1,8 +1,11 @@
 package com.example.ruolan.letgo.Activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,10 +15,14 @@ import android.widget.TextView;
 import com.example.ruolan.letgo.Adapter.InterestingAdapter;
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.Config;
-import com.example.ruolan.letgo.Enage.DataEnage;
+import com.example.ruolan.letgo.Dao.DaoShelfBook;
+import com.example.ruolan.letgo.EventBus.C;
+import com.example.ruolan.letgo.EventBus.Event;
+import com.example.ruolan.letgo.EventBus.EventBusUtil;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.SearchBookAction;
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.Utils.DateTimeUtils;
 import com.example.ruolan.letgo.Utils.GlideUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 
@@ -23,20 +30,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.reactivex.Observable;
+
 /**
  * Created by liuwen on 2017/7/11.
  */
-public class BookDetailActivity extends BaseActivity {
+public class BookDetailActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private BookModel model;
     private InterestingAdapter mAdapter;
     private TextView tvBookName, tvBookAuthor, tvBookUpdateTime, tvBookMore, tvBookDesc, tvBookUpdateContent, tvBookUpdateTimeTitle;
     private Button btnAddUpdate, btnReadBook, btnTypeOne, btnTypeTwo;
     private ImageView imgBooKUrl;
-    private LinearLayout lyBookUpdateContent;
+    private LinearLayout lyBookUpdateContent, lyBookUpdateTime;
     private List<String> mPicList = new ArrayList<>();
     private List<BookModel> mList = new ArrayList<>();
-    private String bookName = "";
+    private String bookName = "", typeStr = "", url = "";
+    private boolean isBtnNoAdd = true;
 
     @Override
     protected void initView() {
@@ -56,6 +66,7 @@ public class BookDetailActivity extends BaseActivity {
         tvBookUpdateTimeTitle = getView(R.id.tv_update_time);
         tvBookUpdateContent = getView(R.id.update_content);
         lyBookUpdateContent = getView(R.id.ly_update_content);
+        lyBookUpdateTime = getView(R.id.ly_update_time);
 
         mAdapter = new InterestingAdapter(this, mPicList, mList);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -66,11 +77,11 @@ public class BookDetailActivity extends BaseActivity {
     @Override
     protected void initData() {
         model = (BookModel) getIntent().getExtras().getSerializable(Config.INTENT_BOOK_DETAIL_LIST);
-        String url = getIntent().getStringExtra(Config.INTENT_BOOK_DETAIL_PIC);
+        url = getIntent().getStringExtra(Config.INTENT_BOOK_DETAIL_PIC);
         BookModel bookModel = (BookModel) getIntent().getExtras().getSerializable("BookModel");
         if (model != null) {
             bookName = model.getBooKName();
-            String typeStr = getIntent().getStringExtra(Config.INTENT_BOOK_TYPE);
+            typeStr = getIntent().getStringExtra(Config.INTENT_BOOK_TYPE);
             if (typeStr.equals("RankUi")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
                 tvBookName.setText(model.getBooKName());
@@ -120,12 +131,32 @@ public class BookDetailActivity extends BaseActivity {
                     btnTypeOne.setText(type[1]);
                     btnTypeTwo.setVisibility(View.GONE);
                 }
-            }else if(typeStr.equals("InterestingUi")){
+            } else if (typeStr.equals("InterestingUi")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
                 tvBookName.setText(model.getBooKName());
                 tvBookAuthor.setText(model.getBookAuthor());
+                lyBookUpdateTime.setVisibility(View.GONE);
+                lyBookUpdateContent.setVisibility(View.GONE);
             }
 
+        }
+        for (int i = 0; i < DaoShelfBook.query().size(); i++) {
+            Log.e(Config.TAG, DaoShelfBook.query().get(i).getBooKName());
+            if (DaoShelfBook.query().get(i).getBooKName().equals(bookName)) {
+                Resources resources = getResources();
+                Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_full_gray);
+                btnAddUpdate.setBackground(btnDrawable);
+                btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
+                btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
+                isBtnNoAdd = false;
+            } else {
+                Resources resources = getResources();
+                Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
+                btnAddUpdate.setBackground(btnDrawable);
+                btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
+                btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
+                isBtnNoAdd = true;
+            }
         }
         LoadData();
     }
@@ -171,6 +202,10 @@ public class BookDetailActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        btnAddUpdate.setOnClickListener(this);
+        btnTypeTwo.setOnClickListener(this);
+        btnTypeOne.setOnClickListener(this);
+        btnReadBook.setOnClickListener(this);
     }
 
     @Override
@@ -178,4 +213,51 @@ public class BookDetailActivity extends BaseActivity {
         return R.layout.activity_book_detail;
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view == btnAddUpdate) {
+            //追更新 添加到书架中
+            addBookToShelf();
+        } else if (view == btnReadBook) {
+
+
+        } else if (view == btnTypeOne) {
+
+        } else if (view == btnTypeTwo) {
+
+        }
+    }
+
+    private void addBookToShelf() {
+        if (isBtnNoAdd) {
+            showLoadingDialog(getString(R.string.add_success), true, null);
+            Resources resources = getResources();
+            Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_full_gray);
+            btnAddUpdate.setBackground(btnDrawable);
+            btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
+            btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
+            isBtnNoAdd = false;
+            model.setId(DaoShelfBook.getCount());
+            model.setBookReadTime(DateTimeUtils.getCurrentTime_Today());
+            if (typeStr.equals("RankUi")) {
+                model.setBookPic(url);
+            } else if (typeStr.equals("ClassifyUi")) {
+                model.setBookPic(url);
+            } else if (typeStr.equals("InterestingUi")) {
+                model.setBookPic(url);
+            }
+            DaoShelfBook.insert(model);
+            EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefAdd, model));
+        } else {
+            showLoadingDialog(getString(R.string.cancel_update), true, null);
+            Resources resources = getResources();
+            Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
+            btnAddUpdate.setBackground(btnDrawable);
+            btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
+            btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
+            isBtnNoAdd = true;
+            DaoShelfBook.deleteByModel(model);
+            EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefCancel, model));
+        }
+    }
 }

@@ -11,5 +11,8 @@ public final class C {
         public static final int RankingDetailToFragment = 1000001;
 
         // other more
+
+        public static final int BookDetailAuthorToSelefAdd = 10001;
+        public static final int BookDetailAuthorToSelefCancel = 10002;
     }
 }

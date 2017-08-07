@@ -48,7 +48,7 @@ public class DaoBookHistory {
      * @param model
      */
     public static void update(Dish model) {
-        DaoManager.getInstance().getDaoSession().update(model);
+        DaoManager.getInstance().getDaoSession().getDishDao().update(model);
     }
 
     /**

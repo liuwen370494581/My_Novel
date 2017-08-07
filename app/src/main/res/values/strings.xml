@@ -19,6 +19,10 @@
     <string name="endLoadingmore">亲,已经没有多余的书籍拉...</string>
     <string name="book_detail">书籍详情</string>
     <string name="search_book">搜索书籍</string>
+    <string name="Chase_update">+追更新</string>
+    <string name="no_Chase_update">-不追了</string>
+    <string name="add_success">添加成功</string>
+    <string name="cancel_update">已取消追更</string>
 
     <string-array name="tab_titles">
         <item>周榜</item>
