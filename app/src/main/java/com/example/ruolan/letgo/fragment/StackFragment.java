@@ -47,7 +47,7 @@ public class StackFragment extends BaseFragment {
     private NewUpdateAdapter mNewUpdateAdapter;
     private NewBookRecommendAdapter mNewBookRecommendAdapter;
     private List<BookModel> mList = new ArrayList<>();
-    private List<Dish> editList = new ArrayList<>();
+    private List<BookModel> editList = new ArrayList<>();
     private List<BookModel> newUpdateList = new ArrayList<>();
     private List<BookModel> newBookRecommendList = new ArrayList<>();
     private LinearLayout lyType, lyEdit, lyNewUpdate, lyNewBookRecomm;
@@ -175,7 +175,7 @@ public class StackFragment extends BaseFragment {
         HomePageAction.searchQiDianEditRecommendation(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
-                editList.addAll((Collection<? extends Dish>) object);
+                editList.addAll((Collection<? extends BookModel>) object);
                 mEditAdapter.setData(editList);
             }
 
@@ -252,16 +252,16 @@ public class StackFragment extends BaseFragment {
     }
 
 
-    private class EditAdapter extends BGARecyclerViewAdapter<Dish> {
+    private class EditAdapter extends BGARecyclerViewAdapter<BookModel> {
 
         public EditAdapter(RecyclerView recyclerView) {
             super(recyclerView, R.layout.item_edit_recycler_view);
         }
 
         @Override
-        protected void fillData(BGAViewHolderHelper helper, int position, Dish model) {
-            helper.setText(R.id.item_edit_tv, model.getTitle());
-            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getUrl(), R.mipmap.default_book, R.mipmap.default_book);
+        protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
+            helper.setText(R.id.item_edit_tv, model.getBooKName());
+            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
 
         }
     }

@@ -64,7 +64,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     //数据
     private List<String> mPicList = new ArrayList<>();
-    private List<BookModel> mList = new ArrayList<>();
+    private List<BookModel> mList = new ArrayList<>();//重复数据
 
 
     private int page = 1;//先从第一页开始查询
@@ -127,7 +127,6 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             //无数据
             mSearchHistoryAdapter.setData(new ArrayList<Dish>());
         } else {
-            //有数据
             mSearchHistoryAdapter.setData(DaoBookHistory.query());
         }
         searchHistoryRecyclerView.setAdapter(mSearchHistoryAdapter);
@@ -154,7 +153,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             @Override
             public void failed(Object object) {
                 /** 设置文字 **/
-    //            mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
+                //            mDefineBAGRefreshWithLoadView.updateLoadingMoreText(object.toString());
                 mBGARefreshLayout.endLoadingMore();
                 hideLoadingDialog();
             }
@@ -236,6 +235,8 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             public void onRVItemClick(ViewGroup parent, View itemView, int position) {
                 editSearchBook.setText(mSearchHistoryAdapter.getItem(position).getTitle());
                 bookName = mSearchHistoryAdapter.getItem(position).getTitle();
+                dish = new Dish(DaoBookHistory.getCount(), bookName, DateTimeUtils.getCurrentTime_Today());
+                DaoBookHistory.insert(dish);
                 LoadData(mSearchHistoryAdapter.getItem(position).getTitle(), page);
                 reHistory.setVisibility(View.GONE);
                 reReflash.setVisibility(View.GONE);
@@ -245,6 +246,9 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                 tvCancel.setVisibility(View.VISIBLE);
             }
         });
+
+
+
     }
 
     @Override
@@ -293,7 +297,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        Dish dish = new Dish(DaoBookHistory.getCount(), mReflashAdapter.getItem(position).getTitle(), DateTimeUtils.getCurrentTime_Today());
+        dish = new Dish(DaoBookHistory.getCount(), mReflashAdapter.getItem(position).getTitle(), DateTimeUtils.getCurrentTime_Today());
         DaoBookHistory.insert(dish);
         editSearchBook.setText(mReflashAdapter.getItem(position).getTitle());
         bookName = mReflashAdapter.getItem(position).getTitle();

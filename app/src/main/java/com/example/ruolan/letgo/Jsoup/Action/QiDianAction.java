@@ -3,9 +3,7 @@ package com.example.ruolan.letgo.Jsoup.Action;
 import android.content.Context;
 
 import com.example.ruolan.letgo.R;
-import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
-import com.example.ruolan.letgo.bean.Dish;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
 
 import java.util.List;
@@ -58,7 +56,7 @@ public class QiDianAction {
                 if (models != null && models.size() != 0) {
                     callBack.ok(models);
                 } else {
-                    //  callBack.failed(context.getResources().getString(R.string.endLoadingmore));
+                     callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
         });

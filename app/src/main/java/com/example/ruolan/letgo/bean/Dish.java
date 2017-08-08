@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
+
 import org.greenrobot.greendao.annotation.Generated;
 
 /**
@@ -13,7 +14,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class Dish implements Serializable {
 
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
     private String title;
     private String url;
 
@@ -29,34 +30,36 @@ public class Dish implements Serializable {
         this.url = url;
     }
 
-    @Generated(hash = 589957198)
-    public Dish(long id, String title, String url) {
-        this.id = id;
-        this.title = title;
-        this.url = url;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     public void setUrl(String url) {
         this.url = url;
     }
 
-    public long getId() {
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
+    @Generated(hash = 1922366006)
+    public Dish(Long id, String title, String url) {
+        this.id = id;
+        this.title = title;
+        this.url = url;
+    }
+
+  
 }

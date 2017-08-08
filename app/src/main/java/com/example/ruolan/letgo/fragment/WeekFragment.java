@@ -77,7 +77,6 @@ public class WeekFragment extends BaseFragment implements BGARefreshLayout.BGARe
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new RankShowAdapter(mList, mPicList, getActivity());
         mRecyclerView.setAdapter(mAdapter);
-
         setListener();
     }
 

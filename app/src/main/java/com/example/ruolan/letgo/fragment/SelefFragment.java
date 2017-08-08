@@ -100,7 +100,6 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
             DaoShelfBook.deleteByModel(mList.get(position));
         } else if (childView.getId() == R.id.tv_edit) {
             SwipeMenu.closeMenu();
-            Toast.makeText(getActivity(), "编辑" + position, Toast.LENGTH_SHORT).show();
         }
     }
 

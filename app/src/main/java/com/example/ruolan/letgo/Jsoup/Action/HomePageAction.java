@@ -68,14 +68,14 @@ public class HomePageAction {
 
     // 获取首页编辑推荐
     public static void searchQiDianEditRecommendation(final Context context, final ActionCallBack callBack) {
-        Observable.create(new ObservableOnSubscribe<List<Dish>>() {
+        Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<Dish>> e) throws Exception {
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 e.onNext(HtmlParserUtil.searchQIDianType());
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Dish>>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
             @Override
-            public void accept(@NonNull List<Dish> list) throws Exception {
+            public void accept(@NonNull List<BookModel> list) throws Exception {
                 if (list != null && list.size() != 0) {
                     callBack.ok(list);
                 } else {

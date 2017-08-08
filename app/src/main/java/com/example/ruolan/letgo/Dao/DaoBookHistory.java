@@ -5,9 +5,8 @@ import com.example.ruolan.letgo.bean.Dish;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by liuwen on 2017/7/28.
@@ -40,8 +39,6 @@ public class DaoBookHistory {
     public static void deleteAllData() {
         DaoManager.getInstance().getDaoSession().getDishDao().deleteAll();
     }
-
-
     /**
      * 更新数据
      *
@@ -59,12 +56,21 @@ public class DaoBookHistory {
     public static List<Dish> query() {
         List<Dish> list = new ArrayList<>();
         list = DaoManager.getInstance().getDaoSession().getDishDao().queryBuilder().list();
+        //先排序
         Collections.sort(list, new Comparator<Dish>() {
             @Override
             public int compare(Dish model1, Dish model2) {
                 return model2.getUrl().compareTo(model1.getUrl());
             }
         });
+        //数据去重复
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getTitle().equals(list.get(i).getTitle())) {
+                    list.remove(j);
+                }
+            }
+        }
         return list;
     }
 
@@ -78,5 +84,6 @@ public class DaoBookHistory {
     public static long getCount() {
         return DaoManager.getInstance().getDaoSession().getDishDao().count();
     }
+
 
 }

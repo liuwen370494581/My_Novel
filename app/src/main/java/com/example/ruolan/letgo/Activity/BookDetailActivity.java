@@ -230,7 +230,6 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
 
     private void addBookToShelf() {
         if (isBtnNoAdd) {
-            showLoadingDialog(getString(R.string.add_success), true, null);
             Resources resources = getResources();
             Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_full_gray);
             btnAddUpdate.setBackground(btnDrawable);
@@ -249,7 +248,6 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             DaoShelfBook.insert(model);
             EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefAdd, model));
         } else {
-            showLoadingDialog(getString(R.string.cancel_update), true, null);
             Resources resources = getResources();
             Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
             btnAddUpdate.setBackground(btnDrawable);

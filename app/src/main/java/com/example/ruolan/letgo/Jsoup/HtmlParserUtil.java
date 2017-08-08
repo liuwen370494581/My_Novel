@@ -25,25 +25,7 @@ import java.util.regex.Pattern;
  */
 public class HtmlParserUtil {
 
-    public static List<Dish> searchBook() {
-        List<Dish> list = new ArrayList<>();
-        try {
-            Document doc = Jsoup.connect("http://home.meishichina.com/show-top-type-recipe.html").timeout(40000).get();
-            Elements elements = doc.select("div.pic");
-            for (int i = 0; i < elements.size(); i++) {
-                Dish dish = new Dish();
-                dish.setTitle(elements.get(i).select("a").attr("title"));
-                dish.setUrl(elements.get(i).select("a").select("img").attr("data-src"));
-                list.add(dish);
-                Log.e("MainActivity", "title:" + elements.get(i).select("a").attr("title") + "pic:" + elements.get(i).select("a").select("img").attr("data-src"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    //获取起点数据info
+    //获取起点数据info 排行榜
     public static List<BookModel> searchQiDianRanking(String url, int indexPage, int typePage) {
         List<BookModel> list = new ArrayList<>();
         try {
@@ -75,7 +57,7 @@ public class HtmlParserUtil {
         return list;
     }
 
-    //获取起点图书的img
+    //获取起点图书的img 排行榜
     public static List<String> searchQiDianRankingPic(String url, int indexPage, int typePage) {
         List<String> list = new ArrayList<>();
         try {
@@ -98,7 +80,7 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect("http://a.qidian.com/?size=-1&sign=-1&tag=-1&chanId=-1&subCateId=-1&orderId=&update=-1&page=1&month=-1&style=1&action=-1&vip=-1").timeout(40000).get();
             Elements elements1 = document.select("ul.row-" + page);
-            Log.e("MyTag", elements1.size() + "" + elements1.text());
+            Log.e(Config.TAG, elements1.size() + "" + elements1.text());
             String[] content = elements1.text().split(" ");
             list.add(new ClassifyModel(content[0]));
             list.add(new ClassifyModel(content[1]));
@@ -115,7 +97,7 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(url).timeout(40000).get();
             Elements elements1 = document.select("div.count-text");
-            Log.e("MyTag", elements1.size() + "count" + elements1.select("span").text());
+            Log.e("MyTag", elements1.size() + "count===" + elements1.select("span").text());
             return elements1.select("span").text();
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,7 +113,7 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(String.format(url, indexPage)).timeout(40000).get();
             Elements elements = document.select("div.book-mid-info");
-            Log.e("MainActivity", elements.toString());
+            Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href").replace("http:", ""));
@@ -164,24 +146,7 @@ public class HtmlParserUtil {
             Elements elements1 = document.select("div.book-img-box");
             for (int j = 0; j < elements1.size(); j++) {
                 list.add(elements1.get(j).select("a").select("img").attr("src"));
-                Log.e("MainActivity", "bookUrl" + elements1.get(j).select("a").select("img").attr("src"));
-            }
-            return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    //获取起点封面图片
-    public static List<String> searchQiDianCoverPic() {
-        List<String> list = new ArrayList<>();
-        try {
-            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(40000).get();
-            Elements elements1 = document.select("div.focus-img");
-            for (int j = 0; j < 5; j++) {
-                Log.e("MainActivity", "img" + elements1.get(j).select("a").select("img").attr("src"));
-                list.add(elements1.get(j).select("a").select("img").attr("src"));
+                Log.e(Config.TAG, "bookUrl===" + elements1.get(j).select("a").select("img").attr("src"));
             }
             return list;
         } catch (Exception e) {
@@ -191,6 +156,23 @@ public class HtmlParserUtil {
     }
 
     //获取起点封面图片 轮播图
+    public static List<String> searchQiDianCoverPic() {
+        List<String> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(40000).get();
+            Elements elements1 = document.select("div.focus-img");
+            for (int j = 0; j < 5; j++) {
+                Log.e(Config.TAG, "img===" + elements1.get(j).select("a").select("img").attr("src"));
+                list.add(elements1.get(j).select("a").select("img").attr("src"));
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //获取起点封面图片内容 轮播图
     public static List<IndexModel> searchQiDianCover() {
         List<IndexModel> list = new ArrayList<>();
         try {
@@ -198,9 +180,9 @@ public class HtmlParserUtil {
             Elements elements1 = document.select("div.info");
             for (int j = 0; j < 5; j++) {
                 IndexModel model = new IndexModel();
-                Log.e("MainActivity", "bookName:" + elements1.get(j).select("a").attr("title"));
+                Log.e(Config.TAG, "bookName===:" + elements1.get(j).select("a").attr("title"));
                 // list.add(elements1.get(j).select("a").select("img").attr("src"));
-                Log.e("MainActivity", "booUrl:" + elements1.get(j).select("a").attr("href"));
+                Log.e(Config.TAG, "booUrl===:" + elements1.get(j).select("a").attr("href"));
                 model.setBookUrl(elements1.get(j).select("a").attr("href"));
                 model.setName(elements1.get(j).select("a").attr("title"));
                 list.add(model);
@@ -213,25 +195,9 @@ public class HtmlParserUtil {
     }
 
 
-    public static List<String> searchQiDianHot() {
-        List<String> list = new ArrayList<>();
-        try {
-            Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(40000).get();
-            Elements elements1 = document.select("div.focus-img");
-            for (int j = 0; j < 5; j++) {
-                Log.e("MainActivity", "img" + elements1.get(j).select("a").select("img").attr("src"));
-                list.add(elements1.get(j).select("a").select("img").attr("src"));
-            }
-            return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
     //获取起点的首页编辑推荐
-    public static List<Dish> searchQIDianType() {
-        List<Dish> list = new ArrayList<>();
+    public static List<BookModel> searchQIDianType() {
+        List<BookModel> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements = document.select("div.slideItem");
@@ -239,10 +205,10 @@ public class HtmlParserUtil {
                 Log.e(Config.TAG, elements.get(i).toString());
                 Log.e(Config.TAG, "title===" + elements.get(i).select("a").select("img").attr("title"));
                 Log.e(Config.TAG, "url====" + elements.get(i).select("a").select("img").attr("src"));
-                Dish dish = new Dish();
-                dish.setTitle(elements.get(i).select("a").select("img").attr("title"));
-                dish.setUrl(elements.get(i).select("a").select("img").attr("src"));
-                list.add(dish);
+                BookModel model = new BookModel();
+                model.setBooKName(elements.get(i).select("a").select("img").attr("title"));
+                model.setBookPic(elements.get(i).select("a").select("img").attr("src"));
+                list.add(model);
             }
 
         } catch (Exception e) {
@@ -259,7 +225,6 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements = document.select("div.book-img");
             for (int i = 0; i < elements.size(); i++) {
-                //Log.e(Config.TAG, elements1.get(i).toString());
                 Log.e(Config.TAG, "bookUrl===" + elements.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "bookImg===" + elements.get(i).select("a").select("img").attr("data-original"));
                 Log.e(Config.TAG, "bookName===" + elements.get(i).select("a").select("img").attr("alt"));
@@ -283,7 +248,6 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements1 = document.select("div.update-rec-list").select("ul").select("li");
             for (int i = 0; i < elements1.size(); i++) {
-                //  Log.e(Config.TAG, elements1.get(i).toString());
                 Log.e(Config.TAG, "url====" + elements1.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "bookName===" + elements1.get(i).select("h4").text());
                 Log.e(Config.TAG, "bookAuthor===" + elements1.get(i).select("p.author").select("a").text());
@@ -315,7 +279,6 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements1 = document.select("div.slide-box").select("ul").select("li");
             for (int i = 0; i < elements1.size(); i++) {
-                //Log.e(Config.TAG, elements1.get(i).toString());
                 Log.e(Config.TAG, "bookUrl===" + elements1.get(i).select("li").select("a").attr("href"));
                 Log.e(Config.TAG, "bookImg===" + elements1.get(i).select("li").select("a").select("img").attr("data-original"));
                 Log.e(Config.TAG, "bookName===" + elements1.get(i).select("li").select("a").select("img").attr("alt"));
@@ -341,7 +304,6 @@ public class HtmlParserUtil {
             Log.e(Config.TAG, elements.size() + "");
             for (int i = 0; i < elements.size(); i++) {
                 list.add(elements.get(i).select("a").select("img").attr("src"));
-                //  Log.e(Config.TAG, elements.get(i).select("a").select("img").attr("src"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -421,7 +383,6 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_INTERESING, bookName))).timeout(40000).get();
             Elements elements = document.select("div.img-box");
-            // Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 Log.e(Config.TAG, "img===" + elements.get(i).select("a").select("img").attr("src"));
                 list.add(elements.get(i).select("a").select("img").attr("src"));
@@ -438,7 +399,6 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_INTERESING, bookName))).timeout(40000).get();
             Elements elements = document.select("div.book-info");
-            //Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 Log.e(Config.TAG, "bookName===" + elements.get(i).select("h4").text());
