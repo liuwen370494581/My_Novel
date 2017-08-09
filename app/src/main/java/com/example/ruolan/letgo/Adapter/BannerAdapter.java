@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.GlideUtils;
-import com.example.ruolan.letgo.bean.IndexModel;
+import com.example.ruolan.letgo.bean.BookModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +32,16 @@ public class BannerAdapter extends PagerAdapter {
     private int mSize;
     private Activity mActivity;
     private float mImageCorner = -1F;
-    private List<IndexModel> mList = new ArrayList<>();
+    private List<BookModel> mList = new ArrayList<>();
     private List<String> mPicList = new ArrayList<>();
 
-    public BannerAdapter(Activity activity, List<IndexModel> list, List<String> picList) {
+    public BannerAdapter(Activity activity, List<BookModel> list, List<String> picList) {
         mActivity = activity;
         mList = list;
         mPicList = picList;
     }
 
-    public void updateList(List<IndexModel> list) {
+    public void updateList(List<BookModel> list) {
         if (list.size() != 0) {
             mList = list;
             notifyDataSetChanged();
@@ -74,10 +74,10 @@ public class BannerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(mActivity.getApplicationContext()).inflate(R.layout.recommend_page_item, container, false);
         if (mPicList.size() != 0 || mList.size() != 0) {
-            IndexModel model = mList.get(position);
+            BookModel model = mList.get(position);
             ImageView imageView = (ImageView) view.findViewById(R.id.image);
             TextView textView = (TextView) view.findViewById(R.id.image_desc);
-            textView.setText(model.getName());
+            textView.setText(model.getBooKName());
             if(mPicList.size() != 0 && mPicList.size() == mList.size()){
                 GlideUtils.loadImage(imageView, "http:" + mPicList.get(position), R.mipmap.default_book, R.mipmap.default_book);
                 Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();

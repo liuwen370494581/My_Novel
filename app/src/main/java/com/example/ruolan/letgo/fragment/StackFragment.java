@@ -17,8 +17,6 @@ import com.example.ruolan.letgo.Jsoup.Action.HomePageAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.GlideUtils;
 import com.example.ruolan.letgo.bean.BookModel;
-import com.example.ruolan.letgo.bean.Dish;
-import com.example.ruolan.letgo.bean.IndexModel;
 import com.hejunlin.superindicatorlibray.CircleIndicator;
 import com.hejunlin.superindicatorlibray.LoopViewPager;
 
@@ -34,7 +32,7 @@ import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
  * 书库
  */
 public class StackFragment extends BaseFragment {
-    private List<IndexModel> mBannerList = new ArrayList<>();
+    private List<BookModel> mBannerList = new ArrayList<>();
     private List<String> mBannerPicList = new ArrayList<>();
     private BannerAdapter mBannerAdapter; //头部banner
     private LoopViewPager viewpager; //头部banner
@@ -128,7 +126,7 @@ public class StackFragment extends BaseFragment {
         HomePageAction.searchQiDianCover(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
-                mBannerList.addAll((Collection<? extends IndexModel>) object);
+                mBannerList.addAll((Collection<? extends BookModel>) object);
                 mBannerAdapter = new BannerAdapter(getActivity(), mBannerList, mBannerPicList);
                 viewpager.setAdapter(mBannerAdapter);
                 viewpager.setLooperPic(true);

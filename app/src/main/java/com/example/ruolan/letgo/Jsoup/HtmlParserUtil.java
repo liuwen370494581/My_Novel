@@ -173,18 +173,18 @@ public class HtmlParserUtil {
     }
 
     //获取起点封面图片内容 轮播图
-    public static List<IndexModel> searchQiDianCover() {
-        List<IndexModel> list = new ArrayList<>();
+    public static List<BookModel> searchQiDianCover() {
+        List<BookModel> list = new ArrayList<>();
         try {
             Document document = Jsoup.connect(Config.ORIGIN_COVER).timeout(40000).get();
             Elements elements1 = document.select("div.info");
             for (int j = 0; j < 5; j++) {
-                IndexModel model = new IndexModel();
+                BookModel model = new BookModel();
                 Log.e(Config.TAG, "bookName===:" + elements1.get(j).select("a").attr("title"));
                 // list.add(elements1.get(j).select("a").select("img").attr("src"));
                 Log.e(Config.TAG, "booUrl===:" + elements1.get(j).select("a").attr("href"));
-                model.setBookUrl(elements1.get(j).select("a").attr("href"));
-                model.setName(elements1.get(j).select("a").attr("title"));
+                model.setBookPic(elements1.get(j).select("a").attr("href"));
+                model.setBooKName(elements1.get(j).select("a").attr("title"));
                 list.add(model);
             }
             return list;

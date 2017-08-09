@@ -64,7 +64,7 @@ public class RankingShowActivity extends BaseActivity {
             @Override
             public void onRVItemClick(ViewGroup parent, View itemView, int position) {
                 Intent intent = new Intent(RankingShowActivity.this, BookDetailActivity.class);
-                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST,mAdapter.getItem(position));
+                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, mAdapter.getItem(position));
                 intent.putExtra("BookModel", model);
                 intent.putExtra(Config.INTENT_BOOK_TYPE, "AuthorUi");
                 startActivity(intent);
@@ -80,14 +80,7 @@ public class RankingShowActivity extends BaseActivity {
     private void LoadData(String webUrl) {
 
         showLoadingDialog(getString(R.string.Being_loaded), true, null);
-        if (!NetworkUtils.isConnected(this)) {
-            hideLoadingDialog();
-            ToastUtils.showToast(this, "网络有问题");
-            //会做一个显示网络错误的图 然后点击在加载
-            return;
-        }
-
-        AuthorWorkAction.searchAuthorWork(this, webUrl, new ActionCallBack() {
+        AuthorWorkAction.searchAuthorWorks(this, webUrl, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
