@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_net_work"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/icon_net_work"/>
+
+        <ImageView
+            android:id="@+id/image_reflash"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/image_net_work"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_reflash2"/>
+
+        <TextView
+            android:id="@+id/tv_reflash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_reflash"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:text="服务器出小差了,点击刷新"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+</LinearLayout>

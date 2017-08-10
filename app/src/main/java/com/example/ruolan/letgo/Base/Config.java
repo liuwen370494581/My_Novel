@@ -71,4 +71,7 @@ public class Config {
     //TAG
     public static final String TAG = "MyTag";
 
+    //NV_YOU
+    public static final String NV_YOU_URL = "http://nanrenvip.net/";
+
 }

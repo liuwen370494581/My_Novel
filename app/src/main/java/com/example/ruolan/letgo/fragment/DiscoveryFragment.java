@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ruolan.letgo.Base.BaseFragment;
+import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
+import com.example.ruolan.letgo.Jsoup.Action.SearchBookAction;
 import com.example.ruolan.letgo.MyToolbar;
 import com.example.ruolan.letgo.R;
 
@@ -19,8 +21,12 @@ public class DiscoveryFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cart, container,false);
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        initView();
         return view;
+    }
+
+    private void initView() {
     }
 
     @Override

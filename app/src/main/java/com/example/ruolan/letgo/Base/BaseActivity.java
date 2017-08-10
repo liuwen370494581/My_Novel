@@ -14,6 +14,7 @@ import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.ActivityKiller;
 import com.example.ruolan.letgo.Utils.StatusBarUtils;
 import com.example.ruolan.letgo.Utils.ToastUtils;
+import com.example.ruolan.letgo.widget.ErrorView;
 import com.example.ruolan.letgo.widget.LoadingProgressDialog;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -27,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private LinearLayout lyCommonBar;
     private TextView mTvCenter;//toobar中间文字
     private LoadingProgressDialog mLoadingDialog;
+    private ErrorView mErrorView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,6 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             mLoadingDialog.closeDialog();
         }
     }
+
 
 
     /**
