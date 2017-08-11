@@ -114,7 +114,7 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(String.format(url, indexPage)).timeout(40000).get();
             Elements elements = document.select("div.book-mid-info");
-            Log.e(Config.TAG, elements.toString());
+            // Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href").replace("http:", ""));
@@ -183,8 +183,8 @@ public class HtmlParserUtil {
                 BookModel model = new BookModel();
                 Log.e(Config.TAG, "bookName===:" + elements1.get(j).select("a").attr("title"));
                 // list.add(elements1.get(j).select("a").select("img").attr("src"));
-                Log.e(Config.TAG, "booUrl===:" + elements1.get(j).select("a").attr("href"));
-                model.setBookPic(elements1.get(j).select("a").attr("href"));
+                Log.e(Config.TAG, "bookDetailUrl===" + elements1.get(j).select("a").attr("href").replace("http", ""));
+                model.setBookDetailUrl(elements1.get(j).select("a").attr("href").replace("http", ""));
                 model.setBooKName(elements1.get(j).select("a").attr("title"));
                 list.add(model);
             }
@@ -203,12 +203,14 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements = document.select("div.slideItem");
             for (int i = 0; i < elements.size(); i++) {
-                Log.e(Config.TAG, elements.get(i).toString());
+                //  Log.e(Config.TAG, "" + elements.get(i).toString());
+                Log.e(Config.TAG, "BookDetailUrl===" + elements.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "title===" + elements.get(i).select("a").select("img").attr("title"));
                 Log.e(Config.TAG, "url====" + elements.get(i).select("a").select("img").attr("src"));
                 BookModel model = new BookModel();
                 model.setBooKName(elements.get(i).select("a").select("img").attr("title"));
                 model.setBookPic(elements.get(i).select("a").select("img").attr("src"));
+                model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
                 list.add(model);
             }
 
@@ -226,13 +228,13 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements = document.select("div.book-img");
             for (int i = 0; i < elements.size(); i++) {
-                Log.e(Config.TAG, "bookUrl===" + elements.get(i).select("a").attr("href"));
+                Log.e(Config.TAG, "BookDetailUrl===" + elements.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "bookImg===" + elements.get(i).select("a").select("img").attr("data-original"));
                 Log.e(Config.TAG, "bookName===" + elements.get(i).select("a").select("img").attr("alt"));
                 BookModel model = new BookModel();
                 model.setBooKName(elements.get(i).select("a").select("img").attr("alt"));
                 model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
-                model.setBookDesc(elements.get(i).select("a").select("img").attr("data-original"));
+                model.setBookPic(elements.get(i).select("a").select("img").attr("data-original"));
                 list.add(model);
             }
 
@@ -261,7 +263,7 @@ public class HtmlParserUtil {
                 model.setBookDetailUrl(elements1.get(i).select("a").attr("href"));
                 model.setBooKName(elements1.get(i).select("h4").text());
                 model.setBookAuthor(elements1.get(i).select("p.author").select("a").text());
-                model.setBookUpdateContent(elements1.get(i).select("div.book-cover").select("a").select("img").attr("src"));
+                model.setBookPic(elements1.get(i).select("div.book-cover").select("a").select("img").attr("src"));
                 model.setBookDesc(elements1.get(i).select("p.intro").text());
                 model.setBookUpdateTime(number[0]);
                 model.setBookAuthorUrl(number[1]);
@@ -280,13 +282,13 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements1 = document.select("div.slide-box").select("ul").select("li");
             for (int i = 0; i < elements1.size(); i++) {
-                Log.e(Config.TAG, "bookUrl===" + elements1.get(i).select("li").select("a").attr("href"));
+                Log.e(Config.TAG, "BooKDetailUrl===" + elements1.get(i).select("li").select("a").attr("href"));
                 Log.e(Config.TAG, "bookImg===" + elements1.get(i).select("li").select("a").select("img").attr("data-original"));
                 Log.e(Config.TAG, "bookName===" + elements1.get(i).select("li").select("a").select("img").attr("alt"));
                 BookModel model = new BookModel();
                 model.setBooKName(elements1.get(i).select("li").select("a").select("img").attr("alt"));
                 model.setBookDetailUrl(elements1.get(i).select("li").select("a").attr("href"));
-                model.setBookDesc(elements1.get(i).select("li").select("a").select("img").attr("data-original"));
+                model.setBookPic(elements1.get(i).select("li").select("a").select("img").attr("data-original"));
                 list.add(model);
             }
 
@@ -331,7 +333,7 @@ public class HtmlParserUtil {
                 Log.e(Config.TAG, "bookDesc======" + elements.get(i).select("p.intro").text());
                 Log.e(Config.TAG, "bookUpdateTime====" + elements.get(i).select("p").select("span").last().text());
                 if (!elements.get(i).select("h4").text().equals("-")) {
-                    model.setBookDetailUrl( elements.get(i).select("a").attr("href"));
+                    model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
                     model.setBooKName(elements.get(i).select("h4").text());
                     model.setBookAuthor(elements.get(i).select("p").first().text());
                     model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href").replace("http:", ""));
@@ -353,9 +355,10 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect("http:" + webUrl).timeout(40000).get();
             Elements elements = document.select("ul.author-work").select("li.author-item");
-            Log.e(Config.TAG, elements.toString());
+            //Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
+                Log.e(Config.TAG, "BookDetailUrl===" + elements.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "AuthorWriteTime====" + elements.get(i).select("div.author-item-time").text());
                 Log.e(Config.TAG, "BookPic===" + elements.get(i).select("a").select("img").attr("src"));
                 Log.e(Config.TAG, "BookName===" + elements.get(i).select("div.author-item-msg").select("div.author-item-title").select("a").text());
@@ -372,6 +375,7 @@ public class HtmlParserUtil {
                 model.setBookUpdateContent(elements.get(i).select("div.author-item-update").select("a").attr("title").replace("最近更新", ""));
                 String updateContent[] = elements.get(i).select("div.author-item-update").last().text().split("  ·  ");
                 model.setBookUpdateTime(updateContent[1]);
+                model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
                 list.add(model);
             }
         } catch (Exception e) {
@@ -423,5 +427,50 @@ public class HtmlParserUtil {
         return list;
     }
 
+
+    public static BookModel searchDetailBookUI(String bookDetailUrl) {
+        BookModel model = new BookModel();
+        try {
+            Document document = Jsoup.connect("http:" + bookDetailUrl).timeout(40000).get();
+            Elements elements = document.select("div.book-info");
+            // Log.e(Config.TAG, elements.toString());
+            Log.e(Config.TAG, "bookName===" + elements.get(0).select("h1").select("em").text());
+            Log.e(Config.TAG, "bookAuthor===" + elements.get(0).select("a.writer").text() + "|" + elements.get(0).select("a.red").first().text() + "|" + elements.get(0).select("span.blue").first().text());
+            model.setBooKName(elements.get(0).select("h1").select("em").text());
+            model.setBookAuthor(elements.get(0).select("a.writer").text() + "|" + elements.get(0).select("a.red").first().text() + "|" + elements.get(0).select("span.blue").first().text());
+            Elements elements1 = document.select("li.update");
+            Log.e(Config.TAG, "bookUpdateContent===" + elements1.get(0).select("a").attr("title"));
+            Log.e(Config.TAG, "bookUpdateTime===" + elements1.get(0).select("em.time").text());
+            model.setBookUpdateContent(elements1.get(0).select("a").attr("title"));
+            model.setBookUpdateTime(elements1.get(0).select("em.time").text());
+            // Log.e(Config.TAG, elements1.toString());
+            Elements elements2 = document.select("div.book-intro");
+            Log.e(Config.TAG, "bookDesc===" + elements2.get(0).select("p").text());
+            Elements elements3 = document.select("a.red-btn");
+            Log.e(Config.TAG, "bookFreeRead===" + elements3.get(0).attr("href"));
+            model.setBookDesc(elements2.get(0).select("p").text());
+            model.setBookFreeRead(elements3.get(0).attr("href"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return model;
+    }
+
+    public static BookModel startReadBook(String bookDetailUrl) {
+        BookModel model = new BookModel();
+        try {
+            Document document = Jsoup.connect("http://read.qidian.com/chapter/rJgN8tJ_cVdRGoWu-UQg7Q2/6jr-buLIUJSaGfXRMrUjdw2").timeout(40000).get();
+            Elements elements = document.select("h3.j_chapterName");
+            Log.e(Config.TAG, "FirstTitle===" + elements.text());
+            Elements elements1 = document.select("div.read-content");
+            Log.e(Config.TAG, "content===" + elements1.text());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return model;
+    }
 
 }

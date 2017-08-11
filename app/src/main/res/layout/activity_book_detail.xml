@@ -27,7 +27,7 @@
                     android:layout_height="80dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    android:src="@mipmap/bookimg"/>
+                    android:src="@mipmap/default_book"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:singleLine="true"
-                            android:text="今天18:16更新"
+                            android:text=""
                             android:textColor="@color/updateTextColor"/>
                     </LinearLayout>
 
@@ -107,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:singleLine="true"
-                            android:text="今天18:16更新"
+                            android:text=""
                             android:textColor="@color/updateTextColor"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -168,15 +168,15 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"/>
 
-                <Button
-                    android:id="@+id/type_02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/book_btn_full"
-                    android:text="奇幻漂流"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                <!--<Button-->
+                    <!--android:id="@+id/type_02"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:background="@drawable/book_btn_full"-->
+                    <!--android:text="奇幻漂流"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="14sp"/>-->
             </LinearLayout>
 
             <View
@@ -190,6 +190,8 @@
                 android:layout_height="80dp">
 
                 <TextView
+                    android:textSize="13sp"
+                    android:ellipsize="end"
                     android:id="@+id/info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

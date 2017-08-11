@@ -67,11 +67,10 @@ public class Config {
     public static final String INTENT_BOOK_DETAIL_PIC = "INTENT_BOOK_DETAIL_PIC";
     public static final String INTENT_AUTHOR_URL = "INTENT_AUTHOR_URL";
     public static final String INTENT_BOOK_TYPE = "INTENT_BOOK_TYPE";
+    public static final String INTENT_BOOK_FREE_READ="INTENT_BOOK_FREE_READ";
 
     //TAG
     public static final String TAG = "MyTag";
 
-    //NV_YOU
-    public static final String NV_YOU_URL = "http://nanrenvip.net/";
 
 }

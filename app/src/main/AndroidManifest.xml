@@ -38,8 +38,11 @@
         <!--书籍详细页面-->
         <activity android:name=".Activity.BookDetailActivity"/>
         <!--搜索页面-->
-        <activity android:name=".Activity.SearchBookActivity"
-                  android:windowSoftInputMode="stateHidden|stateUnchanged"/>
+        <activity
+            android:name=".Activity.SearchBookActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"/>
+        <!--书籍阅读页面-->
+        <activity android:name=".Activity.FullBookShowActivity"/>
     </application>
 
 </manifest>

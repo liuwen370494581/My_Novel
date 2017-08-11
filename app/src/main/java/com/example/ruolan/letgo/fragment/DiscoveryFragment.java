@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.ruolan.letgo.Base.BaseFragment;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
-import com.example.ruolan.letgo.Jsoup.Action.SearchBookAction;
-import com.example.ruolan.letgo.MyToolbar;
+import com.example.ruolan.letgo.Jsoup.Action.StartReadBookAction;
 import com.example.ruolan.letgo.R;
 
 /**
@@ -27,6 +26,18 @@ public class DiscoveryFragment extends BaseFragment {
     }
 
     private void initView() {
+        showLoadingDialog(getString(R.string.Being_loaded),true,null);
+        StartReadBookAction.searchDetailBookUi(getActivity(), "", new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
+        hideLoadingDialog();
+            }
+
+            @Override
+            public void failed(Object object) {
+
+            }
+        });
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.CacheManager;
 import com.example.ruolan.letgo.Utils.NetworkUtils;
 import com.example.ruolan.letgo.bean.BookModel;
+import com.example.ruolan.letgo.bean.ClassifyModel;
 import com.example.ruolan.letgo.bean.Dish;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
 import com.example.ruolan.letgo.bean.IndexModel;
@@ -248,4 +249,8 @@ public class HomePageAction {
                     }
                 });
     }
+
+
+
+
 }

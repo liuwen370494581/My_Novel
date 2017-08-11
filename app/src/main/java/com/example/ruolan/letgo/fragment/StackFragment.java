@@ -1,5 +1,6 @@
 package com.example.ruolan.letgo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.ruolan.letgo.Activity.BookDetailActivity;
 import com.example.ruolan.letgo.Adapter.BannerAdapter;
 import com.example.ruolan.letgo.Base.BaseFragment;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.HomePageAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.GlideUtils;
+import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.hejunlin.superindicatorlibray.CircleIndicator;
 import com.hejunlin.superindicatorlibray.LoopViewPager;
@@ -24,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 
@@ -77,6 +82,7 @@ public class StackFragment extends BaseFragment {
         NewBookRecommend();
         //限时免费模块
         FreeTimeModule();
+
     }
 
     private void FreeTimeModule() {
@@ -157,11 +163,7 @@ public class StackFragment extends BaseFragment {
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
                 mFreeTimeAdapter.setData(mList);
-                lyType.setVisibility(View.VISIBLE);
-                lyEdit.setVisibility(View.VISIBLE);
-                lyNewUpdate.setVisibility(View.VISIBLE);
-                lyNewBookRecomm.setVisibility(View.VISIBLE);
-                hideLoadingDialog();
+
             }
 
             @Override
@@ -175,6 +177,11 @@ public class StackFragment extends BaseFragment {
             public void ok(Object object) {
                 editList.addAll((Collection<? extends BookModel>) object);
                 mEditAdapter.setData(editList);
+                lyType.setVisibility(View.VISIBLE);
+                lyEdit.setVisibility(View.VISIBLE);
+                lyNewUpdate.setVisibility(View.VISIBLE);
+                lyNewBookRecomm.setVisibility(View.VISIBLE);
+                hideLoadingDialog();
             }
 
             @Override
@@ -213,6 +220,45 @@ public class StackFragment extends BaseFragment {
     }
 
     private void setListener() {
+        mFreeTimeAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
+            @Override
+            public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, mFreeTimeAdapter.getItem(position));
+                intent.putExtra(Config.INTENT_BOOK_TYPE, "HomeUi");
+                mContext.startActivity(intent);
+            }
+        });
+
+        mEditAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
+            @Override
+            public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, mEditAdapter.getItem(position));
+                intent.putExtra(Config.INTENT_BOOK_TYPE, "HomeUi");
+                mContext.startActivity(intent);
+            }
+        });
+
+        mNewUpdateAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
+            @Override
+            public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, mNewUpdateAdapter.getItem(position));
+                intent.putExtra(Config.INTENT_BOOK_TYPE, "HomeUi");
+                mContext.startActivity(intent);
+            }
+        });
+
+        mNewBookRecommendAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
+            @Override
+            public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra(Config.INTENT_BOOK_DETAIL_LIST, mNewBookRecommendAdapter.getItem(position));
+                intent.putExtra(Config.INTENT_BOOK_TYPE, "HomeUi");
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
@@ -232,7 +278,7 @@ public class StackFragment extends BaseFragment {
         protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
             helper.setText(R.id.item_edit_tv, model.getBooKName());
             helper.getView(R.id.label).setVisibility(View.VISIBLE);
-            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookDesc(), R.mipmap.default_book, R.mipmap.default_book);
+            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
         }
     }
 
@@ -245,7 +291,7 @@ public class StackFragment extends BaseFragment {
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
             helper.setText(R.id.item_edit_tv, model.getBooKName());
-            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookDesc(), R.mipmap.default_book, R.mipmap.default_book);
+            GlideUtils.loadImage(helper.getImageView(R.id.item_edit_img), "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
         }
     }
 
@@ -278,7 +324,7 @@ public class StackFragment extends BaseFragment {
             helper.setText(R.id.info, model.getBookDesc());
             helper.setText(R.id.update_title, model.getBookUpdateTime());
             helper.setText(R.id.update_time, model.getBookAuthorUrl());
-            GlideUtils.loadImage(helper.getImageView(R.id.book_img), "http:" + model.getBookUpdateContent(), R.mipmap.default_book, R.mipmap.default_book);
+            GlideUtils.loadImage(helper.getImageView(R.id.book_img), "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.ruolan.letgo.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Network;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
     private List<BookModel> mList = new ArrayList<>();
     private String bookName = "", typeStr = "", url = "";
     private boolean isBtnNoAdd = true;
+    private BookModel netWorkModel;
 
     @Override
     protected void initView() {
@@ -61,7 +63,6 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         btnAddUpdate = getView(R.id.btn_add_update);
         btnReadBook = getView(R.id.btn_start_read);
         btnTypeOne = getView(R.id.type_01);
-        btnTypeTwo = getView(R.id.type_02);
         imgBooKUrl = getView(R.id.book_img);
         tvBookUpdateTimeTitle = getView(R.id.tv_update_time);
         tvBookUpdateContent = getView(R.id.update_content);
@@ -89,32 +90,11 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 tvBookDesc.setText(model.getBookDesc());
                 tvBookUpdateTime.setText(model.getBookUpdateTime());
                 tvBookUpdateContent.setText(model.getBookUpdateContent());
-                String[] type = model.getBookAuthor().split("\\|");
-                if (type[1].contains("·")) {
-                    String[] typeOne = type[1].split("·");
-                    btnTypeOne.setText(typeOne[0]);
-                    btnTypeTwo.setText(typeOne[1]);
-                } else {
-                    btnTypeOne.setText(type[1]);
-                    btnTypeTwo.setVisibility(View.GONE);
-                }
             } else if (typeStr.equals("ClassifyUi")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
-                lyBookUpdateContent.setVisibility(View.GONE);
-                tvBookUpdateTimeTitle.setText("字数:");
                 tvBookName.setText(model.getBooKName());
                 tvBookAuthor.setText(model.getBookAuthor());
                 tvBookDesc.setText(model.getBookDesc());
-                tvBookUpdateTime.setText(model.getBookUpdateContent());
-                String[] type = model.getBookAuthor().split("\\|");
-                if (type[1].contains("·")) {
-                    String[] typeOne = type[1].split("·");
-                    btnTypeOne.setText(typeOne[0]);
-                    btnTypeTwo.setText(typeOne[1]);
-                } else {
-                    btnTypeOne.setText(type[1]);
-                    btnTypeTwo.setVisibility(View.GONE);
-                }
             } else if (typeStr.equals("AuthorUi")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
                 tvBookName.setText(model.getBooKName());
@@ -122,21 +102,16 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 tvBookDesc.setText(model.getBookDesc());
                 tvBookUpdateTime.setText(model.getBookUpdateTime());
                 tvBookUpdateContent.setText(model.getBookUpdateContent());
-                String[] type = bookModel.getBookAuthor().split("\\|");
-                if (type[1].contains("·")) {
-                    String[] typeOne = type[1].split("·");
-                    btnTypeOne.setText(typeOne[0]);
-                    btnTypeTwo.setText(typeOne[1]);
-                } else {
-                    btnTypeOne.setText(type[1]);
-                    btnTypeTwo.setVisibility(View.GONE);
-                }
             } else if (typeStr.equals("InterestingUi")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
                 tvBookName.setText(model.getBooKName());
                 tvBookAuthor.setText(model.getBookAuthor());
-                lyBookUpdateTime.setVisibility(View.GONE);
-                lyBookUpdateContent.setVisibility(View.GONE);
+            } else if (typeStr.equals("shufflingUI")) {
+                GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
+                tvBookName.setText(model.getBooKName());
+            }else if(typeStr.equals("HomeUi")){
+                GlideUtils.loadImage(imgBooKUrl, "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
+                tvBookName.setText(model.getBooKName());
             }
 
         }
@@ -181,6 +156,25 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
                 mAdapter.updateData(mList);
+            }
+
+            @Override
+            public void failed(Object object) {
+                hideLoadingDialog();
+            }
+        });
+
+        SearchBookAction.searchDetailBookUi(this, model.getBookDetailUrl(), new ActionCallBack() {
+            @Override
+            public void ok(Object object) {
+                netWorkModel = (BookModel) object;
+                tvBookUpdateTime.setText(netWorkModel.getBookUpdateTime());
+                tvBookUpdateContent.setText(netWorkModel.getBookUpdateContent());
+                tvBookDesc.setText(netWorkModel.getBookDesc());
+                tvBookAuthor.setText(netWorkModel.getBookAuthor());
+                String[] type = netWorkModel.getBookAuthor().split("\\|");
+                btnTypeOne.setText(type[1]);
+                tvBookAuthor.setText(netWorkModel.getBookAuthor());
                 hideLoadingDialog();
             }
 
@@ -189,6 +183,8 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 hideLoadingDialog();
             }
         });
+
+
     }
 
     @Override
@@ -203,9 +199,9 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             }
         });
         btnAddUpdate.setOnClickListener(this);
-        btnTypeTwo.setOnClickListener(this);
         btnTypeOne.setOnClickListener(this);
         btnReadBook.setOnClickListener(this);
+
     }
 
     @Override
@@ -219,11 +215,10 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             //追更新 添加到书架中
             addBookToShelf();
         } else if (view == btnReadBook) {
-
-
+            Intent intent = new Intent(this, FullBookShowActivity.class);
+            intent.putExtra(Config.INTENT_BOOK_FREE_READ, netWorkModel);
+            startActivity(intent);
         } else if (view == btnTypeOne) {
-
-        } else if (view == btnTypeTwo) {
 
         }
     }

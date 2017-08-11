@@ -1,6 +1,7 @@
 package com.example.ruolan.letgo.Jsoup.Action;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.bean.BookModel;
@@ -102,5 +103,24 @@ public class SearchBookAction {
         });
     }
 
+    public static void searchDetailBookUi(final Context context, final String bookDetailUrl, final ActionCallBack callback) {
+        Observable.create(new ObservableOnSubscribe<BookModel>() {
+            @Override
+            public void subscribe(ObservableEmitter<BookModel> e) throws Exception {
+                if (bookDetailUrl != null && !TextUtils.isEmpty(bookDetailUrl)) {
+                    e.onNext(HtmlParserUtil.searchDetailBookUI(bookDetailUrl));
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<BookModel>() {
+            @Override
+            public void accept(@NonNull BookModel models) throws Exception {
+                if (models != null) {
+                    callback.ok(models);
+                } else {
+                    callback.failed(context.getResources().getString(R.string.add_failed));
+                }
+            }
+        });
+    }
 
 }

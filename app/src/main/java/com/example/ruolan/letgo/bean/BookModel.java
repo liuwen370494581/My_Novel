@@ -26,6 +26,7 @@ public class BookModel implements Serializable {
     private String bookType;//书籍类型
     private String bookWriteRead;//多少读者阅读过
     private String bookReadTime;//添加书架的时间
+    private String bookFreeRead;//免费试读
 
     public BookModel() {
     }
@@ -35,12 +36,12 @@ public class BookModel implements Serializable {
         this.bookUrl = bookUrl;
     }
 
-    @Generated(hash = 1634106150)
+    @Generated(hash = 1269681377)
     public BookModel(long id, String booKName, String bookUrl, String bookAuthor,
-                     String bookDetailUrl, String bookAuthorUrl, String bookDesc,
-                     String bookUpdateTime, String bookUpdateContent, String bookPic,
-                     String bookAuthorWriteTime, String bookType, String bookWriteRead,
-                     String bookReadTime) {
+            String bookDetailUrl, String bookAuthorUrl, String bookDesc,
+            String bookUpdateTime, String bookUpdateContent, String bookPic,
+            String bookAuthorWriteTime, String bookType, String bookWriteRead,
+            String bookReadTime, String bookFreeRead) {
         this.id = id;
         this.booKName = booKName;
         this.bookUrl = bookUrl;
@@ -55,6 +56,7 @@ public class BookModel implements Serializable {
         this.bookType = bookType;
         this.bookWriteRead = bookWriteRead;
         this.bookReadTime = bookReadTime;
+        this.bookFreeRead = bookFreeRead;
     }
 
     public long getId() {
@@ -167,5 +169,13 @@ public class BookModel implements Serializable {
 
     public void setBookReadTime(String bookReadTime) {
         this.bookReadTime = bookReadTime;
+    }
+
+    public String getBookFreeRead() {
+        return this.bookFreeRead;
+    }
+
+    public void setBookFreeRead(String bookFreeRead) {
+        this.bookFreeRead = bookFreeRead;
     }
 }

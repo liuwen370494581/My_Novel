@@ -62,7 +62,6 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
             mAdapter.setData(mList);
         }
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(BGADivider.newShapeDivider());
     }
 
 

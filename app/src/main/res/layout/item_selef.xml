@@ -90,9 +90,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center_vertical"
             android:layout_width="300px"
             android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -116,4 +116,9 @@
                 android:text="删除"/>
         </LinearLayout>
     </com.example.ruolan.letgo.widget.SwipeMenu>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/background"/>
 </LinearLayout>
