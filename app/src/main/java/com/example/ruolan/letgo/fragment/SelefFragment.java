@@ -96,7 +96,9 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         if (childView.getId() == R.id.tv_del) {
             SwipeMenu.closeMenu();
             mAdapter.removeItem(position);
-            DaoShelfBook.deleteByModel(mList.get(position));
+            if(DaoShelfBook.query().size()!=0){
+                DaoShelfBook.deleteByModel(mList.get(position));
+            }
         } else if (childView.getId() == R.id.tv_edit) {
             SwipeMenu.closeMenu();
         }

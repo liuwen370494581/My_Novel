@@ -49,6 +49,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
     private String bookName = "", typeStr = "", url = "";
     private boolean isBtnNoAdd = true;
     private BookModel netWorkModel;
+    private BookModel insertModel;
 
     @Override
     protected void initView() {
@@ -109,7 +110,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             } else if (typeStr.equals("shufflingUI")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + url, R.mipmap.default_book, R.mipmap.default_book);
                 tvBookName.setText(model.getBooKName());
-            }else if(typeStr.equals("HomeUi")){
+            } else if (typeStr.equals("HomeUi")) {
                 GlideUtils.loadImage(imgBooKUrl, "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
                 tvBookName.setText(model.getBooKName());
             }
@@ -172,8 +173,10 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 tvBookUpdateContent.setText(netWorkModel.getBookUpdateContent());
                 tvBookDesc.setText(netWorkModel.getBookDesc());
                 tvBookAuthor.setText(netWorkModel.getBookAuthor());
-                String[] type = netWorkModel.getBookAuthor().split("\\|");
-                btnTypeOne.setText(type[1]);
+                if (netWorkModel.getBookAuthor().split("\\|") != null) {
+                    String[] type = netWorkModel.getBookAuthor().split("\\|");
+                    btnTypeOne.setText(type[1]);
+                }
                 tvBookAuthor.setText(netWorkModel.getBookAuthor());
                 hideLoadingDialog();
             }
@@ -231,17 +234,28 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
             btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
             isBtnNoAdd = false;
-            model.setId(DaoShelfBook.getCount());
-            model.setBookReadTime(DateTimeUtils.getCurrentTime_Today());
+            insertModel = new BookModel();
+            insertModel.setId(DaoShelfBook.getCount());
+            insertModel.setBooKName(model.getBooKName());
+            insertModel.setBookReadTime(DateTimeUtils.getCurrentTime_Today());
+            insertModel.setBookPic(model.getBookPic());
             if (typeStr.equals("RankUi")) {
-                model.setBookPic(url);
+                insertModel.setBookPic(url);
             } else if (typeStr.equals("ClassifyUi")) {
-                model.setBookPic(url);
+                insertModel.setBookPic(url);
+                insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
+                insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
             } else if (typeStr.equals("InterestingUi")) {
-                model.setBookPic(url);
+                insertModel.setBookPic(url);
+                insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
+                insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
+            } else if (typeStr.equals("HomeUi")) {
+                insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
+                insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
             }
-            DaoShelfBook.insert(model);
-            EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefAdd, model));
+
+            DaoShelfBook.insert(insertModel);
+            EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefAdd, insertModel));
         } else {
             Resources resources = getResources();
             Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
@@ -249,8 +263,8 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
             btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
             isBtnNoAdd = true;
-            DaoShelfBook.deleteByModel(model);
-            EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefCancel, model));
+            DaoShelfBook.deleteByModel(insertModel);
+            EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefCancel, insertModel));
         }
     }
 }

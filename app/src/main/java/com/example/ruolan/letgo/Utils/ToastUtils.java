@@ -23,6 +23,7 @@ public class ToastUtils {
 
     public static void removeToast() {
         if (mToast != null) {
+            mToast.cancel();
             mToast = null;
         }
     }
