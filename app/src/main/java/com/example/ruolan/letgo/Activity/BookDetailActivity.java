@@ -3,7 +3,8 @@ package com.example.ruolan.letgo.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.net.Network;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,8 +31,6 @@ import com.example.ruolan.letgo.bean.BookModel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import io.reactivex.Observable;
 
 /**
  * Created by liuwen on 2017/7/11.
@@ -266,5 +265,10 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             DaoShelfBook.deleteByModel(insertModel);
             EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefCancel, insertModel));
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 }
