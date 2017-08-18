@@ -77,6 +77,7 @@ public class ClassifyShowAdapter extends RecyclerView.Adapter<ClassifyShowAdapte
         holder.tvBookDesc.setText(model.getBookDesc());
         holder.tvBookUpdateContent.setText(model.getBookUpdateContent());
         holder.tvBookUpdateTime.setText(model.getBookUpdateTime());
+        holder.itemView.setTag(holder.tvBooKAuthor);
         if (mPicList.size() != 0 && mPicList.size() == mList.size()) {
             GlideUtils.loadImage(holder.imgBookUrl, "http:" + mPicList.get(position), R.mipmap.default_book, R.mipmap.default_book);
         }

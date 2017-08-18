@@ -22,8 +22,12 @@ public class CacheManager {
 
 
     public static CacheManager getInstance() {
-        if (instance == null) {
-            instance = new CacheManager();
+        if (null == instance) {
+            synchronized (CacheManager.class) {
+                if (null == instance) {
+                    instance = new CacheManager();
+                }
+            }
         }
         return instance;
     }
