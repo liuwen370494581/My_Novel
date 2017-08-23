@@ -79,9 +79,8 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         super.onEventBusCome(event);
         switch (event.getCode()) {
             case C.EventCode.BookDetailAuthorToSelefAdd:
-                mList.clear();
-                mList.add((BookModel) event.getData());
-                mAdapter.addNewData(mList);
+                mAdapter.clear();
+                mAdapter.setData(DaoShelfBook.query());
                 mRecyclerView.smoothScrollToPosition(0);
                 break;
             case C.EventCode.BookDetailAuthorToSelefCancel:
@@ -95,9 +94,10 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
         if (childView.getId() == R.id.tv_del) {
             SwipeMenu.closeMenu();
-            mAdapter.removeItem(position);
-            if(DaoShelfBook.query().size()!=0){
-                DaoShelfBook.deleteByModel(mList.get(position));
+            BookModel bookModel = mAdapter.getItem(position);
+            if (DaoShelfBook.query().size() != 0) {
+                mAdapter.removeItem(position);
+                DaoShelfBook.deleteByModel(bookModel);
             }
         } else if (childView.getId() == R.id.tv_edit) {
             SwipeMenu.closeMenu();
