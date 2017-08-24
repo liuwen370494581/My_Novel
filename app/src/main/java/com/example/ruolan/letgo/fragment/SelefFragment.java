@@ -84,8 +84,8 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
                 mRecyclerView.smoothScrollToPosition(0);
                 break;
             case C.EventCode.BookDetailAuthorToSelefCancel:
-                mAdapter.clear();
-                mAdapter.setData(DaoShelfBook.query());
+                DaoShelfBook.deleteByModel((BookModel) event.getData());
+                mAdapter.removeItem((BookModel) event.getData());
                 break;
         }
     }

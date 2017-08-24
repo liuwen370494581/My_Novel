@@ -272,13 +272,8 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
             isBtnNoAdd = true;
             DaoShelfBook.deleteByModel(insertModel);
-            List<BookModel> jhh = DaoShelfBook.query();
             EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefCancel, insertModel));
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-    }
 }
