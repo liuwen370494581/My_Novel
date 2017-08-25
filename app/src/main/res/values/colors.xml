@@ -19,5 +19,5 @@
     <color name="transparent">#0000</color>
     <color name="red">#e60f04</color>
     <color name="black">#000000</color>
-
+    <color name="line">#e6e6e6</color>
 </resources>
