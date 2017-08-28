@@ -469,7 +469,6 @@ public class HtmlParserUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return model;
     }
 

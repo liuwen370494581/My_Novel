@@ -5,8 +5,11 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +25,23 @@ import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.PermissionCheck;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
+import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
+
 /**
  * Created by ruolan on 2015/11/29.
  * 发现
  */
 public class DiscoveryFragment extends BaseFragment {
     private Button btnSmartScan;
+    private FileAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private List<File> mList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -40,6 +54,11 @@ public class DiscoveryFragment extends BaseFragment {
 
     private void initView(View view) {
         btnSmartScan = (Button) view.findViewById(R.id.btn_scan);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.local_file_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new FileAdapter(mRecyclerView);
+        mAdapter.setData(mList);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -54,8 +73,6 @@ public class DiscoveryFragment extends BaseFragment {
                     LoadData();
                     btnSmartScan.setVisibility(View.GONE);
                 }
-
-
             }
         });
     }
@@ -66,8 +83,9 @@ public class DiscoveryFragment extends BaseFragment {
         LoadLocalFileAction.searchLocalFile(getActivity(), new ActionCallBack() {
             @Override
             public void ok(Object object) {
+                mList.add((File) object);
+                mAdapter.setData(mList);
                 hideLoadingDialog();
-                Log.e(Config.TAG, object.toString());
             }
 
             @Override
@@ -117,4 +135,38 @@ public class DiscoveryFragment extends BaseFragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
     }
+
+
+    private class FileAdapter extends BGARecyclerViewAdapter<File> {
+
+        public FileAdapter(RecyclerView recyclerView) {
+            super(recyclerView, R.layout.item_file);
+        }
+
+        @Override
+        protected void fillData(BGAViewHolderHelper helper, int position, File model) {
+            helper.setText(R.id.tv_name, model.getName());
+            helper.setText(R.id.tv_size, convertByte(model.length()));
+            helper.setText(R.id.tv_loc, model.getAbsolutePath().replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "存储空间"));
+        }
+    }
+
+    public static String convertByte(long size) {
+        DecimalFormat df = new DecimalFormat("###.#");
+        float f;
+        if (size < 1024) {
+            f = size / 1.0f;
+            return (df.format(new Float(f).doubleValue()) + "B");
+        } else if (size < 1024 * 1024) {
+            f = (float) ((float) size / (float) 1024);
+            return (df.format(new Float(f).doubleValue()) + "KB");
+        } else if (size < 1024 * 1024 * 1024) {
+            f = (float) ((float) size / (float) (1024 * 1024));
+            return (df.format(new Float(f).doubleValue()) + "MB");
+        } else {
+            f = (float) ((float) size / (float) (1024 * 1024 * 1024));
+            return (df.format(new Float(f).doubleValue()) + "GB");
+        }
+    }
+
 }
