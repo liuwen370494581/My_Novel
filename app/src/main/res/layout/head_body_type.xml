@@ -3,8 +3,8 @@
               android:id="@+id/head_body_type"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="horizontal"
               android:background="@color/white"
+              android:orientation="horizontal"
               android:visibility="gone">
 
 
@@ -16,8 +16,8 @@
         android:padding="15dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@mipmap/icon_ranking"/>
 
         <TextView
@@ -36,14 +36,14 @@
         android:padding="15dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@mipmap/icon_classify"/>
 
         <TextView
-           android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="5dp"
             android:text="分类"/>
     </LinearLayout>
@@ -56,8 +56,8 @@
         android:padding="15dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@mipmap/icon_sanjiang"/>
 
         <TextView
@@ -75,14 +75,14 @@
         android:padding="15dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@mipmap/icon_zhuanti"/>
 
         <TextView
-            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="专题"/>
     </LinearLayout>

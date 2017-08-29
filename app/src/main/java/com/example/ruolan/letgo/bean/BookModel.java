@@ -18,6 +18,7 @@ public class BookModel implements Serializable {
     @Transient
     private String bookUrl; //url
     private String bookAuthor;//作者
+    @Transient
     private String bookDetailUrl;//详情页面
     @Transient
     private String bookAuthorUrl;//作者书籍url
@@ -33,7 +34,6 @@ public class BookModel implements Serializable {
     @Transient
     private String bookWriteRead;//多少读者阅读过
     private String bookReadTime;//添加书架的时间
-    @Transient
     private String bookFreeRead;//免费试读
 
     public BookModel() {
@@ -44,18 +44,18 @@ public class BookModel implements Serializable {
         this.bookUrl = bookUrl;
     }
 
-    @Generated(hash = 880591828)
+    @Generated(hash = 1569133842)
     public BookModel(long id, String booKName, String bookAuthor,
-            String bookDetailUrl, String bookUpdateTime, String bookUpdateContent,
-            String bookPic, String bookReadTime) {
+            String bookUpdateTime, String bookUpdateContent, String bookPic,
+            String bookReadTime, String bookFreeRead) {
         this.id = id;
         this.booKName = booKName;
         this.bookAuthor = bookAuthor;
-        this.bookDetailUrl = bookDetailUrl;
         this.bookUpdateTime = bookUpdateTime;
         this.bookUpdateContent = bookUpdateContent;
         this.bookPic = bookPic;
         this.bookReadTime = bookReadTime;
+        this.bookFreeRead = bookFreeRead;
     }
 
     public long getId() {

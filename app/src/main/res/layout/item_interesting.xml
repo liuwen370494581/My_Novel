@@ -21,6 +21,7 @@
             android:src="@mipmap/default_book"/>
 
         <TextView
+            android:maxLength="8"
             android:ellipsize="end"
             android:maxLines="1"
             android:id="@+id/book_readed"

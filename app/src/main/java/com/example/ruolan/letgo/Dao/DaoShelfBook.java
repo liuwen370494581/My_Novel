@@ -19,7 +19,7 @@ public class DaoShelfBook {
      * @param model
      */
     public static void insert(BookModel model) {
-        DaoManager.getInstance().getDaoSession().getBookModelDao().insert(model);
+        DaoManager.getInstance().getDaoSession().getBookModelDao().insertOrReplace(model);
     }
 
     /**

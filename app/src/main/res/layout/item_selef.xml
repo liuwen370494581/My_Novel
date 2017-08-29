@@ -52,12 +52,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="7dp"
                         android:background="@color/red"
+                        android:gravity="center"
                         android:singleLine="true"
                         android:text="更新"
                         android:textColor="@color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="11sp"/>
 
                 </LinearLayout>
 
@@ -81,6 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        android:layout_marginLeft="6dp"
                         android:singleLine="true"
                         android:text="更新内容"
                         android:textColor="@color/text_color_99"

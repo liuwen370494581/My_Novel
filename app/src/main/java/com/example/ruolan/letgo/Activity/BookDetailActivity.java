@@ -74,6 +74,9 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
+        insertModel = new BookModel();
+        insertModel.setId(DaoShelfBook.getCount());
+
     }
 
     @Override
@@ -114,7 +117,6 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 GlideUtils.loadImage(imgBooKUrl, "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
                 tvBookName.setText(model.getBooKName());
             }
-
         }
         for (int i = 0; i < DaoShelfBook.query().size(); i++) {
             if (DaoShelfBook.query().get(i).getBooKName().equals(bookName)) {
@@ -176,9 +178,11 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 tvBookUpdateContent.setText(netWorkModel.getBookUpdateContent());
                 tvBookDesc.setText(netWorkModel.getBookDesc());
                 tvBookAuthor.setText(netWorkModel.getBookAuthor());
-                if (netWorkModel.getBookAuthor().split("\\|") != null) {
-                    String[] type = netWorkModel.getBookAuthor().split("\\|");
-                    btnTypeOne.setText(type[1]);
+                if (netWorkModel.getBookAuthor() != null) {
+                    if (netWorkModel.getBookAuthor().split("\\|") != null) {
+                        String[] type = netWorkModel.getBookAuthor().split("\\|");
+                        btnTypeOne.setText(type[1]);
+                    }
                 }
                 tvBookAuthor.setText(netWorkModel.getBookAuthor());
                 hideLoadingDialog();
@@ -189,8 +193,6 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 hideLoadingDialog();
             }
         });
-
-
     }
 
     @Override
@@ -199,6 +201,9 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         tvBookAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (typeStr.equals("HomeUi")) {
+                    model.setBookAuthorUrl(netWorkModel.getBookAuthorUrl());
+                }
                 Intent intent = new Intent(BookDetailActivity.this, RankingShowActivity.class);
                 intent.putExtra(Config.INTENT_AUTHOR_URL, model);
                 startActivity(intent);
@@ -230,30 +235,33 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void addBookToShelf() {
-        insertModel = new BookModel();
-        insertModel.setId(DaoShelfBook.getCount());
         insertModel.setBooKName(model.getBooKName());
         insertModel.setBookReadTime(DateTimeUtils.getCurrentTime_Today());
         if (typeStr.equals("RankUi")) {
             insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
             insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
             insertModel.setBookPic(url);
-            insertModel.setBookDetailUrl(netWorkModel.getBookDetailUrl());
+            insertModel.setBookDetailUrl(netWorkModel.getBookFreeRead());
         } else if (typeStr.equals("ClassifyUi")) {
             insertModel.setBookPic(url);
             insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
             insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
-            insertModel.setBookDetailUrl(netWorkModel.getBookDetailUrl());
+            insertModel.setBookDetailUrl(netWorkModel.getBookFreeRead());
         } else if (typeStr.equals("InterestingUi")) {
             insertModel.setBookPic(url);
             insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
             insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
-            insertModel.setBookDetailUrl(netWorkModel.getBookDetailUrl());
+            insertModel.setBookDetailUrl(netWorkModel.getBookFreeRead());
         } else if (typeStr.equals("HomeUi")) {
             insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
             insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
             insertModel.setBookPic(model.getBookPic());
-            insertModel.setBookDetailUrl(netWorkModel.getBookDetailUrl());
+            insertModel.setBookDetailUrl(netWorkModel.getBookFreeRead());
+        } else if (typeStr.equals("AuthorUi")) {
+            insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
+            insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
+            insertModel.setBookPic(model.getBookPic());
+            insertModel.setBookDetailUrl(netWorkModel.getBookFreeRead());
         }
         if (isBtnNoAdd) {
             Resources resources = getResources();

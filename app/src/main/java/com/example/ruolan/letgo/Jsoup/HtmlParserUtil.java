@@ -406,7 +406,7 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_INTERESING, bookName))).timeout(40000).get();
             Elements elements = document.select("div.book-info");
-            // Log.e(Config.TAG, elements.toString());
+             Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 Log.e(Config.TAG, "bookDetailUrl===" + elements.get(i).select("a").attr("href"));
@@ -433,9 +433,10 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect("http:" + bookDetailUrl).timeout(40000).get();
             Elements elements = document.select("div.book-info");
-            // Log.e(Config.TAG, elements.toString());
+            Log.e(Config.TAG, elements.toString());
             Log.e(Config.TAG, "bookName===" + elements.get(0).select("h1").select("em").text());
             Log.e(Config.TAG, "bookAuthor===" + elements.get(0).select("a.writer").text() + "|" + elements.get(0).select("a.red").first().text() + "|" + elements.get(0).select("span.blue").first().text());
+            Log.e(Config.TAG, "bookAuthorUrl===" + elements.get(0).select("a.writer").attr("href"));
             model.setBooKName(elements.get(0).select("h1").select("em").text());
             model.setBookAuthor(elements.get(0).select("a.writer").text() + "|" + elements.get(0).select("a.red").first().text() + "|" + elements.get(0).select("span.blue").first().text());
             Elements elements1 = document.select("li.update");
@@ -443,14 +444,13 @@ public class HtmlParserUtil {
             Log.e(Config.TAG, "bookUpdateTime===" + elements1.get(0).select("em.time").text());
             model.setBookUpdateContent(elements1.get(0).select("a").attr("title"));
             model.setBookUpdateTime(elements1.get(0).select("em.time").text());
-            // Log.e(Config.TAG, elements1.toString());
             Elements elements2 = document.select("div.book-intro");
             Log.e(Config.TAG, "bookDesc===" + elements2.get(0).select("p").text());
             Elements elements3 = document.select("a.red-btn");
             Log.e(Config.TAG, "bookFreeRead===" + elements3.get(0).attr("href"));
             model.setBookDesc(elements2.get(0).select("p").text());
             model.setBookFreeRead(elements3.get(0).attr("href"));
-
+            model.setBookAuthorUrl(elements.get(0).select("a.writer").attr("href"));
         } catch (Exception e) {
             e.printStackTrace();
         }
