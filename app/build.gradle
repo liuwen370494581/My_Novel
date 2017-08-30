@@ -53,4 +53,8 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     //成侵式状态栏
     compile 'com.zhangmonke:ImmerseLayout:1.1.1'
+    //ProgressBar
+    compile 'com.zhangmonke:MProgressBar:1.0.1'
+    //AutofitTextView
+    compile 'me.grantland:autofittextview:0.2.1'
 }

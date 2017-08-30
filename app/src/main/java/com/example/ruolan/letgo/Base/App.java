@@ -15,6 +15,8 @@ import com.example.ruolan.letgo.Utils.CrashHandler;
 public class App extends MultiDexApplication {
     private static Context context;
 
+    private static App instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,8 +29,12 @@ public class App extends MultiDexApplication {
         DaoManager.init(this);
         //崩溃日志记录
         CrashHandler.getInstance().init(this);
+        instance = this;
     }
 
+    public static App getInstance() {
+        return instance;
+    }
 
 
 }
