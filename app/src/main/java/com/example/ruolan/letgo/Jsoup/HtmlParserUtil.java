@@ -211,6 +211,7 @@ public class HtmlParserUtil {
                 model.setBooKName(elements.get(i).select("a").select("img").attr("title"));
                 model.setBookPic(elements.get(i).select("a").select("img").attr("src"));
                 model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
+                model.bookTypeLayout = BookModel.BookTypeLayout.editData;
                 list.add(model);
             }
 
@@ -235,6 +236,7 @@ public class HtmlParserUtil {
                 model.setBooKName(elements.get(i).select("a").select("img").attr("alt"));
                 model.setBookDetailUrl(elements.get(i).select("a").attr("href"));
                 model.setBookPic(elements.get(i).select("a").select("img").attr("data-original"));
+                model.bookTypeLayout = BookModel.BookTypeLayout.freeTimeData;
                 list.add(model);
             }
 
@@ -267,6 +269,7 @@ public class HtmlParserUtil {
                 model.setBookDesc(elements1.get(i).select("p.intro").text());
                 model.setBookUpdateTime(number[0]);
                 model.setBookAuthorUrl(number[1]);
+                model.bookTypeLayout = BookModel.BookTypeLayout.newUpdateData;
                 list.add(model);
             }
         } catch (Exception e) {
@@ -289,6 +292,7 @@ public class HtmlParserUtil {
                 model.setBooKName(elements1.get(i).select("li").select("a").select("img").attr("alt"));
                 model.setBookDetailUrl(elements1.get(i).select("li").select("a").attr("href"));
                 model.setBookPic(elements1.get(i).select("li").select("a").select("img").attr("data-original"));
+                model.bookTypeLayout = BookModel.BookTypeLayout.newBookData;
                 list.add(model);
             }
 
@@ -350,6 +354,7 @@ public class HtmlParserUtil {
         return list;
     }
 
+    //搜索作者作品list
     public static List<BookModel> searchAuthorWork(String webUrl) {
         List<BookModel> list = new ArrayList<>();
         try {
@@ -406,7 +411,7 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(URLDecoderToUTF8.StringToUTF8(String.format(Config.QI_DIAN_INTERESING, bookName))).timeout(40000).get();
             Elements elements = document.select("div.book-info");
-             Log.e(Config.TAG, elements.toString());
+            Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 Log.e(Config.TAG, "bookDetailUrl===" + elements.get(i).select("a").attr("href"));

@@ -46,4 +46,11 @@
         <item name="clvPaddingCenter">2dp</item>
         <item name="clvPaddingBottom">2dp</item>
     </style>
+
+    <!---->
+    <declare-styleable name="RecyclerViewBar">
+        <attr name="slider_height" format="dimension"/>
+        <attr name="slider_paddingLeft" format="dimension"/>
+        <attr name="slider_paddingRight" format="dimension"/>
+    </declare-styleable>
 </resources>

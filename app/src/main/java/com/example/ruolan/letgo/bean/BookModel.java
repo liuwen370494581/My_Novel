@@ -35,6 +35,13 @@ public class BookModel implements Serializable {
     private String bookWriteRead;//多少读者阅读过
     private String bookReadTime;//添加书架的时间
     private String bookFreeRead;//免费试读
+    @Transient
+    public BookTypeLayout bookTypeLayout;//书籍类型
+
+
+    public enum BookTypeLayout {
+        editHead, editData, newUpdateHead, newUpdateData, newBookHead, newBookData, freeTimeHead, freeTimeData;
+    }
 
     public BookModel() {
     }
@@ -46,8 +53,8 @@ public class BookModel implements Serializable {
 
     @Generated(hash = 1569133842)
     public BookModel(long id, String booKName, String bookAuthor,
-            String bookUpdateTime, String bookUpdateContent, String bookPic,
-            String bookReadTime, String bookFreeRead) {
+                     String bookUpdateTime, String bookUpdateContent, String bookPic,
+                     String bookReadTime, String bookFreeRead) {
         this.id = id;
         this.booKName = booKName;
         this.bookAuthor = bookAuthor;

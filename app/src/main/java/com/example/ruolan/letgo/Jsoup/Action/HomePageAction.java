@@ -251,4 +251,49 @@ public class HomePageAction {
                 });
     }
 
+
+    public static void searchAllData(final Context context, final ActionCallBack callBack) {
+
+        Observable<List<BookModel>> newBookData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                e.onNext(HtmlParserUtil.searchQIDianNewBookReComm());
+            }
+        });
+
+        Observable<List<BookModel>> appsFreeData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                e.onNext(HtmlParserUtil.searchQIDianAppsFree());
+            }
+        });
+
+        Observable<List<BookModel>> newUpdateData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                e.onNext(HtmlParserUtil.searchQIDianNewUpdate());
+            }
+        });
+
+        Observable<List<BookModel>> editData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+                e.onNext(HtmlParserUtil.searchQIDianType());
+            }
+        });
+
+
+        Observable.concat(newBookData, appsFreeData, newUpdateData, editData).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
+            @Override
+            public void accept(@NonNull List<BookModel> list) throws Exception {
+                if (list != null && list.size() != 0) {
+                    callBack.ok(list);
+                } else {
+                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
+                }
+            }
+        });
+
+    }
+
 }

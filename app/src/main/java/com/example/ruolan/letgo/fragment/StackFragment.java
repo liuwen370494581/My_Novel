@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -264,7 +265,7 @@ public class StackFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
+        Log.e(Config.TAG, "书架页面");
     }
 
     private class FreeTimeAdapter extends BGARecyclerViewAdapter<BookModel> {
