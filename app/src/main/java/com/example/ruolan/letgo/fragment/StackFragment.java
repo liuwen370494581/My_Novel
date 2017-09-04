@@ -20,7 +20,6 @@ import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.HomePageAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.GlideUtils;
-import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.hejunlin.superindicatorlibray.CircleIndicator;
 import com.hejunlin.superindicatorlibray.LoopViewPager;
@@ -260,7 +259,6 @@ public class StackFragment extends BaseFragment {
                 mContext.startActivity(intent);
             }
         });
-
     }
 
     @Override
