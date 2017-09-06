@@ -4,30 +4,25 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ruolan.letgo.Activity.SearchBookActivity;
 import com.example.ruolan.letgo.Activity.SettingActivity;
 import com.example.ruolan.letgo.bean.Tab;
 import com.example.ruolan.letgo.fragment.DiscoveryFragment;
-import com.example.ruolan.letgo.fragment.StackFragment;
-import com.example.ruolan.letgo.fragment.SelefFragment;
 import com.example.ruolan.letgo.fragment.SelectFragment;
+import com.example.ruolan.letgo.fragment.SelefFragment;
+import com.example.ruolan.letgo.fragment.StackRoomFragment;
 import com.example.ruolan.letgo.widget.FragmentTabHost;
 
 import java.util.ArrayList;
@@ -109,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initTab() {
         Tab home = new Tab(R.string.selef_book, R.drawable.selector_icon_selef, SelefFragment.class);
         Tab hot = new Tab(R.string.book_care, R.drawable.selector_icon_care, SelectFragment.class);
-        Tab category = new Tab(R.string.book_stack, R.drawable.selector_icon_stack, StackFragment.class);
+        Tab category = new Tab(R.string.book_stack, R.drawable.selector_icon_stack, StackRoomFragment.class);
         Tab cart = new Tab(R.string.book_disc, R.drawable.selector_icon_discover, DiscoveryFragment.class);
 
         mTabs.add(home);
