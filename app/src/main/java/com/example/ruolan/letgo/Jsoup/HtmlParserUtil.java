@@ -204,7 +204,7 @@ public class HtmlParserUtil {
             Elements elements = document.select("div.slideItem");
             for (int i = 0; i < elements.size(); i++) {
                 //  Log.e(Config.TAG, "" + elements.get(i).toString());
-                Log.e(Config.TAG, "BookDetailUrl===" + elements.get(i).select("a").attr("href"));
+                Log.e(Config.TAG, "编辑BookDetailUrl===" + elements.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "title===" + elements.get(i).select("a").select("img").attr("title"));
                 Log.e(Config.TAG, "url====" + elements.get(i).select("a").select("img").attr("src"));
                 BookModel model = new BookModel();
@@ -229,7 +229,7 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements = document.select("div.book-img");
             for (int i = 0; i < elements.size(); i++) {
-                Log.e(Config.TAG, "BookDetailUrl===" + elements.get(i).select("a").attr("href"));
+                Log.e(Config.TAG, "限时免费BookDetailUrl===" + elements.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "bookImg===" + elements.get(i).select("a").select("img").attr("data-original"));
                 Log.e(Config.TAG, "bookName===" + elements.get(i).select("a").select("img").attr("alt"));
                 BookModel model = new BookModel();
@@ -253,7 +253,7 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements1 = document.select("div.update-rec-list").select("ul").select("li");
             for (int i = 0; i < elements1.size(); i++) {
-                Log.e(Config.TAG, "bookDetailUrl====" + elements1.get(i).select("a").attr("href"));
+                Log.e(Config.TAG, "最新更新bookDetailUrl====" + elements1.get(i).select("a").attr("href"));
                 Log.e(Config.TAG, "bookName===" + elements1.get(i).select("h4").text());
                 Log.e(Config.TAG, "bookAuthor===" + elements1.get(i).select("p.author").select("a").text());
                 Log.e(Config.TAG, "bookImg=====" + elements1.get(i).select("div.book-cover").select("a").select("img").attr("src"));
@@ -285,7 +285,7 @@ public class HtmlParserUtil {
             Document document = Jsoup.connect(Config.QI_DIAN).timeout(40000).get();
             Elements elements1 = document.select("div.slide-box").select("ul").select("li");
             for (int i = 0; i < elements1.size(); i++) {
-                Log.e(Config.TAG, "BooKDetailUrl===" + elements1.get(i).select("li").select("a").attr("href"));
+                Log.e(Config.TAG, "新书推荐BooKDetailUrl===" + elements1.get(i).select("li").select("a").attr("href"));
                 Log.e(Config.TAG, "bookImg===" + elements1.get(i).select("li").select("a").select("img").attr("data-original"));
                 Log.e(Config.TAG, "bookName===" + elements1.get(i).select("li").select("a").select("img").attr("alt"));
                 BookModel model = new BookModel();

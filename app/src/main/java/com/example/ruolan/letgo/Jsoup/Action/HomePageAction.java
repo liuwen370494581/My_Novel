@@ -6,19 +6,22 @@ import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.CacheManager;
 import com.example.ruolan.letgo.Utils.NetworkUtils;
 import com.example.ruolan.letgo.bean.BookModel;
-import com.example.ruolan.letgo.bean.ClassifyModel;
-import com.example.ruolan.letgo.bean.Dish;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
-import com.example.ruolan.letgo.bean.IndexModel;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.List;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -254,46 +257,38 @@ public class HomePageAction {
 
     public static void searchAllData(final Context context, final ActionCallBack callBack) {
 
-        Observable<List<BookModel>> newBookData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
+        Flowable.create(new FlowableOnSubscribe<List<BookModel>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchQIDianNewBookReComm());
-            }
-        });
-
-        Observable<List<BookModel>> appsFreeData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchQIDianAppsFree());
-            }
-        });
-
-        Observable<List<BookModel>> newUpdateData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchQIDianNewUpdate());
-            }
-        });
-
-        Observable<List<BookModel>> editData = Observable.create(new ObservableOnSubscribe<List<BookModel>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
+            public void subscribe(FlowableEmitter<List<BookModel>> e) throws Exception {
                 e.onNext(HtmlParserUtil.searchQIDianType());
+                e.onNext(HtmlParserUtil.searchQIDianNewUpdate());
+                e.onNext(HtmlParserUtil.searchQIDianNewBookReComm());
+                e.onNext(HtmlParserUtil.searchQIDianAppsFree());
+                e.onComplete();
             }
-        });
-
-
-        Observable.concat(newBookData, appsFreeData, newUpdateData, editData).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<BookModel>>() {
+        }, BackpressureStrategy.BUFFER).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<BookModel>>() {
             @Override
-            public void accept(@NonNull List<BookModel> list) throws Exception {
-                if (list != null && list.size() != 0) {
+            public void onSubscribe(Subscription s) {
+                s.request(4);
+            }
+
+            @Override
+            public void onNext(List<BookModel> list) {
+                if (list != null || list.size() != 0) {
                     callBack.ok(list);
-                } else {
-                    callBack.failed(context.getResources().getString(R.string.endLoadingmore));
                 }
             }
-        });
 
+            @Override
+            public void onError(Throwable t) {
+                callBack.failed(t);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
 }

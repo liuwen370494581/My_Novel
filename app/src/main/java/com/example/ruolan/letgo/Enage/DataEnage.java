@@ -8,7 +8,9 @@ import com.example.ruolan.letgo.bean.IndexModel;
 import com.example.ruolan.letgo.bean.RankingModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuwen on 2017/6/26.
@@ -88,6 +90,7 @@ public class DataEnage {
         list.add(new Dish("总裁大人你轻点"));
         return list;
     }
+
     public static List<Dish> getReflashData_2() {
         List<Dish> list = new ArrayList<>();
         list.add(new Dish("银河帝国"));
@@ -98,6 +101,7 @@ public class DataEnage {
         list.add(new Dish("踏天无痕"));
         return list;
     }
+
     public static List<Dish> getReflashData_3() {
         List<Dish> list = new ArrayList<>();
         list.add(new Dish("豪门天价前妻"));
@@ -127,6 +131,27 @@ public class DataEnage {
         colorList.add("#ff8a65");
         colorList.add("#f48fb1");
         return colorList.get((int) (Math.random() * colorList.size()));
+    }
+
+    public static List<HashMap<String, Object>> getChannelList() {
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("title", "排行榜");
+        map1.put("pic", R.mipmap.icon_ranking);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("title", "分类");
+        map2.put("pic", R.mipmap.icon_classify);
+        HashMap<String, Object> map3 = new HashMap<>();
+        map3.put("title", "三江榜");
+        map3.put("pic", R.mipmap.icon_sanjiang);
+        HashMap<String, Object> map4 = new HashMap<>();
+        map4.put("title", "专题");
+        map4.put("pic", R.mipmap.icon_zhuanti);
+        list.add(map1);
+        list.add(map2);
+        list.add(map3);
+        list.add(map4);
+        return list;
     }
 
 }

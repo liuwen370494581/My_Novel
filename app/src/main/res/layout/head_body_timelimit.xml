@@ -5,13 +5,12 @@
               android:orientation="vertical">
 
 
-
     <RelativeLayout
         android:visibility="gone"
-        android:layout_marginTop="10dp"
         android:id="@+id/re_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:padding="14dp">
 
@@ -22,14 +21,14 @@
             android:background="@color/colorPrimary"/>
 
         <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/view_01"
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/view_01"
             android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="最新更新"
+            android:text="限时免费"
             android:textColor="#000000"
             android:textSize="15dp"/>
 
@@ -46,7 +45,7 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/new_update_reyccler_view"
+        android:id="@+id/time_limit_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

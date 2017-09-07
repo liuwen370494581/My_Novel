@@ -31,12 +31,4 @@
                 android:orientation="horizontal"/>
         </FrameLayout>
     </FrameLayout>
-
-    <include layout="@layout/head_body_type"/>
-
-    <include layout="@layout/head_body_edit"/>
-
-    <include layout="@layout/head_body_new_update"/>
-
-    <include layout="@layout/head_body_new_book_recomm"/>
 </LinearLayout>

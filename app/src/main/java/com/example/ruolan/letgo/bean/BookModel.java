@@ -1,5 +1,4 @@
 package com.example.ruolan.letgo.bean;
-
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;

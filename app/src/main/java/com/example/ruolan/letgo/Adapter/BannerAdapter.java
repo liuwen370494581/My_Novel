@@ -1,6 +1,7 @@
 package com.example.ruolan.letgo.Adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -30,12 +31,12 @@ import java.util.List;
 public class BannerAdapter extends PagerAdapter {
 
     private int mSize;
-    private Activity mActivity;
+    private Context mActivity;
     private float mImageCorner = -1F;
     private List<BookModel> mList = new ArrayList<>();
     private List<String> mPicList = new ArrayList<>();
 
-    public BannerAdapter(Activity activity, List<BookModel> list, List<String> picList) {
+    public BannerAdapter(Context activity, List<BookModel> list, List<String> picList) {
         mActivity = activity;
         mList = list;
         mPicList = picList;
@@ -73,7 +74,7 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(mActivity.getApplicationContext()).inflate(R.layout.recommend_page_item, container, false);
-        if (mPicList.size() != 0 || mList.size() != 0) {
+        if (mPicList.size() != 0 && mList.size() != 0) {
             BookModel model = mList.get(position);
             ImageView imageView = (ImageView) view.findViewById(R.id.image);
             TextView textView = (TextView) view.findViewById(R.id.image_desc);

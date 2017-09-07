@@ -27,6 +27,12 @@ public class DensityUtil {
                 dpVal, context.getResources().getDisplayMetrics());
     }
 
+    public static int getScreenWidth(Context context){
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm.widthPixels;
+    }
+
     /**
      * sp转px
      *
