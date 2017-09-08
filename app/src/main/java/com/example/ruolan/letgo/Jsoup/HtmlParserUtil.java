@@ -433,6 +433,7 @@ public class HtmlParserUtil {
     }
 
 
+    //搜索书籍的详细页面数据
     public static BookModel searchDetailBookUI(String bookDetailUrl) {
         BookModel model = new BookModel();
         try {
@@ -463,6 +464,7 @@ public class HtmlParserUtil {
         return model;
     }
 
+    //搜索书籍的阅读页面数据
     public static BookModel startReadBook(String bookDetailUrl) {
         BookModel model = new BookModel();
         try {

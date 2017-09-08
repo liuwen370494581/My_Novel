@@ -191,13 +191,13 @@
             android:layout_height="100dp">
 
             <TextView
-                android:maxLines="6"
                 android:id="@+id/info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
+                android:maxLines="6"
                 android:textSize="12sp"/>
         </LinearLayout>
 
@@ -216,12 +216,19 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp">
 
+                <View
+                    android:id="@+id/view_01"
+                    android:layout_width="2dp"
+                    android:layout_height="20dp"
+                    android:background="@color/colorPrimary"/>
 
                 <TextView
+                    android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/view_01"
                     android:text="你可能感兴趣"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/book_detail_more"
@@ -229,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="更多"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
             </RelativeLayout>
 
