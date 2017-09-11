@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.example.ruolan.letgo.Activity.SearchBookActivity;
 import com.example.ruolan.letgo.Activity.SettingActivity;
+import com.example.ruolan.letgo.Service.UpdateService;
+import com.example.ruolan.letgo.Utils.ServiceUtils;
 import com.example.ruolan.letgo.bean.Tab;
 import com.example.ruolan.letgo.fragment.DiscoveryFragment;
 import com.example.ruolan.letgo.fragment.SelectFragment;
@@ -49,8 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initView();
         initTab();
+      //  startService();
         setListener();
     }
+
+
 
     private void setListener() {
         reAccount.setOnClickListener(this);

@@ -45,6 +45,7 @@ public class LoadLocalFileAction {
         });
     }
 
+    //搜索本地文件
     private static void searchBook(ObservableEmitter<File> e, File parentFile) {
         if (null != parentFile && parentFile.listFiles().length > 0) {
             File[] childFiles = parentFile.listFiles();

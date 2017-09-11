@@ -1,5 +1,6 @@
 package com.example.ruolan.letgo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +15,9 @@ import com.example.ruolan.letgo.Dao.DaoShelfBook;
 import com.example.ruolan.letgo.EventBus.C;
 import com.example.ruolan.letgo.EventBus.Event;
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.Service.UpdateService;
 import com.example.ruolan.letgo.Utils.GlideUtils;
+import com.example.ruolan.letgo.Utils.ServiceUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.widget.SwipeMenu;
 
@@ -62,6 +65,16 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
             mAdapter.setData(mList);
         }
         mRecyclerView.setAdapter(mAdapter);
+        startService();
+    }
+
+    private void startService() {
+        //当服务器在运行的时候 就不要在去启动service
+        if (ServiceUtils.isServiceRunning(getActivity(), "com.example.ruolan.letgo.Service.UpdateService")) {
+            return;
+        }
+        Intent intent = new Intent(getActivity(), UpdateService.class);
+        getActivity().startService(intent);
     }
 
 
@@ -84,6 +97,10 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
                 mRecyclerView.smoothScrollToPosition(0);
                 break;
             case C.EventCode.BookDetailAuthorToSelefCancel:
+                mAdapter.clear();
+                mAdapter.setData(DaoShelfBook.query());
+                break;
+            case C.EventCode.BooKService:
                 mAdapter.clear();
                 mAdapter.setData(DaoShelfBook.query());
                 break;

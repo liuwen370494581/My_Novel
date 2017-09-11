@@ -14,5 +14,7 @@ public final class C {
 
         public static final int BookDetailAuthorToSelefAdd = 10001;
         public static final int BookDetailAuthorToSelefCancel = 10002;
+
+        public static final int BooKService = 10003;
     }
 }
