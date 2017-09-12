@@ -287,30 +287,6 @@ public class HomeUIAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return 7;
     }
 
-
-//    private void setChannel(ChannelHolder channelHolder) {
-//        //动态添加View
-//        for (int i = 0; i < channelList.size(); i++) {
-//            View view = View.inflate(mContext, R.layout.head_body_type, null);
-//            ImageView ivLogo = (ImageView) view.findViewById(R.id.iv_logo);
-//            TextView tvChannel = (TextView) view.findViewById(R.id.tv_channel);
-//            Glide.with(mContext).load(channelList.get(i).get("pic")).into(ivLogo);
-//            tvChannel.setText(channelList.get(i).get("title").toString());
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            view.setLayoutParams(params);
-//            params.setMargins(24, 18, 24, 0);
-//            view.setTag(i);
-//            final int finalI = i;
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(mContext, channelList.get(finalI).get("title").toString(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//            channelHolder.mLinearLayout.addView(view);
-//        }
-//    }
-
     private void setBanner(BannerHolder channelHolder) {
         BannerAdapter mBannerAdapter = new BannerAdapter(mContext, mBannerList, mBannerPicList);
         channelHolder.viewpager.setAdapter(mBannerAdapter);

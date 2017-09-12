@@ -17,7 +17,6 @@ public class BookModel implements Serializable {
     @Transient
     private String bookUrl; //url
     private String bookAuthor;//作者
-    @Transient
     private String bookDetailUrl;//详情页面
     @Transient
     private String bookAuthorUrl;//作者书籍url
@@ -50,13 +49,13 @@ public class BookModel implements Serializable {
         this.bookUrl = bookUrl;
     }
 
-    @Generated(hash = 1569133842)
-    public BookModel(long id, String booKName, String bookAuthor,
-                     String bookUpdateTime, String bookUpdateContent, String bookPic,
-                     String bookReadTime, String bookFreeRead) {
+    @Generated(hash = 2037088771)
+    public BookModel(long id, String booKName, String bookAuthor, String bookDetailUrl, String bookUpdateTime,
+            String bookUpdateContent, String bookPic, String bookReadTime, String bookFreeRead) {
         this.id = id;
         this.booKName = booKName;
         this.bookAuthor = bookAuthor;
+        this.bookDetailUrl = bookDetailUrl;
         this.bookUpdateTime = bookUpdateTime;
         this.bookUpdateContent = bookUpdateContent;
         this.bookPic = bookPic;

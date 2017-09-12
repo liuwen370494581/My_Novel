@@ -255,7 +255,6 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
             insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());
             insertModel.setBookPic(model.getBookPic());
-            insertModel.setBookDetailUrl(model.getBookDetailUrl());
         } else if (typeStr.equals("AuthorUi")) {
             insertModel.setBookUpdateContent(netWorkModel.getBookUpdateContent());
             insertModel.setBookUpdateTime(netWorkModel.getBookUpdateTime());

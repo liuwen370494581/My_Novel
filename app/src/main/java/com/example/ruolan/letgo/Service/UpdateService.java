@@ -39,6 +39,7 @@ public class UpdateService extends Service {
 
     private List<BookModel> localBookList;
     private List<BookModel> newWorkLBoolList;
+    private BookModel mModel = new BookModel();
 
 
     @Nullable
@@ -77,11 +78,14 @@ public class UpdateService extends Service {
         if (localBookList.size() > 0) {
             if (NetworkUtils.isConnected(this) && (NetworkUtils.isWifiConnected(this) || NetworkUtils.mobileDataConnected(this))) {
                 for (int i = 0; i < localBookList.size(); i++) {
+                    if (mModel != null) {
+                        mModel.setBookPic(localBookList.get(i).getBookPic());
+                    }
                     SearchBookAction.searchDetailBookUi(this, localBookList.get(i).getBookDetailUrl(), new ActionCallBack() {
                         @Override
                         public void ok(Object object) {
-
-                            newWorkLBoolList.add((BookModel) object);
+                            mModel = (BookModel) object;
+                            newWorkLBoolList.add(mModel);
                             DaoShelfBook.updateList(newWorkLBoolList);
                             EventBusUtil.sendEvent(new Event(C.EventCode.BooKService));
                         }

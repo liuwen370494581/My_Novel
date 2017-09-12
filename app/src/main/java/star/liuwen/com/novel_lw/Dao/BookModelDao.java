@@ -27,11 +27,12 @@ public class BookModelDao extends AbstractDao<BookModel, Long> {
         public final static Property Id = new Property(0, long.class, "id", true, "_id");
         public final static Property BooKName = new Property(1, String.class, "booKName", false, "BOO_KNAME");
         public final static Property BookAuthor = new Property(2, String.class, "bookAuthor", false, "BOOK_AUTHOR");
-        public final static Property BookUpdateTime = new Property(3, String.class, "bookUpdateTime", false, "BOOK_UPDATE_TIME");
-        public final static Property BookUpdateContent = new Property(4, String.class, "bookUpdateContent", false, "BOOK_UPDATE_CONTENT");
-        public final static Property BookPic = new Property(5, String.class, "bookPic", false, "BOOK_PIC");
-        public final static Property BookReadTime = new Property(6, String.class, "bookReadTime", false, "BOOK_READ_TIME");
-        public final static Property BookFreeRead = new Property(7, String.class, "bookFreeRead", false, "BOOK_FREE_READ");
+        public final static Property BookDetailUrl = new Property(3, String.class, "bookDetailUrl", false, "BOOK_DETAIL_URL");
+        public final static Property BookUpdateTime = new Property(4, String.class, "bookUpdateTime", false, "BOOK_UPDATE_TIME");
+        public final static Property BookUpdateContent = new Property(5, String.class, "bookUpdateContent", false, "BOOK_UPDATE_CONTENT");
+        public final static Property BookPic = new Property(6, String.class, "bookPic", false, "BOOK_PIC");
+        public final static Property BookReadTime = new Property(7, String.class, "bookReadTime", false, "BOOK_READ_TIME");
+        public final static Property BookFreeRead = new Property(8, String.class, "bookFreeRead", false, "BOOK_FREE_READ");
     }
 
 
@@ -50,11 +51,12 @@ public class BookModelDao extends AbstractDao<BookModel, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
                 "\"BOO_KNAME\" TEXT," + // 1: booKName
                 "\"BOOK_AUTHOR\" TEXT," + // 2: bookAuthor
-                "\"BOOK_UPDATE_TIME\" TEXT," + // 3: bookUpdateTime
-                "\"BOOK_UPDATE_CONTENT\" TEXT," + // 4: bookUpdateContent
-                "\"BOOK_PIC\" TEXT," + // 5: bookPic
-                "\"BOOK_READ_TIME\" TEXT," + // 6: bookReadTime
-                "\"BOOK_FREE_READ\" TEXT);"); // 7: bookFreeRead
+                "\"BOOK_DETAIL_URL\" TEXT," + // 3: bookDetailUrl
+                "\"BOOK_UPDATE_TIME\" TEXT," + // 4: bookUpdateTime
+                "\"BOOK_UPDATE_CONTENT\" TEXT," + // 5: bookUpdateContent
+                "\"BOOK_PIC\" TEXT," + // 6: bookPic
+                "\"BOOK_READ_TIME\" TEXT," + // 7: bookReadTime
+                "\"BOOK_FREE_READ\" TEXT);"); // 8: bookFreeRead
     }
 
     /** Drops the underlying database table. */
@@ -78,29 +80,34 @@ public class BookModelDao extends AbstractDao<BookModel, Long> {
             stmt.bindString(3, bookAuthor);
         }
  
+        String bookDetailUrl = entity.getBookDetailUrl();
+        if (bookDetailUrl != null) {
+            stmt.bindString(4, bookDetailUrl);
+        }
+ 
         String bookUpdateTime = entity.getBookUpdateTime();
         if (bookUpdateTime != null) {
-            stmt.bindString(4, bookUpdateTime);
+            stmt.bindString(5, bookUpdateTime);
         }
  
         String bookUpdateContent = entity.getBookUpdateContent();
         if (bookUpdateContent != null) {
-            stmt.bindString(5, bookUpdateContent);
+            stmt.bindString(6, bookUpdateContent);
         }
  
         String bookPic = entity.getBookPic();
         if (bookPic != null) {
-            stmt.bindString(6, bookPic);
+            stmt.bindString(7, bookPic);
         }
  
         String bookReadTime = entity.getBookReadTime();
         if (bookReadTime != null) {
-            stmt.bindString(7, bookReadTime);
+            stmt.bindString(8, bookReadTime);
         }
  
         String bookFreeRead = entity.getBookFreeRead();
         if (bookFreeRead != null) {
-            stmt.bindString(8, bookFreeRead);
+            stmt.bindString(9, bookFreeRead);
         }
     }
 
@@ -119,29 +126,34 @@ public class BookModelDao extends AbstractDao<BookModel, Long> {
             stmt.bindString(3, bookAuthor);
         }
  
+        String bookDetailUrl = entity.getBookDetailUrl();
+        if (bookDetailUrl != null) {
+            stmt.bindString(4, bookDetailUrl);
+        }
+ 
         String bookUpdateTime = entity.getBookUpdateTime();
         if (bookUpdateTime != null) {
-            stmt.bindString(4, bookUpdateTime);
+            stmt.bindString(5, bookUpdateTime);
         }
  
         String bookUpdateContent = entity.getBookUpdateContent();
         if (bookUpdateContent != null) {
-            stmt.bindString(5, bookUpdateContent);
+            stmt.bindString(6, bookUpdateContent);
         }
  
         String bookPic = entity.getBookPic();
         if (bookPic != null) {
-            stmt.bindString(6, bookPic);
+            stmt.bindString(7, bookPic);
         }
  
         String bookReadTime = entity.getBookReadTime();
         if (bookReadTime != null) {
-            stmt.bindString(7, bookReadTime);
+            stmt.bindString(8, bookReadTime);
         }
  
         String bookFreeRead = entity.getBookFreeRead();
         if (bookFreeRead != null) {
-            stmt.bindString(8, bookFreeRead);
+            stmt.bindString(9, bookFreeRead);
         }
     }
 
@@ -156,11 +168,12 @@ public class BookModelDao extends AbstractDao<BookModel, Long> {
             cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // booKName
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // bookAuthor
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // bookUpdateTime
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // bookUpdateContent
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // bookPic
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // bookReadTime
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // bookFreeRead
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // bookDetailUrl
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // bookUpdateTime
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // bookUpdateContent
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // bookPic
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // bookReadTime
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // bookFreeRead
         );
         return entity;
     }
@@ -170,11 +183,12 @@ public class BookModelDao extends AbstractDao<BookModel, Long> {
         entity.setId(cursor.getLong(offset + 0));
         entity.setBooKName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setBookAuthor(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setBookUpdateTime(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setBookUpdateContent(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setBookPic(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setBookReadTime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setBookFreeRead(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setBookDetailUrl(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setBookUpdateTime(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setBookUpdateContent(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setBookPic(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setBookReadTime(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setBookFreeRead(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override

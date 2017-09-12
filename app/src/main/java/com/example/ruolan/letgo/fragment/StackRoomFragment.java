@@ -84,7 +84,7 @@ public class StackRoomFragment extends BaseFragment {
 
             @Override
             public void failed(Object object) {
-
+                hideLoadingDialog();
             }
         });
 
@@ -97,7 +97,7 @@ public class StackRoomFragment extends BaseFragment {
 
             @Override
             public void failed(Object object) {
-
+                hideLoadingDialog();
             }
         });
 
@@ -124,7 +124,7 @@ public class StackRoomFragment extends BaseFragment {
 
             @Override
             public void failed(Object object) {
-
+                hideLoadingDialog();
             }
         });
 
@@ -137,7 +137,7 @@ public class StackRoomFragment extends BaseFragment {
 
             @Override
             public void failed(Object object) {
-
+                hideLoadingDialog();
             }
         });
 
