@@ -14,11 +14,16 @@ import com.example.ruolan.letgo.Base.BaseFragment;
 import com.example.ruolan.letgo.Dao.DaoShelfBook;
 import com.example.ruolan.letgo.EventBus.C;
 import com.example.ruolan.letgo.EventBus.Event;
+import com.example.ruolan.letgo.EventBus.EventBusUtil;
+import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
+import com.example.ruolan.letgo.Jsoup.Action.SearchBookAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Service.UpdateService;
 import com.example.ruolan.letgo.Utils.GlideUtils;
+import com.example.ruolan.letgo.Utils.NetworkUtils;
 import com.example.ruolan.letgo.Utils.ServiceUtils;
 import com.example.ruolan.letgo.bean.BookModel;
+import com.example.ruolan.letgo.widget.DefineBAGRefreshWithLoadView;
 import com.example.ruolan.letgo.widget.SwipeMenu;
 
 import java.util.ArrayList;
@@ -28,15 +33,22 @@ import cn.bingoogolapple.androidcommon.adapter.BGADivider;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by ruolan on 2015/11/29.
  * 书架
  */
-public class SelefFragment extends BaseFragment implements BGAOnItemChildClickListener {
+public class SelefFragment extends BaseFragment implements BGAOnItemChildClickListener, BGARefreshLayout.BGARefreshLayoutDelegate {
     private RecyclerView mRecyclerView;
     private HomePageAdapter mAdapter;
     private List<BookModel> mList = new ArrayList<>();
+
+    //下拉刷新控件
+    private DefineBAGRefreshWithLoadView mDefineBAGRefreshWithLoadView = null;
+    private BGARefreshLayout mBGARefreshLayout;
+
+    private BookModel mBookModel, NetWorkModel;//本地数据  网络数据
 
     @Nullable
     @Override
@@ -47,12 +59,10 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         return view;
     }
 
-    private void setListener() {
-        mAdapter.setOnItemChildClickListener(this);
-    }
 
     private void initView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.selef_recycler_view);
+        mBGARefreshLayout = (BGARefreshLayout) view.findViewById(R.id.define_bga_refresh_with_load);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new HomePageAdapter(mRecyclerView);
@@ -68,6 +78,35 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         startService();
     }
 
+    private void okData() {
+        showLoadingDialog(getString(R.string.update_book), true, null);
+        if (DaoShelfBook.query().size() > 0) {
+            if (NetworkUtils.isConnected(getActivity()) && (NetworkUtils.isWifiConnected(getActivity()) || NetworkUtils.mobileDataConnected(getActivity()))) {
+                for (int i = 0; i < DaoShelfBook.query().size(); i++) {
+                    mBookModel = DaoShelfBook.query().get(i);
+                    SearchBookAction.searchDetailBookUi(getActivity(), mBookModel.getBookDetailUrl(), new ActionCallBack() {
+                        @Override
+                        public void ok(Object object) {
+                            hideLoadingDialog();
+                            NetWorkModel = (BookModel) object;
+                            mBookModel.setBookUpdateTime(NetWorkModel.getBookUpdateTime());
+                            mBookModel.setBookUpdateContent(NetWorkModel.getBookUpdateContent());
+                            DaoShelfBook.update(mBookModel);
+                            mAdapter.setData(DaoShelfBook.query());
+                            mBGARefreshLayout.endRefreshing();
+                        }
+
+                        @Override
+                        public void failed(Object object) {
+                             hideLoadingDialog();
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+
     private void startService() {
         //当服务器在运行的时候 就不要在去启动service
         if (ServiceUtils.isServiceRunning(getActivity(), "com.example.ruolan.letgo.Service.UpdateService")) {
@@ -75,6 +114,17 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         }
         Intent intent = new Intent(getActivity(), UpdateService.class);
         getActivity().startService(intent);
+    }
+
+    private void setListener() {
+        mAdapter.setOnItemChildClickListener(this);
+        mBGARefreshLayout.setDelegate(this);
+        mDefineBAGRefreshWithLoadView = new DefineBAGRefreshWithLoadView(getActivity(), true, true);
+        //设置刷新样式
+        mBGARefreshLayout.setRefreshViewHolder(mDefineBAGRefreshWithLoadView);
+        mDefineBAGRefreshWithLoadView.setRefreshingText("正在加载中...");
+        mDefineBAGRefreshWithLoadView.setPullDownRefreshText("正在加载中...");
+        mDefineBAGRefreshWithLoadView.setReleaseRefreshText("下拉刷新中...");
     }
 
 
@@ -119,6 +169,19 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         } else if (childView.getId() == R.id.tv_edit) {
             SwipeMenu.closeMenu();
         }
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        mDefineBAGRefreshWithLoadView.showLoadingMoreImg();
+        mList.clear();
+        okData();
+
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
     }
 
 

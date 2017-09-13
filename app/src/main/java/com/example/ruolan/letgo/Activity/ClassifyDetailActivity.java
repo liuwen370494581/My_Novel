@@ -36,7 +36,7 @@ public class ClassifyDetailActivity extends BaseActivity implements BGARefreshLa
     private ClassifyShowAdapter mBodyAdapter;
     private ClassifyDetailListAdapter mListAdapter;
 
-    private String webUrl;
+    private String webUrl = "";
     private List<BookModel> mList = new ArrayList<>();
     private List<String> mPicList = new ArrayList<>();
     private int page = 1;
@@ -72,10 +72,13 @@ public class ClassifyDetailActivity extends BaseActivity implements BGARefreshLa
     @Override
     protected void initData() {
         model = (ClassifyModel) getIntent().getExtras().getSerializable(Config.INTENT_CLASSIFY);
+        webUrl = "http:"+getIntent().getExtras().getString(Config.INTENT_BOOK_TYPE_URL);
         if (null != model) {
             setCenterText(model.getBookName());
             webUrl = model.getBookWebUrl();
             LoadData(page);
+        } else if (!webUrl.equals("")) {
+            LoadData((page));
         }
     }
 
@@ -114,7 +117,7 @@ public class ClassifyDetailActivity extends BaseActivity implements BGARefreshLa
             public void ok(Object object) {
                 mList.addAll((Collection<? extends BookModel>) object);
                 mBodyAdapter.updateData(mList);
-                 mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
+                mDefineBAGRefreshWithLoadView.updateLoadingMoreText("加载数据中,请稍等...");
                 mBGARefreshLayout.endLoadingMore();
             }
 

@@ -49,14 +49,7 @@ public class DaoShelfBook {
         DaoManager.getInstance().getDaoSession().getBookModelDao().update(model);
     }
 
-    /**
-     * 更新集合里面的数据
-     *
-     * @param models
-     */
-    public static void updateList(List<BookModel> models) {
-        DaoManager.getInstance().getDaoSession().getBookModelDao().updateInTx(models);
-    }
+
 
     /**
      * 查询 BudgetModel的集合对象
@@ -71,8 +64,10 @@ public class DaoShelfBook {
             public int compare(BookModel model1, BookModel model2) {
                 if (model2.getBookReadTime() != null && model1.getBookReadTime() != null) {
                     return model2.getBookReadTime().compareTo(model1.getBookReadTime());
-                } else {
+                } else if (!model2.getBookUpdateTime().contains("今天") || !model2.getBookUpdateTime().contains("昨日")) {
                     return model2.getBookUpdateTime().compareTo(model1.getBookUpdateTime());
+                } else {
+                    return model2.getBooKName().compareTo(model1.getBooKName());
                 }
 
             }

@@ -37,9 +37,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class UpdateService extends Service {
 
-    private List<BookModel> localBookList;
-    private List<BookModel> newWorkLBoolList;
-    private BookModel mModel = new BookModel();
+    private List<BookModel> localBookList;//本地数据库
+    private BookModel mBookModel, NetWorkModel;//本地数据  网络数据
 
 
     @Nullable
@@ -52,14 +51,11 @@ public class UpdateService extends Service {
     public void onCreate() {
         super.onCreate();
         localBookList = new ArrayList<>();
-        newWorkLBoolList = new ArrayList<>();
-        Log.e(Config.TAG, "onCreate");
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e(Config.TAG, "onStartCommand");
         refreshAllBookState();
         return super.onStartCommand(intent, flags, startId);
 
@@ -78,15 +74,14 @@ public class UpdateService extends Service {
         if (localBookList.size() > 0) {
             if (NetworkUtils.isConnected(this) && (NetworkUtils.isWifiConnected(this) || NetworkUtils.mobileDataConnected(this))) {
                 for (int i = 0; i < localBookList.size(); i++) {
-                    if (mModel != null) {
-                        mModel.setBookPic(localBookList.get(i).getBookPic());
-                    }
-                    SearchBookAction.searchDetailBookUi(this, localBookList.get(i).getBookDetailUrl(), new ActionCallBack() {
+                    mBookModel = localBookList.get(i);
+                    SearchBookAction.searchDetailBookUi(this, mBookModel.getBookDetailUrl(), new ActionCallBack() {
                         @Override
                         public void ok(Object object) {
-                            mModel = (BookModel) object;
-                            newWorkLBoolList.add(mModel);
-                            DaoShelfBook.updateList(newWorkLBoolList);
+                            NetWorkModel = (BookModel) object;
+                            mBookModel.setBookUpdateTime(NetWorkModel.getBookUpdateTime());
+                            mBookModel.setBookUpdateContent(NetWorkModel.getBookUpdateContent());
+                            DaoShelfBook.update(mBookModel);
                             EventBusUtil.sendEvent(new Event(C.EventCode.BooKService));
                         }
 

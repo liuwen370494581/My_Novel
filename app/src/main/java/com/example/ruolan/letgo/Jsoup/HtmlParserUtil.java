@@ -114,7 +114,7 @@ public class HtmlParserUtil {
         try {
             Document document = Jsoup.connect(String.format(url, indexPage)).timeout(40000).get();
             Elements elements = document.select("div.book-mid-info");
-            // Log.e(Config.TAG, elements.toString());
+            Log.e(Config.TAG, elements.toString());
             for (int i = 0; i < elements.size(); i++) {
                 BookModel model = new BookModel();
                 model.setBookAuthorUrl(elements.get(i).select("p").select("a").attr("href").replace("http:", ""));
@@ -457,6 +457,9 @@ public class HtmlParserUtil {
             model.setBookDesc(elements2.get(0).select("p").text());
             model.setBookFreeRead(elements3.get(0).attr("href"));
             model.setBookAuthorUrl(elements.get(0).select("a.writer").attr("href"));
+            Elements elements4 = document.select("p.tag");
+            Log.e(Config.TAG, elements4.get(0).select("a").attr("href"));
+            model.setBookType(elements4.get(0).select("a").attr("href"));
         } catch (Exception e) {
             e.printStackTrace();
         }

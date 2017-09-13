@@ -231,7 +231,9 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             intent.putExtra(Config.INTENT_BOOK_FREE_READ, netWorkModel);
             startActivity(intent);
         } else if (view == btnTypeOne) {
-
+            Intent intent = new Intent(BookDetailActivity.this, ClassifyDetailActivity.class);
+            intent.putExtra(Config.INTENT_BOOK_TYPE_URL, netWorkModel.getBookType());
+            startActivity(intent);
         }
     }
 
