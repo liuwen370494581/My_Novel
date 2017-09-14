@@ -1,5 +1,6 @@
 package com.example.ruolan.letgo.Base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +15,6 @@ import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.ActivityKiller;
 import com.example.ruolan.letgo.Utils.StatusBarUtils;
 import com.example.ruolan.letgo.Utils.ToastUtils;
-import com.example.ruolan.letgo.widget.ErrorView;
 import com.example.ruolan.letgo.widget.LoadingProgressDialog;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -28,7 +28,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     private LinearLayout lyCommonBar;
     private TextView mTvCenter;//toobar中间文字
     private LoadingProgressDialog mLoadingDialog;
-    private ErrorView mErrorView;
+    private App mApp;
+    private Context mActivityContext, mAppContext;//尽量地采用 Application Context 避免内存泄漏
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         initData();
         setListener();
+        mActivityContext = this;
+        mAppContext = getApplicationContext();
         //加入EventBus
         if (isRegisterEventBus()) {
             EventBusUtil.register(this);
@@ -44,6 +48,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         //大于android 4.4版本才有这种沉侵式状态
         StatusBarUtils.setWindowStatusBarColor(this, R.color.statusColor);
         ActivityKiller.getInstance().addActivity(this);
+    }
+
+    public App getApp() {
+        if (null == mApp) {
+            mApp = (App) getApplication();
+        }
+        return mApp;
+    }
+
+    protected Context getActivityContext() {
+        if (null == mActivityContext) {
+            mActivityContext = this;
+        }
+        return mActivityContext;
+    }
+
+    protected Context getAppContext() {
+        if (null == mAppContext) {
+            mAppContext = getApplicationContext();
+        }
+        return mAppContext;
     }
 
     protected abstract int setLayoutRes();
@@ -132,7 +157,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             mLoadingDialog.closeDialog();
         }
     }
-
 
 
     /**

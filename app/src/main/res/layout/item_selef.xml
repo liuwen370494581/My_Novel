@@ -58,7 +58,8 @@
                         android:singleLine="true"
                         android:text="更新"
                         android:textColor="@color/white"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

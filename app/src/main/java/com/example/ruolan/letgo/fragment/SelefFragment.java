@@ -2,9 +2,12 @@ package com.example.ruolan.letgo.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +25,9 @@ import com.example.ruolan.letgo.Service.UpdateService;
 import com.example.ruolan.letgo.Utils.GlideUtils;
 import com.example.ruolan.letgo.Utils.NetworkUtils;
 import com.example.ruolan.letgo.Utils.ServiceUtils;
+import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
+import com.example.ruolan.letgo.bean.HtmlParserUtil;
 import com.example.ruolan.letgo.widget.DefineBAGRefreshWithLoadView;
 import com.example.ruolan.letgo.widget.SwipeMenu;
 
@@ -49,6 +54,19 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
     private BGARefreshLayout mBGARefreshLayout;
 
     private BookModel mBookModel, NetWorkModel;//本地数据  网络数据
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0x110) {
+                mAdapter.setData(DaoShelfBook.query());
+                mAdapter.notifyDataSetChanged();
+                ToastUtils.showToast(getContext(), getString(R.string.update_success));
+                mBGARefreshLayout.endRefreshing();
+                hideLoadingDialog();
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -79,33 +97,37 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
     }
 
     private void okData() {
+        if (DaoShelfBook.getCount() == 0) {
+            ToastUtils.showToast(getContext(), "请先添加书籍");
+            mBGARefreshLayout.endRefreshing();
+            return;
+        }
         showLoadingDialog(getString(R.string.update_book), true, null);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                refreshAllBookState();
+                mHandler.sendEmptyMessage(0x110);
+            }
+        }).start();
+    }
+
+
+    //获取每本书的更新状态
+    private void refreshAllBookState() {
         if (DaoShelfBook.query().size() > 0) {
-            if (NetworkUtils.isConnected(getActivity()) && (NetworkUtils.isWifiConnected(getActivity()) || NetworkUtils.mobileDataConnected(getActivity()))) {
+            if (NetworkUtils.isConnected(getContext()) && (NetworkUtils.isWifiConnected(getContext()) || NetworkUtils.mobileDataConnected(getContext()))) {
                 for (int i = 0; i < DaoShelfBook.query().size(); i++) {
                     mBookModel = DaoShelfBook.query().get(i);
-                    SearchBookAction.searchDetailBookUi(getActivity(), mBookModel.getBookDetailUrl(), new ActionCallBack() {
-                        @Override
-                        public void ok(Object object) {
-                            hideLoadingDialog();
-                            NetWorkModel = (BookModel) object;
-                            mBookModel.setBookUpdateTime(NetWorkModel.getBookUpdateTime());
-                            mBookModel.setBookUpdateContent(NetWorkModel.getBookUpdateContent());
-                            DaoShelfBook.update(mBookModel);
-                            mAdapter.setData(DaoShelfBook.query());
-                            mBGARefreshLayout.endRefreshing();
-                        }
-
-                        @Override
-                        public void failed(Object object) {
-                             hideLoadingDialog();
-                        }
-                    });
+                    BookModel bookModel = HtmlParserUtil.searchDetailBookUI(DaoShelfBook.query().get(i).getBookDetailUrl());
+                    NetWorkModel = bookModel;
+                    mBookModel.setBookUpdateTime(NetWorkModel.getBookUpdateTime());
+                    mBookModel.setBookUpdateContent(NetWorkModel.getBookUpdateContent());
+                    DaoShelfBook.update(mBookModel);
                 }
             }
         }
     }
-
 
     private void startService() {
         //当服务器在运行的时候 就不要在去启动service
@@ -122,8 +144,8 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         mDefineBAGRefreshWithLoadView = new DefineBAGRefreshWithLoadView(getActivity(), true, true);
         //设置刷新样式
         mBGARefreshLayout.setRefreshViewHolder(mDefineBAGRefreshWithLoadView);
-        mDefineBAGRefreshWithLoadView.setRefreshingText("正在加载中...");
-        mDefineBAGRefreshWithLoadView.setPullDownRefreshText("正在加载中...");
+        mDefineBAGRefreshWithLoadView.setRefreshingText("更新书籍...");
+        mDefineBAGRefreshWithLoadView.setPullDownRefreshText("更新书籍中...");
         mDefineBAGRefreshWithLoadView.setReleaseRefreshText("下拉刷新中...");
     }
 
@@ -149,10 +171,12 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
             case C.EventCode.BookDetailAuthorToSelefCancel:
                 mAdapter.clear();
                 mAdapter.setData(DaoShelfBook.query());
+                mAdapter.notifyDataSetChanged();
                 break;
             case C.EventCode.BooKService:
                 mAdapter.clear();
                 mAdapter.setData(DaoShelfBook.query());
+                mAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -174,9 +198,7 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         mDefineBAGRefreshWithLoadView.showLoadingMoreImg();
-        mList.clear();
         okData();
-
     }
 
     @Override
@@ -203,6 +225,9 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
             helper.setText(R.id.book_name, model.getBooKName());
             helper.setText(R.id.book_update_content, model.getBookUpdateContent());
             helper.setText(R.id.book_update_time, model.getBookUpdateTime());
+            if (model.getBookUpdateTime().substring(0, 2).equals("今天")) {
+                helper.setVisibility(R.id.update, View.VISIBLE);
+            }
             GlideUtils.loadImage(helper.getImageView(R.id.book_img), "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
         }
     }
