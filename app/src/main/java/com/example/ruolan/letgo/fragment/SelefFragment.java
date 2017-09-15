@@ -130,10 +130,6 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
     }
 
     private void startService() {
-        //当服务器在运行的时候 就不要在去启动service
-        if (ServiceUtils.isServiceRunning(getActivity(), "com.example.ruolan.letgo.Service.UpdateService")) {
-            return;
-        }
         Intent intent = new Intent(getActivity(), UpdateService.class);
         getActivity().startService(intent);
     }
