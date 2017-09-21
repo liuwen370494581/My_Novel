@@ -3,6 +3,7 @@ package com.example.ruolan.letgo.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -123,15 +124,17 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             }
         }
         if (!flag) {
-            Resources resources = getResources();
-            Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_full_gray);
+            //Resources resources = getResources(); 此方法过时了 来获取drawable
+            //  Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_full_gray);
+            Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_full_gray);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
             btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
             isBtnNoAdd = false;
         } else {
-            Resources resources = getResources();
-            Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
+            //  Resources resources = getResources();
+            //Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
+            Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_empty);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
             btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
