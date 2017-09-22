@@ -5,7 +5,6 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:keepScreenOn="true"
-
              android:orientation="vertical">
 
     <com.example.ruolan.letgo.widget.ReadBook.ContentSwitchView
@@ -18,7 +17,7 @@
         android:id="@+id/fl_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <View
             android:id="@+id/v_menu_bg"
@@ -35,20 +34,19 @@
 
             <com.monke.immerselayout.ImmerseFrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="66dp"
                 android:background="#767676">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="66dp"
                     android:background="#ffffff"
                     android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/iv_return"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center_vertical"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/bg_ib_pre"
                         android:clickable="true"
                         android:src="@drawable/selector_icon_return"/>

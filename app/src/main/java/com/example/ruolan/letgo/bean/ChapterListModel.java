@@ -14,6 +14,7 @@ public class ChapterListModel implements Serializable {
     private String durChapterName;//当前章节名称
     private String tag;
     private Boolean hasCache = false;
+    private String updateTime;
 
     public ChapterListModel() {
     }
@@ -73,5 +74,13 @@ public class ChapterListModel implements Serializable {
 
     public void setHasCache(Boolean hasCache) {
         this.hasCache = hasCache;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 }

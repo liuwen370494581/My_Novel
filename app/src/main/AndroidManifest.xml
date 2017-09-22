@@ -50,6 +50,7 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged"/>
         <!--书籍阅读页面-->
         <activity android:name=".Activity.FullBookShowActivity"/>
+        <activity android:name=".Activity.ChapterBookActivity"/>
 
         <!--获取更新的服务-->
         <service android:name=".Service.UpdateService"/>

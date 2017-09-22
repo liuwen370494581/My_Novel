@@ -7,24 +7,19 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.example.ruolan.letgo.Activity.FullBookShowActivity;
 import com.example.ruolan.letgo.Base.BaseFragment;
 import com.example.ruolan.letgo.Dao.DaoShelfBook;
 import com.example.ruolan.letgo.EventBus.C;
 import com.example.ruolan.letgo.EventBus.Event;
-import com.example.ruolan.letgo.EventBus.EventBusUtil;
-import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
-import com.example.ruolan.letgo.Jsoup.Action.SearchBookAction;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Service.UpdateService;
 import com.example.ruolan.letgo.Utils.GlideUtils;
 import com.example.ruolan.letgo.Utils.NetworkUtils;
-import com.example.ruolan.letgo.Utils.ServiceUtils;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
@@ -34,8 +29,8 @@ import com.example.ruolan.letgo.widget.SwipeMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bingoogolapple.androidcommon.adapter.BGADivider;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
+import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -143,6 +138,7 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         mDefineBAGRefreshWithLoadView.setRefreshingText("更新书籍...");
         mDefineBAGRefreshWithLoadView.setPullDownRefreshText("更新书籍中...");
         mDefineBAGRefreshWithLoadView.setReleaseRefreshText("下拉刷新中...");
+
     }
 
 
@@ -188,6 +184,8 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
             }
         } else if (childView.getId() == R.id.tv_edit) {
             SwipeMenu.closeMenu();
+        } else if (childView.getId() == R.id.ly_body) {
+            openActivity(FullBookShowActivity.class);
         }
     }
 
@@ -213,7 +211,7 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         protected void setItemChildListener(BGAViewHolderHelper helper, int viewType) {
             helper.setItemChildClickListener(R.id.tv_del);
             helper.setItemChildClickListener(R.id.tv_edit);
-
+            helper.setItemChildClickListener(R.id.ly_body);
         }
 
         @Override
@@ -221,8 +219,10 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
             helper.setText(R.id.book_name, model.getBooKName());
             helper.setText(R.id.book_update_content, model.getBookUpdateContent());
             helper.setText(R.id.book_update_time, model.getBookUpdateTime());
-            if (model.getBookUpdateTime().substring(0, 2).equals("今天")) {
-                helper.setVisibility(R.id.update, View.VISIBLE);
+            if (null != model.getBookUpdateTime()) {
+                if (model.getBookUpdateTime().substring(0, 2).equals("今天")) {
+                    helper.setVisibility(R.id.update, View.VISIBLE);
+                }
             }
             GlideUtils.loadImage(helper.getImageView(R.id.book_img), "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
         }

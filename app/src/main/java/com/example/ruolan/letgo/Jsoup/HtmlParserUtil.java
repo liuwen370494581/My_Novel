@@ -3,6 +3,7 @@ package com.example.ruolan.letgo.bean;
 import android.util.Log;
 
 import com.example.ruolan.letgo.Base.Config;
+import com.example.ruolan.letgo.EventBus.C;
 import com.example.ruolan.letgo.MainActivity;
 import com.example.ruolan.letgo.Utils.URLDecoderToUTF8;
 
@@ -15,6 +16,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -482,4 +485,32 @@ public class HtmlParserUtil {
         return model;
     }
 
+
+    //搜索书籍的章节目标
+    public static List<ChapterListModel> searchBookChapter(String url) {
+        List<ChapterListModel> list = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect("http://book.qidian.com/info/1009961135#Catalog").timeout(40000).get();
+            Elements elements = document.select("div.volume").select("li[data-rid]");
+            Log.e(Config.TAG_2, elements.size() + "");
+            for (int i = 0; i < elements.size(); i++) {
+                ChapterListModel model = new ChapterListModel();
+                model.setDurChapterName(elements.get(i).text());
+                model.setDurChapterUrl(elements.get(i).select("a").attr("href"));
+                Log.e(Config.TAG_2, elements.get(i).text());
+                Log.e(Config.TAG_2, elements.get(i).select("a").attr("href"));
+                Log.e(Config.TAG_2,elements.get(i).select("a").attr("title"));
+                list.add(model);
+            }
+            Collections.sort(list, new Comparator<ChapterListModel>() {
+                @Override
+                public int compare(ChapterListModel model1, ChapterListModel model2) {
+                    return model2.getDurChapterName().compareTo(model1.getDurChapterName());
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

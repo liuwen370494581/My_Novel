@@ -1,6 +1,8 @@
 package com.example.ruolan.letgo.Activity;
 
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,6 +44,12 @@ public class FullBookShowActivity extends BaseActivity {
     private LinearLayout llCache;//缓存
     private LinearLayout llSetting;//设置
 
+    //主菜单动画
+    private Animation menuTopIn;
+    private Animation menuTopOut;
+    private Animation menuBottomIn;
+    private Animation menuBottomOut;
+
 
     @Override
     protected int setLayoutRes() {
@@ -52,7 +60,8 @@ public class FullBookShowActivity extends BaseActivity {
     protected void initView() {
         flContent = getView(R.id.fl_content);
         csvBook = getView(R.id.csv_book);
-
+        flMenu = getView(R.id.fl_menu);
+        vMenuBg = findViewById(R.id.v_menu_bg);
         llMenuTop = getView(R.id.ll_menu_top);
         llMenuBottom = getView(R.id.ll_menu_bottom);
         ivReturn = getView(R.id.iv_return);
@@ -67,8 +76,57 @@ public class FullBookShowActivity extends BaseActivity {
         llFont = getView(R.id.ll_font);
         llCache = getView(R.id.ll_cache);
         llSetting = getView(R.id.ll_setting);
-
+        initAnimation();
         initCsvBook();
+    }
+
+    /**
+     * 初始化动画
+     */
+    private void initAnimation() {
+
+        menuTopIn = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_top_in);
+        menuTopIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                vMenuBg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        llMenuTop.startAnimation(menuTopOut);
+                        llMenuBottom.startAnimation(menuBottomOut);
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        menuBottomIn = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_bottom_in);
+
+        menuTopOut = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_top_out);
+        menuTopOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                vMenuBg.setOnClickListener(null);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                flMenu.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        menuBottomOut = AnimationUtils.loadAnimation(this, R.anim.anim_readbook_bottom_out);
     }
 
     //初始化书籍资料
@@ -126,7 +184,16 @@ public class FullBookShowActivity extends BaseActivity {
 
             @Override
             public void showMenu() {
+                flMenu.setVisibility(View.VISIBLE);
+                llMenuTop.startAnimation(menuTopIn);
+                llMenuBottom.startAnimation(menuBottomIn);
+            }
+        });
 
+        llCatalog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(ChapterBookActivity.class);
             }
         });
     }

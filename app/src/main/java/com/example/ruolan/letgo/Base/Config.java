@@ -72,6 +72,7 @@ public class Config {
 
     //TAG
     public static final String TAG = "MyTag";
+    public static final String TAG_2 = "MainActivity";
 
 
 }

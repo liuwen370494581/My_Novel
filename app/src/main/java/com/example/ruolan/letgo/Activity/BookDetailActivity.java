@@ -124,16 +124,12 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             }
         }
         if (!flag) {
-            //Resources resources = getResources(); 此方法过时了 来获取drawable
-            //  Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_full_gray);
             Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_full_gray);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
             btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
             isBtnNoAdd = false;
         } else {
-            //  Resources resources = getResources();
-            //Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
             Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_empty);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
@@ -263,8 +259,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             insertModel.setBookPic(model.getBookPic());
         }
         if (isBtnNoAdd) {
-            Resources resources = getResources();
-            Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_full_gray);
+            Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_full_gray);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
             btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
@@ -272,8 +267,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             DaoShelfBook.insert(insertModel);
             EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefAdd, insertModel));
         } else {
-            Resources resources = getResources();
-            Drawable btnDrawable = resources.getDrawable(R.drawable.book_btn_empty);
+            Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_empty);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
             btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
