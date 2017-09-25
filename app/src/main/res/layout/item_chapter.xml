@@ -2,29 +2,55 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+              >
 
+    <RelativeLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp"
+        android:padding="10dp"
+        android:id="@+id/re_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/item_chapter_daohang"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:src="@mipmap/icon_daohang"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/item_chapter_daohang"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/icon_daohang"
+            android:visibility="gone"/>
 
-    <ImageView
-        android:id="@+id/item_chapter_dian"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:background="@drawable/timeline_normal"/>
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/item_chapter_dian"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/timeline_normal"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
 
     <TextView
+        android:padding="10dp"
+        android:layout_centerVertical="true"
         android:id="@+id/item_chapter_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/item_chapter_dian"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/re_layout"
         android:drawableRight="@mipmap/icon_arrow_gray"
+        android:ellipsize="middle"
+        android:lines="1"
         android:paddingRight="12dp"
-        android:text="第一章"/>
+        android:text="第一章"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/re_layout"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@id/re_layout"
+        android:background="@color/background"/>
 </RelativeLayout>

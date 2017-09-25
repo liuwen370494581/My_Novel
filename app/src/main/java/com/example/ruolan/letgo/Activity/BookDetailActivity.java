@@ -224,7 +224,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             addBookToShelf();
         } else if (view == btnReadBook) {
             Intent intent = new Intent(this, FullBookShowActivity.class);
-            intent.putExtra(Config.INTENT_BOOK_FREE_READ, netWorkModel);
+            intent.putExtra(Config.INTENT_BOOK_FREE_READ, model);
             startActivity(intent);
         } else if (view == btnTypeOne) {
             Intent intent = new Intent(BookDetailActivity.this, ClassifyDetailActivity.class);

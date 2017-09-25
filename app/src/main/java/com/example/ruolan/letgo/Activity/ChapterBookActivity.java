@@ -4,9 +4,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.ruolan.letgo.Base.BaseActivity;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.ChapterBookAction;
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.Utils.ToastUtils;
+import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.ChapterListModel;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ public class ChapterBookActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private ChapterAdapter mAdapter;
     private List<ChapterListModel> mList = new ArrayList<>();
+    private String chapterUrl;
 
 
     @Override
@@ -32,7 +36,6 @@ public class ChapterBookActivity extends BaseActivity {
     @Override
     protected void initView() {
         showLeftView();
-        setCenterText(getString(R.string.book_chapter));
         mRecyclerView = getView(R.id.chapter_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ChapterAdapter(mRecyclerView);
@@ -43,8 +46,13 @@ public class ChapterBookActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        BookModel model = (BookModel) getIntent().getExtras().getSerializable(Config.INTENT_BOOK_FREE_READ);
+        if (null != model) {
+            setCenterText(model.getBooKName());
+            chapterUrl = model.getBookDetailUrl();
+        }
         showLoadingDialog(getString(R.string.Being_loaded), true, null);
-        ChapterBookAction.searchChapterBook(this, "", new ActionCallBack() {
+        ChapterBookAction.searchChapterBook(this, chapterUrl, new ActionCallBack() {
             @Override
             public void ok(Object object) {
                 mAdapter.setData((List<ChapterListModel>) object);
@@ -53,7 +61,8 @@ public class ChapterBookActivity extends BaseActivity {
 
             @Override
             public void failed(Object object) {
-
+                hideLoadingDialog();
+                ToastUtils.showToast(ChapterBookActivity.this, object.toString());
             }
         });
     }
@@ -64,7 +73,6 @@ public class ChapterBookActivity extends BaseActivity {
     }
 
     private class ChapterAdapter extends BGARecyclerViewAdapter<ChapterListModel> {
-
         public ChapterAdapter(RecyclerView recyclerView) {
             super(recyclerView, R.layout.item_chapter);
         }

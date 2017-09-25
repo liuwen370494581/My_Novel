@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.ruolan.letgo.Activity.FullBookShowActivity;
 import com.example.ruolan.letgo.Base.BaseFragment;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Dao.DaoShelfBook;
 import com.example.ruolan.letgo.EventBus.C;
 import com.example.ruolan.letgo.EventBus.Event;
@@ -185,8 +186,10 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
         } else if (childView.getId() == R.id.tv_edit) {
             SwipeMenu.closeMenu();
         } else if (childView.getId() == R.id.ly_body) {
-            openActivity(FullBookShowActivity.class);
-        }
+                Intent intent = new Intent(getActivity(), FullBookShowActivity.class);
+                intent.putExtra(Config.INTENT_BOOK_FREE_READ, DaoShelfBook.query().get(position));
+                startActivity(intent);
+            }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.ruolan.letgo.Activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -10,8 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ruolan.letgo.Base.BaseActivity;
+import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.R;
 import com.example.ruolan.letgo.Utils.ToastUtils;
+import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.widget.ReadBook.BookContentView;
 import com.example.ruolan.letgo.widget.ReadBook.ContentSwitchView;
 import com.monke.mprogressbar.MHorProgressBar;
@@ -50,6 +53,8 @@ public class FullBookShowActivity extends BaseActivity {
     private Animation menuBottomIn;
     private Animation menuBottomOut;
 
+    private BookModel mBookModel;
+
 
     @Override
     protected int setLayoutRes() {
@@ -76,6 +81,11 @@ public class FullBookShowActivity extends BaseActivity {
         llFont = getView(R.id.ll_font);
         llCache = getView(R.id.ll_cache);
         llSetting = getView(R.id.ll_setting);
+
+        mBookModel = (BookModel) getIntent().getExtras().getSerializable(Config.INTENT_BOOK_FREE_READ);
+        if (mBookModel != null) {
+
+        }
         initAnimation();
         initCsvBook();
     }
@@ -193,7 +203,9 @@ public class FullBookShowActivity extends BaseActivity {
         llCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ChapterBookActivity.class);
+                Intent intent = new Intent(FullBookShowActivity.this, ChapterBookActivity.class);
+                intent.putExtra(Config.INTENT_BOOK_FREE_READ, mBookModel);
+                startActivity(intent);
             }
         });
     }

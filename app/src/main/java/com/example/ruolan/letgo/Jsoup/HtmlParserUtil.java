@@ -499,15 +499,8 @@ public class HtmlParserUtil {
                 model.setDurChapterUrl(elements.get(i).select("a").attr("href"));
                 Log.e(Config.TAG_2, elements.get(i).text());
                 Log.e(Config.TAG_2, elements.get(i).select("a").attr("href"));
-                Log.e(Config.TAG_2,elements.get(i).select("a").attr("title"));
                 list.add(model);
             }
-            Collections.sort(list, new Comparator<ChapterListModel>() {
-                @Override
-                public int compare(ChapterListModel model1, ChapterListModel model2) {
-                    return model2.getDurChapterName().compareTo(model1.getDurChapterName());
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }
