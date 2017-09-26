@@ -25,7 +25,12 @@ public class ChapterBookAction {
         Observable.create(new ObservableOnSubscribe<List<ChapterListModel>>() {
             @Override
             public void subscribe(ObservableEmitter<List<ChapterListModel>> e) throws Exception {
-                e.onNext(HtmlParserUtil.searchBookChapter(webUrl));
+                if (!webUrl.equals("")) {
+                    e.onNext(HtmlParserUtil.searchBookChapter(webUrl));
+                } else {
+                    e.onComplete();
+                }
+
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<ChapterListModel>>() {
             @Override

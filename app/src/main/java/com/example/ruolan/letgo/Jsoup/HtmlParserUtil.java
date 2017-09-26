@@ -490,7 +490,7 @@ public class HtmlParserUtil {
     public static List<ChapterListModel> searchBookChapter(String url) {
         List<ChapterListModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect("http://book.qidian.com/info/1009961135#Catalog").timeout(40000).get();
+            Document document = Jsoup.connect("http:"+url+"#Catalog").timeout(40000).get();
             Elements elements = document.select("div.volume").select("li[data-rid]");
             Log.e(Config.TAG_2, elements.size() + "");
             for (int i = 0; i < elements.size(); i++) {
