@@ -61,7 +61,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private void dumpExceptionToSDcard(Throwable e) throws PackageManager.NameNotFoundException {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             if (DEBUG) {
-                Log.w("CrashHandrler", "dumpExceptionToSDcard: SDcard unmounted,skip dump exception");
+                Log.e("CrashHandrler", "dumpExceptionToSDcard: SDcard unmounted,skip dump exception");
                 return;
             }
         }

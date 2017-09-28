@@ -490,13 +490,14 @@ public class HtmlParserUtil {
     public static List<ChapterListModel> searchBookChapter(String url) {
         List<ChapterListModel> list = new ArrayList<>();
         try {
-            Document document = Jsoup.connect("http:"+url+"#Catalog").timeout(40000).get();
+            Document document = Jsoup.connect("http:" + url + "#Catalog").timeout(40000).get();
             Elements elements = document.select("div.volume").select("li[data-rid]");
             Log.e(Config.TAG_2, elements.size() + "");
             for (int i = 0; i < elements.size(); i++) {
                 ChapterListModel model = new ChapterListModel();
                 model.setDurChapterName(elements.get(i).text());
                 model.setDurChapterUrl(elements.get(i).select("a").attr("href"));
+                model.setUrl(url);
                 Log.e(Config.TAG_2, elements.get(i).text());
                 Log.e(Config.TAG_2, elements.get(i).select("a").attr("href"));
                 list.add(model);

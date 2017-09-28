@@ -2,19 +2,24 @@ package com.example.ruolan.letgo.Activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.ruolan.letgo.Base.BaseActivity;
 import com.example.ruolan.letgo.Base.Config;
 import com.example.ruolan.letgo.Jsoup.Action.ActionCallBack;
 import com.example.ruolan.letgo.Jsoup.Action.ChapterBookAction;
 import com.example.ruolan.letgo.R;
+import com.example.ruolan.letgo.Utils.SharedPreferencesUtil;
 import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.ChapterListModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 
@@ -26,7 +31,7 @@ public class ChapterBookActivity extends BaseActivity {
     private ChapterAdapter mAdapter;
     private List<ChapterListModel> mList = new ArrayList<>();
     private String chapterUrl;
-
+    private HashMap<String, Integer> mHashMap = new HashMap<>();
 
     @Override
     protected int setLayoutRes() {
@@ -41,7 +46,6 @@ public class ChapterBookActivity extends BaseActivity {
         mAdapter = new ChapterAdapter(mRecyclerView);
         mAdapter.setData(mList);
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -69,17 +73,35 @@ public class ChapterBookActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+        mAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
+            @Override
+            public void onRVItemClick(ViewGroup parent, View itemView, int position) {
 
+            }
+        });
     }
 
     private class ChapterAdapter extends BGARecyclerViewAdapter<ChapterListModel> {
+
         public ChapterAdapter(RecyclerView recyclerView) {
             super(recyclerView, R.layout.item_chapter);
         }
 
+
+
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, ChapterListModel model) {
             helper.setText(R.id.item_chapter_name, model.getDurChapterName());
+            if (currentMap.get(model.getUrl()) == position) {
+                helper.setVisibility(R.id.item_chapter_daohang, View.VISIBLE);
+                helper.setVisibility(R.id.item_chapter_dian, View.GONE);
+                helper.setTextColor(R.id.item_chapter_name, getResources().getColor(R.color.red));
+            } else {
+                helper.setVisibility(R.id.item_chapter_daohang, View.GONE);
+                helper.setVisibility(R.id.item_chapter_dian, View.VISIBLE);
+                helper.setTextColor(R.id.item_chapter_name, getResources().getColor(R.color.text_color_66));
+            }
         }
+
     }
 }
