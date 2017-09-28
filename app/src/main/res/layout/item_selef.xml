@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:qdx="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-    <com.example.ruolan.letgo.widget.SwipeMenu
-        android:id="@+id/vg"
+    <com.example.ruolan.letgo.widget.SwipeMenuLayout
+        android:id="@+id/item_layout_swip"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="70dp"
+        qdx:isLeftMenu="false">
+
 
         <LinearLayout
             android:id="@+id/ly_body"
@@ -92,36 +94,39 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="300px"
+        <TextView
+            android:id="@+id/item_tv_top"
+            android:layout_width="85dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:background="#c7c7cd"
+            android:gravity="center"
+            android:onClick="btn_del"
+            android:text="置顶"
+            android:textColor="#fff"/>
 
-            <TextView
-                android:id="@+id/tv_edit"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#44ffff00"
-                android:gravity="center"
-                android:padding="45px"
-                android:text="更新"/>
+        <TextView
+            android:id="@+id/item_tv_edit"
+            android:layout_width="85dp"
+            android:layout_height="70dp"
+            android:background="#ff9d00"
+            android:gravity="center"
+            android:onClick="btn_edit"
+            android:text="更新"
+            android:textColor="#fff"/>
 
-            <TextView
-                android:id="@+id/tv_del"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#44ff00ff"
-                android:gravity="center"
-                android:padding="45px"
-                android:text="删除"/>
-        </LinearLayout>
-    </com.example.ruolan.letgo.widget.SwipeMenu>
+        <TextView
+            android:id="@+id/item_tv_del"
+            android:layout_width="85dp"
+            android:layout_height="70dp"
+            android:background="#ff3a30"
+            android:gravity="center"
+            android:onClick="btn_del"
+            android:text="删除"
+            android:textColor="#fff"/>
+    </com.example.ruolan.letgo.widget.SwipeMenuLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/background"/>
+        android:background="#eceded"/>
 </LinearLayout>

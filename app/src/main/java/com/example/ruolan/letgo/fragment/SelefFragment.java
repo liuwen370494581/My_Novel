@@ -25,13 +25,12 @@ import com.example.ruolan.letgo.Utils.ToastUtils;
 import com.example.ruolan.letgo.bean.BookModel;
 import com.example.ruolan.letgo.bean.HtmlParserUtil;
 import com.example.ruolan.letgo.widget.DefineBAGRefreshWithLoadView;
-import com.example.ruolan.letgo.widget.SwipeMenu;
+import com.example.ruolan.letgo.widget.SwipeMenuLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
-import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -176,20 +175,23 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
 
     @Override
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
-        if (childView.getId() == R.id.tv_del) {
-            SwipeMenu.closeMenu();
+        if (childView.getId() == R.id.item_tv_edit) {
+            BookModel bookModel = mAdapter.getItem(position);
+            if(DaoShelfBook.query().size()!=0){
+                mAdapter.removeItem(position);
+                mAdapter.addItem(0,bookModel);
+            }
+        } else if (childView.getId() == R.id.ly_body) {
+            Intent intent = new Intent(getActivity(), FullBookShowActivity.class);
+            intent.putExtra(Config.INTENT_BOOK_FREE_READ, DaoShelfBook.query().get(position));
+            startActivity(intent);
+        } else if (childView.getId() == R.id.item_tv_del) {
             BookModel bookModel = mAdapter.getItem(position);
             if (DaoShelfBook.query().size() != 0) {
                 mAdapter.removeItem(position);
                 DaoShelfBook.deleteByModel(bookModel);
             }
-        } else if (childView.getId() == R.id.tv_edit) {
-            SwipeMenu.closeMenu();
-        } else if (childView.getId() == R.id.ly_body) {
-                Intent intent = new Intent(getActivity(), FullBookShowActivity.class);
-                intent.putExtra(Config.INTENT_BOOK_FREE_READ, DaoShelfBook.query().get(position));
-                startActivity(intent);
-            }
+        }
     }
 
     @Override
@@ -205,6 +207,7 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
 
 
     private class HomePageAdapter extends BGARecyclerViewAdapter<BookModel> {
+        private SwipeMenuLayout mSwipeMenuLayout;
 
         public HomePageAdapter(RecyclerView recyclerView) {
             super(recyclerView, R.layout.item_selef);
@@ -212,22 +215,29 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
 
         @Override
         protected void setItemChildListener(BGAViewHolderHelper helper, int viewType) {
-            helper.setItemChildClickListener(R.id.tv_del);
-            helper.setItemChildClickListener(R.id.tv_edit);
+            helper.setItemChildClickListener(R.id.item_tv_top);
+            helper.setItemChildClickListener(R.id.item_tv_edit);
+            helper.setItemChildClickListener(R.id.item_tv_del);
             helper.setItemChildClickListener(R.id.ly_body);
         }
 
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, BookModel model) {
+            mSwipeMenuLayout = helper.getView(R.id.item_layout_swip);
             helper.setText(R.id.book_name, model.getBooKName());
             helper.setText(R.id.book_update_content, model.getBookUpdateContent());
             helper.setText(R.id.book_update_time, model.getBookUpdateTime());
             if (null != model.getBookUpdateTime()) {
-                if (model.getBookUpdateTime().substring(0, 2).equals("今天")) {
-                    helper.setVisibility(R.id.update, View.VISIBLE);
-                }
+                helper.setVisibility(R.id.update, model.getBookUpdateTime().substring(0, 2).equals("今天") ? View.VISIBLE : View.GONE);
             }
             GlideUtils.loadImage(helper.getImageView(R.id.book_img), "http:" + model.getBookPic(), R.mipmap.default_book, R.mipmap.default_book);
+//            helper.getView(R.id.item_tv_top).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mSwipeMenuLayout.collapseSmooth();
+//                    ToastUtils.showToast(getActivity(), "置顶了");
+//                }
+//            });
         }
     }
 }

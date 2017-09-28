@@ -127,13 +127,13 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_full_gray);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
-            btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
+            btnAddUpdate.setTextColor(ContextCompat.getColor(this, R.color.white));
             isBtnNoAdd = false;
         } else {
             Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_empty);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
-            btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
+            btnAddUpdate.setTextColor(ContextCompat.getColor(this, R.color.statusColor));
             isBtnNoAdd = true;
         }
         LoadData();
@@ -262,7 +262,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_full_gray);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.no_Chase_update));
-            btnAddUpdate.setTextColor(getResources().getColor(R.color.white));
+            btnAddUpdate.setTextColor(ContextCompat.getColor(this, (R.color.white)));
             isBtnNoAdd = false;
             DaoShelfBook.insert(insertModel);
             EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefAdd, insertModel));
@@ -270,7 +270,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
             Drawable btnDrawable = ContextCompat.getDrawable(this, R.drawable.book_btn_empty);
             btnAddUpdate.setBackground(btnDrawable);
             btnAddUpdate.setText(getResources().getString(R.string.Chase_update));
-            btnAddUpdate.setTextColor(getResources().getColor(R.color.statusColor));
+            btnAddUpdate.setTextColor(ContextCompat.getColor(this, R.color.statusColor));
             isBtnNoAdd = true;
             DaoShelfBook.deleteByModel(insertModel);
             EventBusUtil.sendEvent(new Event(C.EventCode.BookDetailAuthorToSelefCancel, insertModel));

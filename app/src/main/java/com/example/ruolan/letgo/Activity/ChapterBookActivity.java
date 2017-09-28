@@ -1,5 +1,6 @@
 package com.example.ruolan.letgo.Activity;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,7 +32,6 @@ public class ChapterBookActivity extends BaseActivity {
     private ChapterAdapter mAdapter;
     private List<ChapterListModel> mList = new ArrayList<>();
     private String chapterUrl;
-    private HashMap<String, Integer> mHashMap = new HashMap<>();
 
     @Override
     protected int setLayoutRes() {
@@ -88,20 +88,15 @@ public class ChapterBookActivity extends BaseActivity {
         }
 
 
-
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, ChapterListModel model) {
             helper.setText(R.id.item_chapter_name, model.getDurChapterName());
-            if (currentMap.get(model.getUrl()) == position) {
-                helper.setVisibility(R.id.item_chapter_daohang, View.VISIBLE);
-                helper.setVisibility(R.id.item_chapter_dian, View.GONE);
-                helper.setTextColor(R.id.item_chapter_name, getResources().getColor(R.color.red));
-            } else {
-                helper.setVisibility(R.id.item_chapter_daohang, View.GONE);
-                helper.setVisibility(R.id.item_chapter_dian, View.VISIBLE);
-                helper.setTextColor(R.id.item_chapter_name, getResources().getColor(R.color.text_color_66));
-            }
+//                helper.setVisibility(R.id.item_chapter_daohang, View.VISIBLE);
+//                helper.setVisibility(R.id.item_chapter_dian, View.GONE);
+//                helper.setTextColor(R.id.item_chapter_name, getResources().getColor(R.color.red));
+            helper.setVisibility(R.id.item_chapter_daohang, View.GONE);
+            helper.setVisibility(R.id.item_chapter_dian, View.VISIBLE);
+            helper.setTextColor(R.id.item_chapter_name, ContextCompat.getColor(getActivityContext(), R.color.text_color_66));
         }
-
     }
 }

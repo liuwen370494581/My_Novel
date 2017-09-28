@@ -53,4 +53,16 @@
         <attr name="slider_paddingLeft" format="dimension"/>
         <attr name="slider_paddingRight" format="dimension"/>
     </declare-styleable>
+
+    <!--测滑控件需要的资源-->
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="isLeftMenu" format="boolean"/>
+        <attr name="enableParentLongClick" format="boolean"/>
+
+        <attr name="expandRatio" format="float"/>
+        <attr name="collapseRatio" format="float"/>
+
+        <attr name="collapseDuration" format="integer"/>
+        <attr name="expandDuration" format="integer"/>
+    </declare-styleable>
 </resources>
