@@ -175,7 +175,7 @@ public class SelefFragment extends BaseFragment implements BGAOnItemChildClickLi
 
     @Override
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
-        if (childView.getId() == R.id.item_tv_edit) {
+        if (childView.getId() == R.id.item_tv_top) {
             BookModel bookModel = mAdapter.getItem(position);
             if(DaoShelfBook.query().size()!=0){
                 mAdapter.removeItem(position);

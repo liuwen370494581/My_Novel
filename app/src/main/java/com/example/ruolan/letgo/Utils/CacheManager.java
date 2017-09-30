@@ -95,4 +95,10 @@ public class CacheManager {
     public void setAppsFree(List<BookModel> appsFree) {
         mAppsFree = appsFree;
     }
+
+    public void cleanCache() {
+        if (instance != null) {
+            instance = null;
+        }
+    }
 }

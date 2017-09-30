@@ -74,8 +74,6 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         mRecyclerView.setAdapter(mAdapter);
         insertModel = new BookModel();
         insertModel.setId(DaoShelfBook.getCount());
-
-
     }
 
     @Override
