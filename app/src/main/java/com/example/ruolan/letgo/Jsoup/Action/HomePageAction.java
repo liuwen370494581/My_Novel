@@ -73,10 +73,13 @@ public class HomePageAction {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 List<BookModel> coverModelList = CacheManager.getInstance().getCoverModelList();
-                if (!NetworkUtils.isConnected(context) && coverModelList != null && coverModelList.size() != 0) {
+                //第一种情况 当有缓存的时候 直接去缓存
+                if (coverModelList != null && coverModelList.size() != 0) {
+                    e.onNext(coverModelList);
+                } else if (!NetworkUtils.isConnected(context) && coverModelList != null && coverModelList.size() != 0) {
+                    // 第二种情况 当没有网络 没有缓存的时候 去网上加载数据
                     e.onNext(coverModelList);
                 } else {
-                    //没有网络并且缓存中没有数据才去网络中加载
                     e.onComplete();
                 }
             }
@@ -110,7 +113,9 @@ public class HomePageAction {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 List<BookModel> editRecommendationList = CacheManager.getInstance().getEditRecommendation();
-                if (!NetworkUtils.isConnected(context) && editRecommendationList != null && editRecommendationList.size() != 0) {
+                if (editRecommendationList != null && editRecommendationList.size() != 0) {
+                    e.onNext(editRecommendationList);
+                } else if (!NetworkUtils.isConnected(context) && editRecommendationList != null && editRecommendationList.size() != 0) {
                     e.onNext(editRecommendationList);
                 } else {
                     //没有网络并且缓存中没有数据才去网络中加载
@@ -148,7 +153,9 @@ public class HomePageAction {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 List<BookModel> newUpdateList = CacheManager.getInstance().getNewUpdateList();
-                if (!NetworkUtils.isConnected(context) && newUpdateList != null && newUpdateList.size() != 0) {
+                if (newUpdateList != null && newUpdateList.size() != 0) {
+                    e.onNext(newUpdateList);
+                } else if (!NetworkUtils.isConnected(context) && newUpdateList != null && newUpdateList.size() != 0) {
                     e.onNext(newUpdateList);
                 } else {
                     //没有网络并且缓存中没有数据才去网络中加载
@@ -186,7 +193,9 @@ public class HomePageAction {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 List<BookModel> newBookFinishList = CacheManager.getInstance().getNewBookFinish();
-                if (!NetworkUtils.isConnected(context) && newBookFinishList != null && newBookFinishList.size() != 0) {
+                if (newBookFinishList != null && newBookFinishList.size() != 0) {
+                    e.onNext(newBookFinishList);
+                } else if (!NetworkUtils.isConnected(context) && newBookFinishList != null && newBookFinishList.size() != 0) {
                     e.onNext(newBookFinishList);
                 } else {
                     //没有网络并且缓存中没有数据才去网络中加载
@@ -223,7 +232,9 @@ public class HomePageAction {
             @Override
             public void subscribe(ObservableEmitter<List<BookModel>> e) throws Exception {
                 List<BookModel> appsFreeList = CacheManager.getInstance().getAppsFree();
-                if (!NetworkUtils.isConnected(context) && appsFreeList != null && appsFreeList.size() != 0) {
+                if (appsFreeList != null && appsFreeList.size() != 0) {
+                    e.onNext(appsFreeList);
+                } else if (!NetworkUtils.isConnected(context) && appsFreeList != null && appsFreeList.size() != 0) {
                     e.onNext(appsFreeList);
                 } else {
                     //没有网络并且缓存中没有数据才去网络中加载
