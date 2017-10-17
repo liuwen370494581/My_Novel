@@ -54,6 +54,7 @@ public class WeekFragment extends BaseFragment implements BGARefreshLayout.BGARe
     private int totalpage = 28; //数据28页 所以请求三次 一次加载20条数据 起点有bug 加载到25之后还是有数据
     private String webUrl;
     private int typePage = 1;
+    private boolean isLoaded = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,11 +94,13 @@ public class WeekFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     @Override
     public void initData() {
-        if (model != null) {
-            webUrl = model.getWebUrl();
-            LoadData(webUrl, page);
+        if (!isLoaded) {
+            if (model != null) {
+                webUrl = model.getWebUrl();
+                LoadData(webUrl, page);
+                isLoaded = true;
+            }
         }
-
     }
 
     private void LoadData(String webUrl, int indexPage) {

@@ -10,7 +10,6 @@ import com.example.ruolan.letgo.bean.RankingModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuwen on 2017/6/26.
@@ -153,5 +152,4 @@ public class DataEnage {
         list.add(map4);
         return list;
     }
-
 }

@@ -45,7 +45,7 @@ public class YearFragment extends BaseFragment implements BGARefreshLayout.BGARe
     private int totalpage = 28; //数据28页 所以请求三次 一次加载20条数据 起点有bug 加载到25之后还是有数据
     private int typePage = 3;//总榜
     private String webUrl;
-
+    private boolean isLoaded = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +84,13 @@ public class YearFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     @Override
     public void initData() {
-        if (model != null) {
-            webUrl = model.getWebUrl();
-            LoadData(webUrl, page);
+        if (!isLoaded) {
+            if (model != null) {
+                webUrl = model.getWebUrl();
+                LoadData(webUrl, page);
+                isLoaded = true;
+            }
         }
-
     }
 
     private void LoadData(String webUrl, int indexPage) {

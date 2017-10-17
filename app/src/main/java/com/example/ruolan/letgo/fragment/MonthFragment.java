@@ -47,6 +47,7 @@ public class MonthFragment extends BaseFragment implements BGARefreshLayout.BGAR
     private int totalpage = 100;
     private int typePage = 2;
     private String webUrl;
+    private boolean isLoaded = false;
 
 
     @Override
@@ -88,10 +89,14 @@ public class MonthFragment extends BaseFragment implements BGARefreshLayout.BGAR
 
     @Override
     public void initData() {
-        if (model != null) {
-            webUrl = model.getWebUrl();
-            LoadData(webUrl, page);
+        if (!isLoaded) {
+            if (model != null) {
+                webUrl = model.getWebUrl();
+                LoadData(webUrl, page);
+                isLoaded = true;
+            }
         }
+
     }
 
     private void LoadData(String webUrl, int indexPage) {
